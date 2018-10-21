@@ -1,0 +1,21 @@
+//font 
+
+// @import url("https://fonts.googleapis.com/css?family=Raleway:300, 400, 600");
+@import url("https://fonts.googleapis.com/css?family=Fjalla+One|Average");
+
+@import "~foundation-sites/assets/foundation";
+
+@import "_global";
+@import "admin/_nav";
+@import "admin/_dashboard";
+@import "pages/_nav";
+@import "pages/_home";
+@import "pages/_product";
+@import "pages/_auth";
+@import "pages/_cart";
+
+@import "~motion-ui/src/motion-ui";
+@include motion-ui-transitions
+@include motion-ui-animations
+
+@import "~slick-carousel/slick/slick.css";

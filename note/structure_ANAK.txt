@@ -1,0 +1,7 @@
+ANAK
+app
+bootstrap
+dist
+public
+resorces
+SAM

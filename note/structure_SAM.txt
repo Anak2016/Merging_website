@@ -1,0 +1,46 @@
+SAM
+app
+	>function
+		>>SAM_function
+		desc: function that will be used in SAM font-end
+bootstrap
+	>SAM_bootstrap
+		>>cahce
+		desc: optimization.php
+		>>init.php 
+		desc: set up for everything, but connection css, js to the project.
+dist
+;;;;;;desc: For webpack, webpack is dependencies management
+public
+	>SAM_public
+		>>css
+		>>images
+		>>js
+		desc: contain all.js
+		>>resources
+			>>>asset
+			desc: contain all.css file.
+		>SAM
+		desc: contain all sam front-end's code.
+resorces
+	>SAM_resources
+		>>assets
+			>>css
+			>>js
+			>>Sass ( I dont think we need it for sam project) 
+	>views
+		>>admin
+		>>email
+		>>errors
+		>>includes
+		>>layouts
+SAM
+	>SAM_classes
+	>SAM_controllers
+	>SAM_models
+	>SAM_routing
+
+url->route -> controller ( Class)-> view
+		^
+		|
+		models
