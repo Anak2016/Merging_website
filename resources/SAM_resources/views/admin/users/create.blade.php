@@ -11,19 +11,19 @@
 				<h2 class="text-center">Create Account</h2>
 				@include('includes.message')
 
-				<form action="/admin/users/create" method="post">
+				<form action="/sam_public/sam_public/admin/users/create" method="post">
 
 					<input type="text" name="fullname" placeholder="Fullname"
-					value="{{\App\Classes\Request::old('post', 'fullname')}}">
+					value="{{\SAM\Classes\Request::old('post', 'fullname')}}">
 
 					<input type="text" name="email" placeholder="Email Address"
-					value="{{\App\Classes\Request::old('post', 'email')}}">
+					value="{{\SAM\Classes\Request::old('post', 'email')}}">
 
 					<input type="text" name="username" placeholder="Username"
-					value="{{\App\Classes\Request::old('post', 'username')}}">
+					value="{{\SAM\Classes\Request::old('post', 'username')}}">
 
 					<input type="text" name="password" placeholder="Password"
-					value="{{\App\Classes\Request::old('post', 'password')}}">
+					value="{{\SAM\Classes\Request::old('post', 'password')}}">
 
 					<div class="small-12 medium-6 cell">
 						<label>Role:
@@ -35,8 +35,8 @@
 						</label>
 					</div>
 
-					<textarea name="address" placeholder="Your Address">{{\App\Classes\Request::old('post', 'address')}}</textarea>
-					<input type="hidden" name="token" value="{{\App\Classes\CSRFToken::_token()}}">
+					<textarea name="address" placeholder="Your Address">{{\SAM\Classes\Request::old('post', 'address')}}</textarea>
+					<input type="hidden" name="token" value="{{\SAM\Classes\CSRFToken::_token()}}">
 					<button class="button float-center">Register User</button>
 				</form>
 

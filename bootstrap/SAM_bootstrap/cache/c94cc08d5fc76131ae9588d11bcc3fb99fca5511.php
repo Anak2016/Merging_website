@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Admin Panel - @yield('title')</title>
+	<title>Admin Panel - <?php echo $__env->yieldContent('title'); ?></title>
 	<!-- root directory is at ecommerce/public-->
 	<link rel ="stylesheet" href ="/css/all.css">
 	
 	<<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="https://use.fontawesome.com/8145f993ac.js"></script>
 
-	{{-- add below link to remove the GET http://localhost/favicon.ico 500 (Internal Server Error) --}}
-	{{-- the link below should only be used in development environment. it must be removed in the production environment --}}
+	
+	
 	<link rel="shortcut icon" href="#" />
 </head>
-{{-- javascript edit code is added acoording to data-page-id  --}}
-<body data-page-id="@yield('data-page-id')">
+
+<body data-page-id="<?php echo $__env->yieldContent('data-page-id'); ?>">
 	
-	@include('includes.admin-sidebar')
+	<?php echo $__env->make('includes.admin-sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
 	<div class="off-canvas-content admin_title_bar" data-off-canvas-content>
 		<!-- Your page content lives here -->
 		<div class="title-bar">
 			<div class="title-bar-left">
 				<button class="menu-icon hide-for-large" type="button" data-open="offCanvas"></button>
-				<span class="title-bar-title">{{getenv('SAM
-			_APP_NAME')}}</span>
+				<span class="title-bar-title"><?php echo e(getenv('SAM_APP_NAME')); ?></span>
 			</div>
 		</div>
 		
-		@yield('content')
+		<?php echo $__env->yieldContent('content'); ?>
 	</div>
 
 		<!-- javascript -->

@@ -38,8 +38,8 @@ $router->map( 'GET', '/sam_public/popularProducts', 'SAM\Controllers\IndexContro
 // $router->map( 'POST', '/sam_public/load-more-subcategory', 'SAM\Controllers\IndexController@loadMoreSubcategoryProducts', 'load_more_subcategory_product' );
 
 
-// require_once __DIR__.'/cart.php';
-// require_once __DIR__.'/auth.php';
-// require_once __DIR__.'/admin_routes.php';
+require_once __DIR__.'/cart.php';
+require_once __DIR__.'/auth.php';
+require_once __DIR__.'/admin_routes.php';
 
 ?>

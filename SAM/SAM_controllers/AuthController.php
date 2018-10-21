@@ -22,12 +22,12 @@ class AuthController extends BaseController
 
 	public function showRegisterForm()
 	{
-		return view('register');
+		return _view('register');
 	}
 
 	public function showLoginForm()
 	{
-		return view('login ');
+		return _view('login ');
 	}
 
 	public function register()
@@ -50,7 +50,7 @@ class AuthController extends BaseController
 
 				if($validate->hasError()){
 					$errors = $validate->getErrorMessages();
-					return view('register', ['errors' => $errors]);
+					return _view('register', ['errors' => $errors]);
 				}
 
 				//insert into database
@@ -64,7 +64,7 @@ class AuthController extends BaseController
 				]);
 
 				Request::refresh();
-				return view('register', ['success' => 'Account created, you can now login!']);
+				return _view('register', ['success' => 'Account created, you can now login!']);
 			}
 			throw new \Exception('Token Mismatch');
 		}
@@ -89,7 +89,7 @@ class AuthController extends BaseController
 
 				if($validate->hasError()){
 					$errors = $validate->getErrorMessages();
-					return view('login', ['errors' => $errors]);
+					return _view('login', ['errors' => $errors]);
 				}
 
 				//check if user exists in the database
@@ -98,7 +98,7 @@ class AuthController extends BaseController
 				if($user){
 					if(!password_verify($request->password, $user->password)){
 						Session::add('error', 'Incorrect credentials');
-						return view('login');
+						return _view('login');
 					}else{
 						Session::add('SESSION_USER_ID', $user->id);
 						Session::add('SESSION_USER_NAME', $user->username);
@@ -114,7 +114,7 @@ class AuthController extends BaseController
 					}
 				}else{
 					Session::add('error', 'Incorrect credentials');
-					return view('login');
+					return _view('login');
 				}
 			}
 			throw new \Exception('Token Mismatch');

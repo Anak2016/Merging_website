@@ -35,7 +35,7 @@ class ProductController extends BaseController
 		$this->categories = Category::all();
 		$total = Product::all()->count();
 
-		list($this->products, $this->links) = paginate(3, $total, $this->table_name, new Product);
+		list($this->products, $this->links) = _paginate(3, $total, $this->table_name, new Product);
 	}
 
 	public function show()
@@ -46,7 +46,7 @@ class ProductController extends BaseController
 
 		$products = $this->products;
 		$links = $this->links;
-		return view('admin/products/inventory', compact("products", 'links'));
+		return _view('admin/products/inventory', compact("products", 'links'));
 	}
 
 	public function showEditProductForm($id)
@@ -54,7 +54,7 @@ class ProductController extends BaseController
 		//set independent valeu of $categories allow admin to be able to change categories.
 		$categories = $this->categories;
 		$product = Product::where('id',$id)->with(['category', 'SubCategory'])->first();
-		return view('admin/products/edit', compact('product', 'categories'));
+		return _view('admin/products/edit', compact('product', 'categories'));
 	}
 
 	//dislay category on the page by passing var to view
@@ -62,7 +62,7 @@ class ProductController extends BaseController
 	{
 		$categories = $this->categories;
 		// cannot use compact with $this 
-		return view('admin/products/create', compact("categories"));
+		return _view('admin/products/create', compact("categories"));
 	}
 
 	//store 
@@ -100,7 +100,7 @@ class ProductController extends BaseController
 					// $error = var_dump($validate->getErrorMessages());
 					$response = $validate->getErrorMessages(); 
 					count($file_error) ? $errors = array_merge($response, $file_error) : $errors = $response;
-					return view('admin/products/create', ['categories' => $this->categories, 'errors'=> $errors]);
+					return _view('admin/products/create', ['categories' => $this->categories, 'errors'=> $errors]);
 				}	
 
 
@@ -123,7 +123,7 @@ class ProductController extends BaseController
 
 				Request::refresh();
 
-				return view('admin/products/create',
+				return _view('admin/products/create',
 					['categories' => $this->categories, 'success'=> "Record Created"]);
 			}
 			throw new \Exception('Token mismatch'); 
@@ -162,7 +162,7 @@ class ProductController extends BaseController
 					$response = $validate->getErrorMessages(); 
 					isset($file_error) ? $errors = array_merge($response, $file_error) : $errors = $response;
 
-					return view('admin/products/create', ['categories' => $this->categories, 'errors'=> $errors]);
+					return _view('admin/products/create', ['categories' => $this->categories, 'errors'=> $errors]);
 				}	
 
 				//throw exception is not found

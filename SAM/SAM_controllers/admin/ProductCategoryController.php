@@ -27,10 +27,10 @@ class ProductCategoryController extends BaseController
 		// var_dump($subTotal); exit;
 		$object = new Category;
 
-		list($this->categories, $this->links) = paginate(3, $total, $this->table_name, $object);
+		list($this->categories, $this->links) = _paginate(3, $total, $this->table_name, $object);
 		// var_dump($this->links);exit;
 
-		list($this->subcategories, $this->subcategories_links) = paginate(3, $subTotal, 'sub_categories', new SubCategory);	
+		list($this->subcategories, $this->subcategories_links) = _paginate(3, $subTotal, 'sub_categories', new SubCategory);	
 		// var_dump($this->subcategories_links);exit;
 	}
 	//dislay category on the page by passing var to view
@@ -38,7 +38,7 @@ class ProductCategoryController extends BaseController
 	{
 
 		// cannot use compact with $this 
-		return view('admin/products/categories',[
+		return _view('admin/products/categories',[
 			'categories' => $this->categories, 'links' => $this->links,
 			'subcategories' => $this->subcategories, 'subcategories_links' => $this->subcategories_links
 		]);
@@ -65,7 +65,7 @@ class ProductCategoryController extends BaseController
 				{
 					// $error = var_dump($validate->getErrorMessages());
 					$errors = $validate->getErrorMessages(); 
-					return view('admin/products/categories', ['categories' => $this->categories, 'links' => $this->links, 'errors'=> $errors,
+					return _view('admin/products/categories', ['categories' => $this->categories, 'links' => $this->links, 'errors'=> $errors,
 						'subcategories' => $this->subcategories, 'subcategories_links' => $this->subcategories_links]);
 				}
 
@@ -78,11 +78,11 @@ class ProductCategoryController extends BaseController
 				$total = Category::all()->count();
 				$subTotal = SubCategory::all()->count();
 
-				list($this->categories, $this->links) = paginate(3, $total, $this->table_name, $object);	
-				list($this->subcategories, $this->subcategories_links) = paginate(3, $subTotal, 'sub_categories', new SubCategory);	
+				list($this->categories, $this->links) = _paginate(3, $total, $this->table_name, $object);	
+				list($this->subcategories, $this->subcategories_links) = _paginate(3, $subTotal, 'sub_categories', new SubCategory);	
 				// var_dump($this->subcategories);exit;
 				
-				return view('admin/products/categories', ['categories' => $this->categories, 'links' => $this->links, 'success'=> "Category Created",
+				return _view('admin/products/categories', ['categories' => $this->categories, 'links' => $this->links, 'success'=> "Category Created",
 					'subcategories' => $this->subcategories, 'subcategories_links' => $this->subcategories_links]);
 			}
 			throw new \Exception('Token mismatch');

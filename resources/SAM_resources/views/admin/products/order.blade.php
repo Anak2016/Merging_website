@@ -29,12 +29,13 @@
 								<td>{{$order['added']}}</td>
 
 								<td width="70" class="text-right">
+									
 
 									{{-- Edit button --}}
 									<span data-tooltip aria-haspopup="true" class="has-tip top"
 									data-disable-hover="false" tabindex="1"
 									title="order details">Edit
-									<a href="/admin/orders/{{$order['order_no']}}"><i class="fa fa-edit"></i></a>
+									<a href="/sam_public/sam_public/admin/orders/{{$order['order_no']}}"><i class="fa fa-edit"></i></a>
 								</span>
 
 								{{-- Delete this User --}}
@@ -42,8 +43,8 @@
 								data-tooltip aria-haspopup="true" class="has-tip top"
 								data-disable-hover="false" tabindex="1"
 								title="Delete Order">
-								<form method="POST" action="/admin/orders/{{$order['id']}}/delete" class="delete-item" >
-									<input type="hidden" name="token" value="{{ \App\Classes\CSRFToken::_token() }}">
+								<form method="POST" action="/sam_public/sam_public/admin/orders/{{$order['id']}}/delete" class="delete-item" >
+									<input type="hidden" name="token" value="{{ \SAM\Classes\CSRFToken::_token() }}">
 									<button type="submit"><i class="fa fa-times delete"></i></button>
 								</form>
 							</td>

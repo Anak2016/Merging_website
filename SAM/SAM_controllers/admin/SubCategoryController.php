@@ -28,7 +28,7 @@ class SubCategoryController extends BaseController
 		$token = CSRFToken::_token();
 		$subCategory = SubCategory::where('id', $id)->first();
 		// var_dump($subCategory->name); exit;
-		return view('admin/groupby/subcategory', compact('token', 'subCategory'));
+		return _view('admin/groupby/subcategory', compact('token', 'subCategory'));
 	}
 
 	//store 
@@ -73,7 +73,7 @@ class SubCategoryController extends BaseController
 				SubCategory::create([
 					'name'=> $request->name,
 					'category_id' => $request->category_id,
-					'slug' => slug($request->name)
+					'slug' => _slug($request->name)
 				]);
 				echo json_encode(['success'=> 'Subcategory create successfully']);
 				exit;

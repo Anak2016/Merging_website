@@ -34,7 +34,7 @@ class DashboardController extends BaseController
 		$users = User::all()->count();
 		$payments = Payment::all()->sum('amount') / 100; //convert form cents to dollars 
 		// var_dump($orders);exit;
-		return view('admin/dashboard', compact('orders', 'products', 'payments', 'users'));
+		return _view('admin/dashboard', compact('orders', 'products', 'payments', 'users'));
 	}
 
 	public function getChartData()

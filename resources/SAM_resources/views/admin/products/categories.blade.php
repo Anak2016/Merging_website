@@ -26,11 +26,11 @@
 				</form>
 			</div>
 			<div class="small-12 medium-5 float-left cell">
-				<form action="/admin/product/categories" method="post">
+				<form action="/sam_public/sam_public/admin/product/categories" method="post">
 					<div class="input-group">
 						<input type="text" class="input-group-field" name="name" placeholder="Search by name">
 
-						<input type="hidden" name="token" value="{{ \App\Classes\CSRFToken::_token() }}">
+						<input type="hidden" name="token" value="{{ \SAM\Classes\CSRFToken::_token() }}">
 
 						<div class="input-group-button">
 							<input type="submit" class="button" value="Create">
@@ -76,8 +76,8 @@
 						data-tooltip aria-haspopup="true" class="has-tip top"
 						data-disable-hover="false" tabindex="1"
 						title="Delete Category">
-						<form method="POST" action="/admin/product/categories/{{$category['id']}}/delete" class="delete-item">
-							<input type="hidden" name="token" value="{{ \App\Classes\CSRFToken::_token() }}">
+						<form method="POST" action="/sam_public/sam_public/admin/product/categories/{{$category['id']}}/delete" class="delete-item">
+							<input type="hidden" name="token" value="{{ \SAM\Classes\CSRFToken::_token() }}">
 							<button type="submit"><i class="fa fa-times delete"></i></button>
 						</form>
 					</span>
@@ -95,13 +95,13 @@
 									<input type="submit" class="button update-category" 
 									id ="{{$category['id']}}" 
 									name="token" 
-									data-token="{{ \App\Classes\CSRFToken::_token() }}"
+									data-token="{{ \SAM\Classes\CSRFToken::_token() }}"
 									value="Update">
 								</div>
 							</div>
 						</form>
 
-						<a href="/admin/product/categories" class="close-button" aria-label="Close modal" type="button">
+						<a href="/sam_public/sam_public/admin/product/categories" class="close-button" aria-label="Close modal" type="button">
 							<span aria-hidden="true">&times;</span>
 						</a>
 					</div>
@@ -121,13 +121,13 @@
 									<input type="submit" class="button add-subcategory" 
 									id ="{{$category['id']}}" 
 									name="token" 
-									data-token="{{ \App\Classes\CSRFToken::_token()}}"
+									data-token="{{ \SAM\Classes\CSRFToken::_token()}}"
 									value="Create">
 								</div>
 							</div>
 						</form>
 
-						<a href="/admin/product/categories" class="close-button" aria-label="Close modal" type="button">
+						<a href="/sam_public/sam_public/admin/product/categories" class="close-button" aria-label="Close modal" type="button">
 							<span aria-hidden="true">&times;</span>
 						</a>
 					</div>
@@ -182,8 +182,8 @@
 						data-tooltip aria-haspopup="true" class="has-tip top"
 						data-disable-hover="false" tabindex="1"
 						title="Delete Subcategory">
-						<form method="POST" action="/admin/product/subcategory/{{$subcategory['id']}}/delete" class="delete-item">
-							<input type="hidden" name="token" value="{{ \App\Classes\CSRFToken::_token() }}">
+						<form method="POST" action="/sam_public/sam_public/admin/product/subcategory/{{$subcategory['id']}}/delete" class="delete-item">
+							<input type="hidden" name="token" value="{{ \SAM\Classes\CSRFToken::_token() }}">
 							<button type="submit"><i class="fa fa-times delete"></i></button>
 						</form>
 					</span>
@@ -198,7 +198,7 @@
 
 								<label>Change Category
 									<select id="item-category-{{$subcategory['category_id'] }}">
-										@foreach(\App\Models\Category::all() as $category)
+										@foreach(\SAM\Models\Category::all() as $category)
 										@if($category->id == $subcategory['category_id'])
 										<option selected="selected" value="{{$category->id}}">
 											{{ $category->name}}
@@ -215,13 +215,13 @@
 									id ="{{$subcategory['id']}}" 
 									data-category-id="{{$subcategory['category_id']}}"
 									data-test = "{{$subcategory['category_id']}}"
-									data-token="{{ \App\Classes\CSRFToken::_token() }}"
+									data-token="{{ \SAM\Classes\CSRFToken::_token() }}"
 									value="Update">
 								</div>
 							</div>
 						</form>
 
-						<a href="/admin/product/categories" class="close-button" aria-label="Close modal" type="button">
+						<a href="/sam_public/sam_public/admin/product/categories" class="close-button" aria-label="Close modal" type="button">
 							<span aria-hidden="true">&times;</span>
 						</a>
 					</div>

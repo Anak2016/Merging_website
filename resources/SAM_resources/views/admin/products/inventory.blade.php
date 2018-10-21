@@ -14,7 +14,7 @@
 	
 	{{-- <div class=" column medium-11"> --}}
 	<div class="column medium-11 float-left">	
-		<a href="/admin/products/create" class="button float-right">
+		<a href="/sam_public/sam_public/admin/products/create" class="button float-right">
 			<i class="fa fa-plus"></i> Add New Product
 		</a>
 	</div>
@@ -50,7 +50,7 @@
 								<span data-tooltip aria-haspopup="true" class="has-tip top"
 								data-disable-hover="false" tabindex="1"
 								title="Edit Product">Edit
-								<a href="/admin/products/{{$product['id']}}/edit"><i class="fa fa-edit"></i></a>
+								<a href="/sam_public/sam_public/admin/products/{{$product['id']}}/edit"><i class="fa fa-edit"></i></a>
 							</span>
 						</td>
 

@@ -14,7 +14,7 @@
 	
 	{{-- <div class=" column medium-11"> --}}
 		<div class="column medium-11 float-left">	
-			<a href="/admin/users/create" class="button float-right">
+			<a href="/sam_public/admin/users/create" class="button float-right">
 				<i class="fa fa-plus"></i> Add New Users
 			</a>
 		</div>
@@ -46,7 +46,7 @@
 									<span data-tooltip aria-haspopup="true" class="has-tip top"
 									data-disable-hover="false" tabindex="1"
 									title="Edit Product">Edit
-									<a href="/admin/users/{{$user['id']}}/edit"><i class="fa fa-edit"></i></a>
+									<a href="/sam_public/admin/users/{{$user['id']}}/edit"><i class="fa fa-edit"></i></a>
 								</span>
 
 								{{-- Delete this User --}}
@@ -54,8 +54,8 @@
 								data-tooltip aria-haspopup="true" class="has-tip top"
 								data-disable-hover="false" tabindex="1"
 								title="Delete Category">
-								<form method="POST" action="/admin/users/{{$user['id']}}/delete" class="delete-item" >
-									<input type="hidden" name="token" value="{{ \App\Classes\CSRFToken::_token() }}">
+								<form method="POST" action="/sam_public/sam_public/admin/users/{{$user['id']}}/delete" class="delete-item" >
+									<input type="hidden" name="token" value="{{ \SAM\Classes\CSRFToken::_token() }}">
 									<button type="submit"><i class="fa fa-times delete"></i></button>
 								</form>
 							</td>

@@ -1,13 +1,11 @@
-@extends('admin.layout.base')
+<?php $__env->startSection('title', 'Dashboard'); ?>
+<?php $__env->startSection('data-page-id', 'adminDashboard'); ?>
 
-@section('title', 'Dashboard')
-@section('data-page-id', 'adminDashboard')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 	<div class="dashboard grid-margin-y">
 		<div class="grid-x grid-margin-x grid-margin-y" data-equilizer data-equalizer-on="medium">
 
-			{{-- order summary --}}
+			
 			<div class="small-12 medium-3 large-3 cell summary" data-equalizer-watch>
 				<div class="card">
 					<div class="card-section">
@@ -16,7 +14,7 @@
 								<i class="fa fa-shopping-cart" cria-hidden="true"></i>
 							</div>
 							<div class="small-9 large-8 cell">
-								<p>Total Orders</p><h4>{{$orders}}</h4>
+								<p>Total Orders</p><h4><?php echo e($orders); ?></h4>
 							</div>	
 						</div>
 					</div>
@@ -27,7 +25,7 @@
 					</div>
 				</div>
 			</div>
-			{{-- stock summary --}}
+			
 			<div class="small-12 medium-3 cell summary" data-equalizer-watch>
 				<div class="card">
 					<div class="card-section">
@@ -36,7 +34,7 @@
 								<i class="fa fa-thermometer-empty" cria-hidden="true"></i>
 							</div>
 							<div class="small-9 cell">
-								<p>Stock</p><h4>{{$products}}</h4>
+								<p>Stock</p><h4><?php echo e($products); ?></h4>
 							</div>
 						</div>
 					</div>
@@ -47,7 +45,7 @@
 					</div>
 				</div>
 			</div>
-			{{-- Revenue summary --}}
+			
 			<div class="small-12 medium-3 cell summary" data-equalizer-watch>
 				<div class="card">
 					<div class="card-section">
@@ -56,7 +54,7 @@
 								<i class="fa fa-money" cria-hidden="true"></i>
 							</div>
 							<div class="small-9 cell">
-								<p>Revenue</p><h4>${{number_format($payments,2)}}</h4>
+								<p>Revenue</p><h4>$<?php echo e(number_format($payments,2)); ?></h4>
 							</div>
 						</div>
 					</div>
@@ -67,7 +65,7 @@
 					</div>
 				</div>
 			</div>
-			{{-- Signup summary --}}
+			
 			<div class="small-12 medium-3 cell summary" data-equalizer-watch>
 				<div class="card">
 					<div class="card-section">
@@ -76,7 +74,7 @@
 								<i class="fa fa-users" cria-hidden="true"></i>
 							</div>
 							<div class="small-9 cell">
-								<p>Sign up</p><h4>{{$users}}</h4>
+								<p>Sign up</p><h4><?php echo e($users); ?></h4>
 							</div>
 						</div>
 					</div>
@@ -107,4 +105,5 @@
 				</div>
 			</div>
 		</div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layout.base', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

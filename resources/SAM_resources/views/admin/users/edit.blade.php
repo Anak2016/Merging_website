@@ -12,7 +12,7 @@
 
 	@include('includes.message')
 	
-	<form method="post" action="/admin/users/{{$user->id}}/edit" enctype="multipart/form-data">
+	<form method="post" action="/sam_public/sam_public/admin/users/{{$user->id}}/edit" enctype="multipart/form-data">
 		<div class="small-12 medium-11">
 			<div class="row expanded">
 				<div class="row expanded">
@@ -51,7 +51,7 @@
 					</div>
 					{{-- update User --}}
 					<div class="small-12 column">
-						<input type="hidden" name="token" value="{{\App\Classes\CSRFToken::_token()}}">
+						<input type="hidden" name="token" value="{{\SAM\Classes\CSRFToken::_token()}}">
 						<input type="hidden" name="user_id" value="{{$user->id}}">
 
 						<input class="button warning float-right" type="submit" value="Update User">
@@ -70,8 +70,8 @@
 		<table data-form="deleteForm">
 			<tr style ="border: 1px solid #ffffff !important;">
 				<td style="border: 1px solid #ffffff !important; ">
-					<form method="POST" action="/admin/users/{{$user->id}}/delete" class="delete-item">
-						<input type="hidden" name="token" value="{{ \App\Classes\CSRFToken::_token() }}">
+					<form method="POST" action="/sam_public/sam_public/admin/users/{{$user->id}}/delete" class="delete-item">
+						<input type="hidden" name="token" value="{{ \SAM\Classes\CSRFToken::_token() }}">
 						<button type="submit" class="button alert">Delete User</button>
 					</form>
 				</td>

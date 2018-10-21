@@ -24,7 +24,7 @@ class ProductController extends BaseController
 		$product = Product::where('id', $id)->first();
 
 		// var_dump($product); exit;
-		return view('product', compact('token', 'product'));
+		return _view('product', compact('token', 'product'));
 	}
 
 	public function get($id)

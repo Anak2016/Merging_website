@@ -31,7 +31,7 @@ class UserController extends BaseController
 		$this->users = User::all();
 		$total = User::all()->count();
 
-		list($this->users, $this->links) = paginate(3, $total, $this->table_name, new User);
+		list($this->users, $this->links) = _paginate(3, $total, $this->table_name, new User);
 		// var_dump($this->links); exit;
 	}
 
@@ -41,13 +41,13 @@ class UserController extends BaseController
 
 		$users = $this->users;
 		$links = $this->links;
-		return view('admin/users/user', compact("users", 'links'));
+		return _view('admin/users/user', compact("users", 'links'));
 	}
 
 	public function storeCreateUserForm()
 	{
 
-		return view('admin/users/create');
+		return _view('admin/users/create');
 	}
 
 	public function showEditUserForm($id)
@@ -55,7 +55,7 @@ class UserController extends BaseController
 		//set independent valeu of $categories allow admin to be able to change categories.
 		// $users = $this->users;
 		$user = User::where('id',$id)->first();
-		return view('admin/users/edit', compact('user'));
+		return _view('admin/users/edit', compact('user'));
 	}
 
 	public function store()
@@ -81,7 +81,7 @@ class UserController extends BaseController
 					$errors = $validate->getErrorMessages();
 					$users = $this->users;
 
-					return view('admin/users/create', compact('users', 'errors'));
+					return _view('admin/users/create', compact('users', 'errors'));
 				}
 
 				User::create([
@@ -93,7 +93,7 @@ class UserController extends BaseController
 					'role' => $request->role,
 				]);
 				
-				return view('admin/users/create', ['users', $this->users, 'success'=> "User Created"]);
+				return _view('admin/users/create', ['users', $this->users, 'success'=> "User Created"]);
 			}
 			throw new \Exception('Token mismatch');
 		}

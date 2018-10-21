@@ -12,7 +12,7 @@
 
 	@include('includes.message')
 	
-	<form method="post" action="/admin/products/edit" enctype="multipart/form-data">
+	<form method="post" action="/sam_public/sam_public/admin/products/edit" enctype="multipart/form-data">
 		<div class="small-12 medium-11">
 			<div class="row expanded">
 				<div class="row expanded">
@@ -75,7 +75,7 @@
 						<label>Description:
 							<textarea name="description" placeholder="Description">{{$product->description}}</textarea>
 						</label>
-						<input type="hidden" name="token" value="{{\App\Classes\CSRFToken::_token()}}">
+						<input type="hidden" name="token" value="{{\SAM\Classes\CSRFToken::_token()}}">
 						<input type="hidden" name="product_id" value="{{$product->id}}">
 
 						<input class="button warning float-right" type="submit" value="Update Product">
@@ -92,8 +92,8 @@
 			<table data-form="deleteForm">
 				<tr style ="border: 1px solid #ffffff !important;">
 					<td style="border: 1px solid #ffffff !important; ">
-						<form method="POST" action="/admin/product/{{$product->id}}/delete" class="delete-item">
-							<input type="hidden" name="token" value="{{ \App\Classes\CSRFToken::_token() }}">
+						<form method="POST" action="/sam_public/sam_public/admin/product/{{$product->id}}/delete" class="delete-item">
+							<input type="hidden" name="token" value="{{ \SAM\Classes\CSRFToken::_token() }}">
 							<button type="submit" class="button alert">Delete this Product</button>
 						</form>
 					</td>

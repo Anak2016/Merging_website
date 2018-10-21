@@ -38,7 +38,7 @@ class ErrorHandler
 	public function outputFriendlyError()
 	{
 		ob_end_clean();
-		view('errors/generic');
+		_view('errors/generic');
 		exit;
 	}
 	

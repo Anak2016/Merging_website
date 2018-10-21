@@ -29,7 +29,7 @@ class PaymentController extends BaseController
 		// $this->payment = Category::all();
 		$total = Payment::all()->count();
 
-		list($this->payments , $this->links) = paginate(3, $total, $this->table_name, new Payment);
+		list($this->payments , $this->links) = _paginate(3, $total, $this->table_name, new Payment);
 		// var_dump($this->links); exit;
 	}
 	public function show($id)
@@ -38,7 +38,7 @@ class PaymentController extends BaseController
 		$payments = $this->payments;
 
 		$links = $this->links;
-		return view('admin/products/payment', compact('token', 'payments', 'links'));
+		return _view('admin/products/payment', compact('token', 'payments', 'links'));
 		// return view('admin/products/payment', compact('token', 'payments'));
 	}
 }

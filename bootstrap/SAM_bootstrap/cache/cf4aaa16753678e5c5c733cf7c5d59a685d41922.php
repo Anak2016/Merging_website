@@ -1,5 +1,5 @@
  
-{{-- Side Bar --}}
+
 <div class="off-canvas position-left reveal-for-large nav" id="offCanvas" data-off-canvas >
 
 	<!-- <div class = 'off-canbas position-left reveal' id="offCanvas" data-reveal> -->
@@ -7,7 +7,7 @@
 
 		<div class="image-holder text-center">
 			<img src="/images/admin.png" alt="Admin's picture" title="Admin">
-			<p>{{user()->fullname}}</p>
+			<p><?php echo e(user()->fullname); ?></p>
 		</div>
 		<!-- Close button -->
 		<button class="close-button" aria-label="Close menu" type="button" data-close>
@@ -27,4 +27,3 @@
 		</ul>
 		<!-- end Side bar  -->
 	</div>
-	

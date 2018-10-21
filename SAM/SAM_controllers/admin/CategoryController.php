@@ -26,7 +26,7 @@ class CategoryController extends BaseController
 		$subCategories = SubCategory::all();
 		// var_dump($subCategory->name); exit;
 
-		return view('admin/groupby/category', compact('token', 'categories', 'subCategories'));
+		return _view('admin/groupby/category', compact('token', 'categories', 'subCategories'));
 	}
 }
 ?>

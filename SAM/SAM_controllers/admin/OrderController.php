@@ -42,7 +42,7 @@ class OrderController extends BaseController
 		$orders = $this->orders;
 		$links = $this->links;
 		// var_dump($orders); exit;
-		return view('admin/products/order', compact('token', 'orders', 'links'));
+		return _view('admin/products/order', compact('token', 'orders', 'links'));
 	}
 	public function showEditForm($order_no)	//id = order_no
 	{
@@ -51,7 +51,7 @@ class OrderController extends BaseController
 
 		// var_dump(count($orderDetail)); exit;
 		// var_dump($orderDetail); exit;
-		return view('admin/products/order-detail', compact('token', 'orderDetail'));
+		return _view('admin/products/order-detail', compact('token', 'orderDetail'));
 	}
 
 	public function delete($id)
