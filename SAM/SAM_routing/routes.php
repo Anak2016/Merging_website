@@ -24,6 +24,10 @@ $router->map( 'GET', '/sam_public/contact', 'SAM\Controllers\IndexController@sho
 $router->map( 'GET', '/sam_public/dealProducts', 'SAM\Controllers\IndexController@dealProducts', 'deal_product' );
 $router->map( 'GET', '/sam_public/popularProducts', 'SAM\Controllers\IndexController@popularProducts', 'popular_product' );
 
+
+// require_once __DIR__.'/../SAM_controllers/customer/DashboardController.php';
+// $router->map( 'GET', '/sam_public/customer', 'SAM\Controllers\Customer\DashboardController@show', 'show_dashboard' );
+
 // require_once __DIR__.'/../SAM_controllers/BaseController.php';
 
 
@@ -41,5 +45,6 @@ $router->map( 'GET', '/sam_public/popularProducts', 'SAM\Controllers\IndexContro
 require_once __DIR__.'/cart.php';
 require_once __DIR__.'/auth.php';
 require_once __DIR__.'/admin_routes.php';
+require_once __DIR__.'/customer_routes.php';
 
 ?>

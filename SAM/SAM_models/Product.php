@@ -47,7 +47,8 @@ class Product extends Model
 				'image_path1' => $item->image_path1,
 				'image_path2' => $item->image_path2,
 				'image_path3' => $item->image_path3,
-				'featured' => $item->featured,
+				'deal' => $item->deal,
+				'popular' => $item->popular,
 				'keywords' => $item->keywords
 			]);
 		}

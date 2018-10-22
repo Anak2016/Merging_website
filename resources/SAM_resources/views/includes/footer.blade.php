@@ -12,7 +12,7 @@
                     <li><a href="cart">Shopping Cart</a></li>
                     <li><a href="contact">Contact Us</a> </li>
                     <li><a href="shop">Shop</a> </li>
-                    <li><a href="my_account">My Account</a> </li>
+                    <li><a href="/sam_public/customer">My Account</a> </li>
                 </ul>
                 <hr>
                 <h4>User Section</h4>
@@ -47,7 +47,7 @@
                     <strong>Name Lastname</strong>
                 </p>
 
-                <a href="../contact.php">Go to Contact us page</a>
+                <a href="contact">Go to Contact us page</a>
 
                 <hr class="hidden-md hidden-lg">
             </div>

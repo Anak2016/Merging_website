@@ -4,36 +4,37 @@
 		$cartTotal = 0;
 		$totalQuantity = 0;
 
-		foreach($_SESSION['user_cart'] as $cart_items){
+		if(isset($_SESSION['user_cart'])){
+			foreach($_SESSION['user_cart'] as $cart_items){
 
-			$productId = $cart_items['product_id'];
+				$productId = $cart_items['product_id'];
 
-				//quantity of items in the cart NOT quatity of item availble in the shop
-			$quantity = $cart_items['quantity'];
+					//quantity of items in the cart NOT quatity of item availble in the shop
+				$quantity = $cart_items['quantity'];
 
-			$item = SAM\Models\Product::where('id', $productId)->first();
+				$item = SAM\Models\Product::where('id', $productId)->first();
 
-				//if for some reason, no matching id can be found. skip the item to avoid problems
-			if(!$item) {continue;}
-				//totalPrice of selected item * quantity in the cart
-			$totalPrice = $item->price * $quantity;
-				//CartTotal = TotalPrice of all items in the cart
-			$cartTotal = $totalPrice + $cartTotal;
-			$totalPrice = number_format($totalPrice, 2 );
-				// echo '/'.str_replace("\\","/",$product->image_path);
-			$totalQuantity = $totalQuantity + $quantity;
+					//if for some reason, no matching id can be found. skip the item to avoid problems
+				if(!$item) {continue;}
+					//totalPrice of selected item * quantity in the cart
+				$totalPrice = $item->price * $quantity;
+					//CartTotal = TotalPrice of all items in the cart
+				$cartTotal = $totalPrice + $cartTotal;
+				$totalPrice = number_format($totalPrice, 2 );
+					// echo '/'.str_replace("\\","/",$product->image_path);
+				$totalQuantity = $totalQuantity + $quantity;
+			}
+
+			$cartTotal = number_format($cartTotal, 2);
+				SAM\Classes\Session::add('cartTotal', $cartTotal); // late will use this session to charge 
 		}
-
-		$cartTotal = number_format($cartTotal, 2);
-			SAM\Classes\Session::add('cartTotal', $cartTotal); // late will use this session to charge 
 ?>
 
 <!-- navebar     -->
 <div id="top"> <!-- top start-->
 	<div class="container"> <!-- container start-->
 		<div class="col-md-6 offer">
-			{{-- @if(_isAuthenticated()) --}}
-			@if(_isAuthenticated())
+			@if(!_isAuthenticated())
 			<a href="#" class="btn btn-success btn-sm">
 				Welcome Guest!!
 			</a>
@@ -48,20 +49,20 @@
 			<ul class="menu">
 				<li>
 					{{--  customer_register--}}
-					<a href="customer_register" >Register</a>
+					<a href="/sam_public/customer_register" >Register</a>
 				</li>
 				<li>
 					{{-- customer/my_account --}}
 					<a href="#">My Account</a>
 				</li>
 				<li>
-					<a href="cart">Go to Cart</a>
+					<a href="/sam_public/cart">Go to Cart</a>
 				</li>
 				<li>
-					@if(_isAuthenticated())
-					<a href="checkout">Login</a>
+					@if(!_isAuthenticated())
+					<a href="/sam_public/login">Login</a>
 					@else
-					<a href="checkout">Logout</a>
+					<a href="#">Logout</a>
 					@endif                        
 				</li>
 
@@ -75,8 +76,8 @@
 	<div class="container"> <!--container start-->
 		<div class="navbar-header"><!-- navbar-header Start-->
 			<a class="navbar-brand home" href="/sam_public"><!--navbar-brand home start-->
-				<img src="images/EiShops_resize.png" alt="E-commerce Logo" class="hidden-xs" style="margin-top: 5px;">
-				<img src="images/EiShops_resize.png" alt="E-commerce Logo" class="visible-xs" style="margin-top: 5px;">
+				<img src="/sam_public/images/EiShops_resize.png" alt="E-commerce Logo" class="hidden-xs" style="margin-top: 5px;">
+				<img src="/sam_public/images/EiShops_resize.png" alt="E-commerce Logo" class="visible-xs" style="margin-top: 5px;">
 
 			</a>
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
@@ -91,27 +92,28 @@
 		<div class="navbar-collapse collapse" id="navigation"> <!--navbar-collapse collapse Starts-->
 			<div class="padding-nav"> <!--padding-nav Starts-->
 				<ul class="nav navbar-nav navbar-left"><!-- nav navbar-nav navbar-left start-->
+					
 					<li class="active">
-						<a href="index">Home</a>
+						<a href="/sam_public/">Home</a>
 					</li>
 					<li>
-						<a href="shop">Shop</a>
+						<a href="/sam_public/shop">Shop</a>
 					</li>
 					<li>
-						<a href="hot_deal">Hot's Deal</a>
+						<a href="/sam_public/hot_deal">Hot's Deal</a>
 					</li>
 					<li>
 						{{-- customer/my_account.php --}}
-						<a href ="#">My Account</a>
+						<a href ="/sam_public/customer">My Account</a>
 					</li>
 					<li>
-						<a href="cart">Shopping Cart</a>
+						<a href="/sam_public/cart">Shopping Cart</a>
 					</li>
 					<li>
 						<a href="#">Sell</a>
 					</li>
 					<li>
-						<a href="contact">Contact Us</a>
+						<a href="/sam_public/contact">Contact Us</a>
 					</li>
 				</ul>
 			</div>

@@ -22,8 +22,7 @@
 		<div class="title-bar">
 			<div class="title-bar-left">
 				<button class="menu-icon hide-for-large" type="button" data-open="offCanvas"></button>
-				<span class="title-bar-title">{{getenv('SAM
-			_APP_NAME')}}</span>
+				<span class="title-bar-title">{{getenv('SAM_APP_NAME')}}</span>
 			</div>
 		</div>
 		

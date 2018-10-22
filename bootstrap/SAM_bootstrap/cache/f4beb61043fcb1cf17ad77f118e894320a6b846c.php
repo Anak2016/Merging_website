@@ -17,7 +17,7 @@
         </div> <!--col-md-12 end-->
 
         <div class="col-md-3"><!-- col-md-3-->
-            <?php include ("includes/sidebar.php");?>
+            <?php echo $__env->make('includes/product-sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>;
         </div>
 
         <div class="col-md-9"><!-- col-md-9 start-->
@@ -29,20 +29,21 @@
 
             <div class="row"><!--row start -->
                 <!-- list product1-->
-                <div class="col-md-4 col-sm-6 center-responsive"><!--col-md-4 col-sm-6 center-responsive -->
+                <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="col-md-4 col-sm-6 center-responsive"><!--col-md-4 col-sm-6 center-responsive -->
                     <div class="product"><!--product start -->
-                        <a href="details.php"><!--a start -->
-                            <img src="admin_area/product_images/product_demo.jpg" class="img-responsive">
+                        <a href="details/<?php echo e($product->id); ?>"><!--a start -->
+                            <img src="<?php echo e($product->image_path1); ?>" class="img-responsive">
                         </a>
                         <div class="text"><!--text start -->
                             <h3>
-                                <a href="details.php">Hot Product Details1</a>
+                                <a href="details.php"><?php echo e($product->name); ?></a>
                             </h3>
-                            <p class="price">$50</p>
+                            <p class="price"><?php echo e($product->price); ?></p>
 
                             <p class="buttons">
-                                <a href="details.php" class="btn btn-default">View details</a>
-                                <a href="details.php" class="btn btn-primary">
+                                <a href="details/<?php echo e($product->id); ?>" class="btn btn-default">View details</a>
+                                <a href="#" class="btn btn-primary">
                                     <i class="fa fa-shopping-cart"></i>Add to Cart
                                 </a>
                             </p>
@@ -51,137 +52,11 @@
                     </div>
 
                 </div>
-                <!-- list product2-->
-                <div class="col-md-4 col-sm-6 center-responsive"><!--col-md-4 col-sm-6 center-responsive -->
-                    <div class="product"><!--product start -->
-                        <a href="details.php"><!--a start -->
-                            <img src="admin_area/product_images/product_demo.jpg" class="img-responsive">
-                        </a>
-                        <div class="text"><!--text start -->
-                            <h3>
-                                <a href="details.php">Hot Product Details2</a>
-                            </h3>
-                            <p class="price">$50</p>
-
-                            <p class="buttons">
-                                <a href="details.php" class="btn btn-default">View details</a>
-                                <a href="details.php" class="btn btn-primary">
-                                    <i class="fa fa-shopping-cart"></i>Add to Cart
-                                </a>
-                            </p>
-                        </div>
-
-                    </div>
-
-                </div>
-                <!-- list product3-->
-                <div class="col-md-4 col-sm-6 center-responsive"><!--col-md-4 col-sm-6 center-responsive -->
-                    <div class="product"><!--product start -->
-                        <a href="details.php"><!--a start -->
-                            <img src="admin_area/product_images/product_demo.jpg" class="img-responsive">
-                        </a>
-                        <div class="text"><!--text start -->
-                            <h3>
-                                <a href="details.php">Hot Product Details3</a>
-                            </h3>
-                            <p class="price">$50</p>
-
-                            <p class="buttons">
-                                <a href="details.php" class="btn btn-default">View details</a>
-                                <a href="details.php" class="btn btn-primary">
-                                    <i class="fa fa-shopping-cart"></i>Add to Cart
-                                </a>
-                            </p>
-                        </div>
-
-                    </div>
-
-                </div>
-                <!-- list product4-->
-                <div class="col-md-4 col-sm-6 center-responsive"><!--col-md-4 col-sm-6 center-responsive -->
-                    <div class="product"><!--product start -->
-                        <a href="details.php"><!--a start -->
-                            <img src="admin_area/product_images/product_demo.jpg" class="img-responsive">
-                        </a>
-                        <div class="text"><!--text start -->
-                            <h3>
-                                <a href="details.php">Hot Product Details4</a>
-                            </h3>
-                            <p class="price">$50</p>
-
-                            <p class="buttons">
-                                <a href="details.php" class="btn btn-default">View details</a>
-                                <a href="details.php" class="btn btn-primary">
-                                    <i class="fa fa-shopping-cart"></i>Add to Cart
-                                </a>
-                            </p>
-                        </div>
-
-                    </div>
-
-                </div>
-                <!-- list product5-->
-                <div class="col-md-4 col-sm-6 center-responsive"><!--col-md-4 col-sm-6 center-responsive -->
-                    <div class="product"><!--product start -->
-                        <a href="details.php"><!--a start -->
-                            <img src="admin_area/product_images/product_demo.jpg" class="img-responsive">
-                        </a>
-                        <div class="text"><!--text start -->
-                            <h3>
-                                <a href="details.php">Hot Product Details5</a>
-                            </h3>
-                            <p class="price">$50</p>
-
-                            <p class="buttons">
-                                <a href="details.php" class="btn btn-default">View details</a>
-                                <a href="details.php" class="btn btn-primary">
-                                    <i class="fa fa-shopping-cart"></i>Add to Cart
-                                </a>
-                            </p>
-                        </div>
-
-                    </div>
-
-                </div>
-                <!-- list product6-->
-                <div class="col-md-4 col-sm-6 center-responsive"><!--col-md-4 col-sm-6 center-responsive -->
-                    <div class="product"><!--product start -->
-                        <a href="details.php"><!--a start -->
-                            <img src="admin_area/product_images/product_demo.jpg" class="img-responsive">
-                        </a>
-                        <div class="text"><!--text start -->
-                            <h3>
-                                <a href="details.php">Hot Product Details6</a>
-                            </h3>
-                            <p class="price">$50</p>
-
-                            <p class="buttons">
-                                <a href="details.php" class="btn btn-default">View details</a>
-                                <a href="details.php" class="btn btn-primary">
-                                    <i class="fa fa-shopping-cart"></i>Add to Cart
-                                </a>
-                            </p>
-                        </div>
-
-                    </div>
-
-                </div>
-
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                
             </div>
 
-            <center><!--center start -->
-                <ul class="pagination"><!--pagination start -->
-                    <li><a href="shop.php">First Page</a></li>
-                    <li><a href="shop.php">1</a></li>
-                    <li><a href="shop.php">2</a></li>
-                    <li><a href="shop.php">3</a></li>
-                    <li><a href="shop.php">4</a></li>
-                    <li><a href="shop.php">5</a></li>
-                    <li><a href="shop.php">Last Page</a></li>
-
-                </ul>
-            </center>
-
+            
 
         </div>
 

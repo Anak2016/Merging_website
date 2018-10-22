@@ -39,7 +39,7 @@ class ProductController extends BaseController
 	public function show()
 	{
 		//get category and subcategory detail of the product under Relation section
-		$product = Product::where('id', 1)->with(['category', 'SubCategory'])->first();	
+		// $product = Product::where('id', 1)->with(['category', 'SubCategory'])->first();	
 		// var_dump($product);exit;
 
 		$products = $this->products;

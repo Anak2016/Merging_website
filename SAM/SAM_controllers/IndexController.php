@@ -20,6 +20,9 @@ class IndexController extends BaseController
 	{
 		$token = CSRFToken::_token();
 		$sliders = Capsule::table('sliders')->get();
+		// $sliders = Slider::all();
+		// var_dump($slider); exit;
+		
 		$deals = Product::where('deal', 1)->inRandomOrder()->limit(8)->get();
 		$populars = Product::where('popular', 1)->inRandomOrder()->limit(8)->get();		
 
@@ -29,13 +32,12 @@ class IndexController extends BaseController
 	public function showShop()
 	{
 		$token = CSRFToken::_token();
-
-		return _view('shop', compact('token'));
+		$products = Product::all();
+		return _view('shop', compact('token', 'products'));
 	}
 	public function showCart()
 	{
 		$token = CSRFToken::_token();
-
 		return _view('cart', compact('token'));
 	}
 	public function showContact()
@@ -47,8 +49,15 @@ class IndexController extends BaseController
 	public function showHot_deal()
 	{
 		$token = CSRFToken::_token();
+		$products = Product::where('deal',1)->inRandomOrder()->limit(8)->get();
+		// $total = Product::where('deal',1)->count();
+		// $total = Product::all()->count();
+		// list($products , $links) = paginate(8, $total, 'products', new Product);
 
-		return _view('hot_deal', compact('token'));
+		// var_dump($products);exit;
+
+		// return _view('hot_deal', compact('token', 'products','links'));
+		return _view('hot_deal', compact('token', 'products'));
 	}
 	public function showCustomer_register()
 	{
@@ -69,18 +78,17 @@ class IndexController extends BaseController
 		return _view('details', compact('token', 'product'));
 	}
 
+
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Vue.js LOGIC^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	public function dealProducts()
 	{
-		$products = Product::where('deal',1)->inRandomOrder()->limit(8)->get();
-		// var_dump($products); exit;
-		echo json_encode(['deal' => $products, 'count' =>count($products)]);
+		echo "in IndexController::dealProducts"; exit;
 	}
 	public function popularProducts()
 	{
 		$products = Product::where('popular',1)->inRandomOrder()->limit(8)->get();
-		// var_dump($products); exit;
+
 		echo json_encode(['popular' => $products, 'count' =>count($products)]);
 	}
 

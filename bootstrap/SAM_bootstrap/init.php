@@ -11,7 +11,7 @@ require_once __DIR__.'/../../app/config/_env.php';
 new \SAM\Classes\Database();
 
 //set custom error handler for Whoops
-// set_error_handler([new \App\Classes\ErrorHandler(), 'handleErrors']);
+// set_error_handler([new \SAM\Classes\ErrorHandler(), 'handleErrors']);
 
 require_once __DIR__.'/../../SAM/SAM_routing/routes.php';
 

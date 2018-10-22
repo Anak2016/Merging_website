@@ -1,10 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Nordize
- * Date: 9/29/2018
- * Time: 6:03 PM
- */
+
+    $categories = SAM\Models\Category::all();
+    $sub_categories = SAM\Models\SubCategory::all();
+    // var_dump($categories); exit;
 ?>
 
 <!-- upper sidebar category-->
@@ -14,7 +12,9 @@
     </div>
     <div class="panel-body"><!--panel-body -->
         <ul class="nav nav-pills nav-stacked category-menu"><!-- nav nav-pills nav-stacked category-menu -->
-            <?php get_product_category();?>
+            @foreach($categories as $category)
+                <li><a href="#">{{$category->name}}</a></li>
+            @endforeach
         </ul>
     </div>
 </div>
@@ -26,7 +26,9 @@
     </div>
     <div class="panel-body"><!--panel-body -->
         <ul class="nav nav-pills nav-stacked category-menu"><!-- nav nav-pills nav-stacked category-menu -->
-            <?php get_category();?>
+            @foreach($sub_categories as $sub_category)
+                <li><a href="#">{{$sub_category->name}}</a></li>
+            @endforeach
         </ul>
     </div>
 </div>

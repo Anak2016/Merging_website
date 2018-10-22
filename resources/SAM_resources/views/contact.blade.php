@@ -21,7 +21,7 @@
         </div> <!--col-md-12 end-->
 
         <div class="col-md-3"><!-- col-md-3-->
-            <?php include ("includes/sidebar.php");?>
+            @include("includes.product-sidebar")
         </div>
 
         <div class="col-md-9"><!--col-md-9 -->
