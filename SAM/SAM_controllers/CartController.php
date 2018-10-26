@@ -11,6 +11,8 @@ use SAM\Classes\Request;
 use SAM\Classes\Cart;
 use SAM\Classes\Mail;
 use SAM\Classes\Session;
+use SAM\Classes\Role;
+use SAM\Classes\Redirect;
 
 use Stripe\Customer;
 use Stripe\Charge;
@@ -18,12 +20,12 @@ use Stripe\Charge;
 
 class CartController extends BaseController
 {
-	// public function __construct()
-	// {		
-	// 	if(!Role::middleware('user') || !Role::middleware('admin')){
-	// 		Redirect::to('/login');
-	// 	}
-	// }
+	public function __construct()
+	{		
+		// if(!Role::middleware('user') || !Role::middleware('admin')){
+		// 	Redirect::to('/sam_public/login');
+		// }
+	}
 
 	public function show()
 	{
@@ -80,7 +82,7 @@ class CartController extends BaseController
 				array_push($result, [
 					'id' => $item->id,
 					'name' => $item->name,
-					'image' => $item->image_path,
+					'image' => $item->image_path1,
 					// 'image' => str_replace("\\","/",$product->image_path),
 					'description' => $item->description,
 					'price' => $item->price,
@@ -95,7 +97,7 @@ class CartController extends BaseController
 			$cartTotal = number_format($cartTotal, 2);
 			Session::add('cartTotal', $cartTotal); // late will use this session to charge 
 
-			// var_dump($cartTotal); exit;
+			// return $cartTotal; 
 
 			echo json_encode([
 				'items' => $result, 'cartTotal'=> $cartTotal,
@@ -185,6 +187,7 @@ class CartController extends BaseController
 			$token = $request->stripeToken;
 			$email= $request->stripeEmail;
 			try{
+
 				$customer = Customer::create([ //stripe class
 					'email' => $email,
 					'source' => $token
@@ -195,7 +198,7 @@ class CartController extends BaseController
 				$charge =Charge::create([
 					'customer' =>$customer->id,
 					'amount' => $amount,
-					'description' => user()->fullname.'-cart purchase', //user()->fullname is part of Stripe\Customer
+					'description' => _user()->fullname.'-cart purchase', //user()->fullname is part of Stripe\Customer
 					'currency' => 'usd'
 				]);	
 				$order_id = strtoupper(uniqid());
@@ -215,21 +218,23 @@ class CartController extends BaseController
 					$totalPrice = $item->price * $quantity;
 					$totalPrice = number_format($totalPrice, 2 );
 
-					//store info
+					// var_dump($order_id); //?????????????????????????????????????????????????????????????
+
 					OrderDetail::create([
-						'user_id' => user()->id,
+						'user_id' => _user()->id,
 						'product_id' => $productId,
 						'unit_price' => $item->price,
-						'status' => 'Pending',
 						'quantity' => $quantity,
 						'total' => $totalPrice,
+						'status' => 'Pending',
 						'order_no' => $order_id
 					]);
-
 					$item->quantity = $item->quantity - $quantity;
 					$item->save();
 
-				// echo '/'.str_replace("\\","/",$product->image_path);
+					// $test = OrderDetail::where("order_no", $order_id)->get();
+					// var_dump($test[0]->order_no); //?????????????????????????????????????????????????????
+
 					array_push($result['product'], [
 						'name' => $item->name,
 						'price' => $item->price,
@@ -238,36 +243,40 @@ class CartController extends BaseController
 					]);
 				}
 				Order::create([
-						'user_id' => user()->id,
-						'order_no' => $order_id
+					'user_id' => _user()->id,
+					'order_no' => $order_id
 				]);
 
+				// $test = OrderDetail::where("order_no", $order_id)->get();
+				// var_dump($test[0]->quantity);
+
 				Payment::create([
-					'user_id' => user()->id,
+					'user_id' => _user()->id,
 					'amount' => $charge->amount, 
 					'status' => $charge->status,
-					'order_no' => $order_id,
+					'order_no' => $order_id
 				]);
 				$result['order_no'] = $order_id;
 				$result['total'] = Session::get('cartTotal');
 				//data to be used with Mail::send 
 				$data = [
-				'to' => user()->email, // use awannaphasch2016@fau.edu instead of ADMIN_EMAIL because i dont have real admin email
-				'subject' => 'Order Confirmation',
-				'view' => 'purchase',
-				'name' => 'user()->fullname',
-				'body' => $result
-			];
-			(new Mail())->send($data);
+					'to' => _user()->email, // use awannaphasch2016@fau.edu instead of ADMIN_EMAIL because i dont have real admin email
+					'subject' => 'Order Confirmation',
+					'view' => 'purchase',
+					'name' => '_user()->fullname',
+					'body' => $result
+				];
+				// var_dump((new Mail())->send($data));
+				(new Mail())->send($data);
 
-		}catch(\Exception $ex){
-			echo $ex->getMessage();
+			}catch(\Exception $ex){
+				echo $ex->getMessage();
+			}
+			Cart::clear();
+			echo json_encode([
+				'success' => 'Thank you, we have received your payment and now processing your order.'
+			]);
 		}
-		Cart::clear();
-		echo json_encode([
-			'success' => 'Thank you, we have received your payment and now processing your order.'
-		]);
 	}
-}
 }
 ?>

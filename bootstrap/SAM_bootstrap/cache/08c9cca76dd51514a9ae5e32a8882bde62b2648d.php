@@ -1,50 +1,5 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Nordize
- * Date: 9/29/2018
- * Time: 6:50 PM
- */
-
-if(isset($_GET['pro_id']))
-{
-    $product_id = $_GET['pro_id'];
-    $get_product = "SELECT * FROM products WHERE product_id = '$product_id'";
-
-    $run_product = $db_connect->query($get_product);
-
-    $row_product = $run_product->fetch(PDO::FETCH_BOTH);
-    
-    // var_dump($row_product);exit;
-
-    $p_cat_id = $row_product['p_cat_id'];
-    $pro_title = $row_product['product_title'];
-    $pro_price = $row_product['product_price'];
-    $pro_desc = $row_product['product_desc'];
-    $pro_img1 = $row_product['product_img1'];
-    $pro_img2 = $row_product['product_img2'];
-    $pro_img3 = $row_product['product_img3'];
-
-    $get_p_cat = "SELECT * FROM product_categories WHERE p_cat_id = '$p_cat_id'";
-
-    $run_p_cat = $db_connect->query($get_p_cat);
-
-    $row_p_cat = $run_p_cat->fetch(PDO::FETCH_BOTH);
-
-    $p_cat_title = $row_p_cat['p_cat_title'];
-
-
-}
-
-
-$average = 0; //use for rating
-
-
-?>
-
-
 <?php $__env->startSection('title', 'details'); ?>
-<?php $__env->startSection('data-page-id', 'details'); ?>
+<?php $__env->startSection('data-page-id', 'product'); ?>
 
 <?php $__env->startSection('content'); ?>
 
@@ -57,22 +12,24 @@ $average = 0; //use for rating
         <div class="col-md-12"><!--col-md-12 -->
             <ul class="breadcrumb"><!--breadcrumb start -->
                 <li>
-                    <a href="index.php">Home</a>
+                    <a href="/sam_public/">Home</a>
                 </li>
                 <li>
-                    <a href="shop.php">Shop</a>
+                    <a href="/sam_public/shop">Shop</a>
                 </li>
                 <li>
-                    <a href="shop.php?p_cat=<?php echo $p_cat_id; ?>"> <?php echo $p_cat_title; ?></a>
+                    <a href="#"><?php echo e($category->name); ?></a>
                 </li>
                 <li>
-                    <?php echo $pro_title; ?>
+                    <?php echo e($product['name']); ?>
+
+                
                 </li>
             </ul>
         </div>
 
         <div class="col-md-3"><!-- col-md-3-->
-            <?php include ("includes/sidebar.php");?>
+            <?php echo $__env->make('includes.product-sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         </div>
 
         <!-- begin of product details -->
@@ -89,17 +46,17 @@ $average = 0; //use for rating
                             <div class="carousel-inner"><!-- carousel-inner-->
                                 <div class="item active">
                                     <center>
-                                        <img src="admin_area/product_images/<?php echo $pro_img1; ?>" class="img-responsive">
+                                        <img src="<?php echo e($product['image_path1']); ?>" class="img-responsive">
                                     </center>
                                 </div>
                                 <div class="item">
                                     <center>
-                                        <img src="admin_area/product_images/<?php echo $pro_img2; ?>" class="img-responsive">
+                                        <img src="<?php echo e($product['image_path2']); ?>" class="img-responsive">
                                     </center>
                                 </div>
                                 <div class="item">
                                     <center>
-                                        <img src="admin_area/product_images/<?php echo $pro_img3; ?>" class="img-responsive">
+                                        <img src="<?php echo e($product['image_path3']); ?>" class="img-responsive">
                                     </center>
                                 </div>
 
@@ -123,10 +80,10 @@ $average = 0; //use for rating
 
                 <div class="col-sm-6"><!--col-sm-6 start -->
                     <div class="box"><!--box start -->
-                        <h1 class="text-center"><?php echo $pro_title; ?></h1>
+                        <h1 class="text-center"><?php echo e($product['name']); ?></h1>
 
 
-                        <form action="details.php?add_cart=<?php echo$product_id; ?>" method="post" class="form-horizontal"><!--form-horizontal -->
+                        <form action="details/<?php echo e($product['id']); ?>" method="post" class="form-horizontal"><!--form-horizontal -->
                             <div class="form-group"><!--form-group -->
                                 <label class="col-md-5 control-label">Product Quantity</label>
 
@@ -157,7 +114,7 @@ $average = 0; //use for rating
                                     </select>
                                 </div>
                             </div>
-                            <p class="price">$<?php echo $pro_price; ?></p>
+                            <p class="price">$ <?php echo e($product['price']); ?></p>
                             <p class="text-center buttons"><!--text-center buttons start -->
                                 <button class="btn btn-primary" type="submit">
                                     <i class="fa fa-shopping-cart"></i>Add to Cart
@@ -171,20 +128,19 @@ $average = 0; //use for rating
                     <div class="row" id="thumbs"><!--row start -->
                         <div class="col-xs-4"><!-- col-xs-4-->
                             <a href="#" class="thumb">
-                                <img src="admin_area/product_images/<?php echo $pro_img1; ?>" class="img-responsive">
+                                <img src="<?php echo e($product['image_path1']); ?>" class="img-responsive">
 
                             </a>
                         </div>
                         <div class="col-xs-4"><!-- col-xs-4-->
                             <a href="#" class="thumb">
-                                <img src="admin_area/product_images/<?php echo $pro_img2; ?>" class="img-responsive">
+                                <img src="<?php echo e($product['image_path2']); ?>" class="img-responsive">
 
                             </a>
                         </div>
                         <div class="col-xs-4"><!-- col-xs-4-->
                             <a href="#" class="thumb">
-                                <img src="admin_area/product_images/<?php echo $pro_img3; ?>" class="img-responsive">
-
+                                <img src="<?php echo e($product['image_path3']); ?>" class="img-responsive">
                             </a>
                         </div>
                     </div>
@@ -197,7 +153,7 @@ $average = 0; //use for rating
             <div class="box" id="details"><!--box start -->
                 <p><!--p start-->
                     <h4>Product details</h4>
-                    <p><?php echo $pro_desc; ?></p>
+                    <p><?php echo e($product['desc']); ?></p>
                     <h4>Size</h4>
                     <ul>
                         <li>Small</li>
@@ -212,7 +168,7 @@ $average = 0; //use for rating
 
 
 
-            <?php include ("includes/also_like.php")?>
+            <?php echo $__env->make('includes.also-like', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
 
 
@@ -223,7 +179,7 @@ $average = 0; //use for rating
                 <h4>Product Reviews</h4>
                 <p>Overall star of the product here</p>
                 <hr>
-                <?php include ('includes/product_review.php');?>
+                <?php echo $__env->make('includes.review', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
             </div>
 

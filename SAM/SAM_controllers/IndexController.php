@@ -10,19 +10,24 @@ use SAM\Models\Category;
 
 use SAM\Classes\CSRFToken;
 use SAM\Classes\Request;
+// use SAM\Classes\Role;
 
 // use App\Classes\Mail;
 use Illuminate\Database\Capsule\Manager as Capsule; 
 class IndexController extends BaseController
-
 {
+
+	// public function __construct()
+	// {
+	// 	echo User::all();exit;
+	// }
 	public function showHome()
 	{
 		$token = CSRFToken::_token();
 		$sliders = Capsule::table('sliders')->get();
 		// $sliders = Slider::all();
 		// var_dump($slider); exit;
-		
+	
 		$deals = Product::where('deal', 1)->inRandomOrder()->limit(8)->get();
 		$populars = Product::where('popular', 1)->inRandomOrder()->limit(8)->get();		
 
@@ -57,14 +62,10 @@ class IndexController extends BaseController
 		// var_dump($products);exit;
 
 		// return _view('hot_deal', compact('token', 'products','links'));
+
 		return _view('hot_deal', compact('token', 'products'));
 	}
-	public function showCustomer_register()
-	{
-		$token = CSRFToken::_token();
-
-		return _view('customer_register', compact('token'));
-	}
+	
 	public function showCheckout()
 	{
 		$token = CSRFToken::_token();
@@ -74,8 +75,11 @@ class IndexController extends BaseController
 	public function showDetails($id)
 	{
 		$token = CSRFToken::_token();
-		$product = Product::where('id', $id)->get();
-		return _view('details', compact('token', 'product'));
+		$product = Product::where('id', $id)->with(['subcategory', 'category'])->get();
+		$product = $product[0];
+		$category = $product['category']; 
+		// var_dump($category->id);exit;
+		return _view('details', compact('token', 'product', 'category'));
 	}
 
 
@@ -83,15 +87,18 @@ class IndexController extends BaseController
 
 	public function dealProducts()
 	{
-		echo "in IndexController::dealProducts"; exit;
+		$products = Product::where('deal', 1)->skip(0)->take(2)->get();
+
+		echo json_encode(['deals' => $products, 'count' => count($products)]);
 	}
 	public function popularProducts()
 	{
 		$products = Product::where('popular',1)->inRandomOrder()->limit(8)->get();
-
-		echo json_encode(['popular' => $products, 'count' =>count($products)]);
+		echo json_encode(['populars' => $products, 'count' => count($products)]);
 	}
 
+
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	public function getProducts()
 	{
 		$products = Product::where('featured', 0)->skip(0)->take(2)->get();

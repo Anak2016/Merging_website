@@ -1,4 +1,6 @@
 {
     "/js/all.js": "/js/all.js",
-    "/resources/assets/all.css": "/resources/assets/all.css"
+    "/resources/assets/all.css": "/resources/assets/all.css",
+    "/SAM_public/resources/assets/all.css": "/SAM_public/resources/assets/all.css",
+    "/SAM_public/js/all.js": "/SAM_public/js/all.js"
 }

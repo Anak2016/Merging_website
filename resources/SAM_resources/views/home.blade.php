@@ -138,8 +138,7 @@
     </div>
 </div>
 
-<div id="root">
-    
+<div class="display-products" data-token="{{$token}}"  id="root">
     <div id="hot"><!-- hot start-->
         <div class="box"><!-- box start-->
             <div class="container"><!--container start-->
@@ -151,88 +150,92 @@
     </div>
     <!--Today's Deal product start-->
     <div id="content" class="container"><!-- container start-->
-        <div class="row"><!--row start-->
-            @foreach($deals as $deal)
-            <div class='col-md-4 col-sm-6 single'>
+        <div v-if="countDeals > 0" class="row"><!--row start-->
+            <div class='col-md-4 col-sm-6 single' v-cloak v-for="dealProduct in dealProducts">
                 <div class='product'>
-                    <a href='details/{{$deal->id}}'>
-                        <img src='{{$deal->image_path1}}' class='img-responsive'>
+                    <a :href="'/sam_public/details/' + dealProduct.id">
+                        <img :src='dealProduct.image_path1' class='img-responsive'>
                     </a>
 
                     <div class='text'>
-                        <h3><a href='details/{{$deal->id}}'>{{$deal->name}}</a> </h3>
-                        <p class='price'>${{$deal->price}}</p>
+                        <h3>
+                            <a :href="'/sam_public/details/' + dealProduct.id">
+                                @{{stringLimit(dealProduct.name, 18)}}
+                            </a> 
+                        </h3>
+                        <p class='price'>$ @{{dealProduct.price}}</p>
                         <p class='buttons'>
-                            <a href='details/{{$deal->id}}' class='btn btn-default'>View Details</a>
-                            <a href='details/{{$deal->id}}' class='btn btn-primary'>
+                            <a :href="'/sam_public/details/' + dealProduct.id" class='btn btn-default'>View Details</a>
+                            <a  v-if="dealProduct.quantity > 0" :href="'/sam_public/details/' + dealProduct.id" @click.prevent="addToCart(dealProduct.id)" class='btn btn-primary'>
                                 <i class='fa fa-shopping-cart'></i> Add to Cart
                             </a>
+                            <a v-else class='btn btn-danger'disabled>
+                              Out of stock
+                          </a>
+                      </p>
+                  </div>
 
-                        </p>
-                    </div>
+              </div>
 
-                </div>
-
-            </div>
-            @endforeach
-
-        </div>
+          </div>
+      </div>
+      <div v-else>
+        <h1>No Deal Item</h1>
     </div>
+</div>
 
-    <div id="hot"><!-- hot start-->
-        <div class="box"><!-- box start-->
-            <div class="container"><!--container start-->
-                <div class="col-md-12"><!--col-md-12 start -->
-                    <h2>Popular Product</h2>
-                </div>
+<div id="hot"><!-- hot start-->
+    <div class="box"><!-- box start-->
+        <div class="container"><!--container start-->
+            <div class="col-md-12"><!--col-md-12 start -->
+                <h2>Popular Product</h2>
             </div>
-        </div>
-    </div>
-
-    {{-- auto generate form DB by illuminate --}}
-    <!--Popular Product start here -->
-    <div id="content" class="container"><!-- container start-->
-        <div class="row"><!--row start-->
-            <!-- first product start here-->
-
-            @foreach($populars as $popular)
-            <div class="col-sm-4 col-sm-6 single"><!--col-sm-4 col-sm-6 single start-->
-                <div class="product"><!--product start-->
-                    <a href="details/{{$popular->id}}">
-                        <img src="{{$popular->image_path1}}" class="img-responsive">
-                    </a>
-                    <div class="text"><!-- text start-->
-                        <h3><a href="details/{{$popular->id}}">{{$popular->name}}</a></h3>
-                        <p class="price">${{$popular->price}}</p>
-                        <p class="price">Quantity: {{$popular->quantity}}</p>
-                        <p  class="button">
-                            {{-- send post route to cartController --}}
-                            <a href="#" class="btn btn-default"> View Details</a>
-                            <a href="#" class="btn btn-primary">
-                                <i class="fa fa-shopping-cart">Add to cart</i>
-                            </a>
-                        </p>
-                        {{-- differnce of product and popular --}}
-                        {{-- <p v-if="product.quantity > 0" @click.prevent="addToCart(product.id)" class="button">
-                            <a href="details.php" class="btn btn-default"> View Details</a>
-                            <a href="details.php" class="btn btn-primary">
-                                <i class="fa fa-shopping-cart">Add to cart</i>
-                            </a>
-                        </p> --}}
-                        {{-- <p v-else class="button">
-                            <a href="details.php" class="btn btn-default"> View Details</a>
-                            <a href="details.php" class="btn btn-primary">
-                                <i class="fa fa-shopping-cart">Add to cart</i>
-                            </a>
-                        </p> --}}
-                    </div>
-
-                </div>
-            </div>
-            @endforeach
-
         </div>
     </div>
 </div>
+
+{{-- auto generate form DB by illuminate --}}
+<!--Popular Product start here -->
+<div id="content" class="container"><!-- container start-->
+    <div class="row"><!--row start-->
+        <!-- first product start here-->
+        <div v-if="countPopulars > 0" >
+            <div class="col-sm-4 col-sm-6 single" v-cloak v-for="popularProduct in popularProducts"><!--col-sm-4 col-sm-6 single start-->
+                <div class="product"><!--product start-->
+                    <a :href="'/sam_public/details/' + popularProduct.id">
+                        <img :src="popularProduct.image_path1" class="img-responsive">
+                    </a>
+                    <div class="text"><!-- text start-->
+                        <h3>
+                            <a :href="'details/' + popularProduct.id">
+                                @{{stringLimit(popularProduct.name, 18)}}
+                            </a>
+                        </h3>
+                        <p class="price">$ @{{popularProduct.price}}</p>
+                        <p class="price">Quantity: @{{popularProduct.quantity}}</p>
+                        <p  class="button">
+                            <p class="button">
+                                <a :href="'/sam_public/details/' + popularProduct.id" class="btn btn-default"> View Details</a>
+                                <a v-if="popularProduct.quantity > 0" :href="'/sam_public/details/' + popularProduct.id" @click.prevent="addToCart(popularProduct.id)" class="btn btn-primary">
+                                    <i class="fa fa-shopping-cart">Add to cart</i>
+                                </a>
+                                <a v-else class='btn btn-primary' disabled>
+                                  Out of stock
+                              </a>
+                          </p>
+                      </p>
+                  </div>
+
+              </div>
+          </div>
+      </div>
+      <div v-else>
+        No Popular Item
+    </div>
+</div>
+</div>
+</div>
+
+
 @stop
 

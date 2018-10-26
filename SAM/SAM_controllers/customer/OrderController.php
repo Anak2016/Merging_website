@@ -6,6 +6,7 @@ use SAM\Models\SubCategory;
 use SAM\Models\Category;
 use SAM\Models\Order;
 use SAM\Models\OrderDetail;
+use SAM\Models\User;
 
 use SAM\Classes\CSRFToken;
 use SAM\Classes\Request;
@@ -22,14 +23,18 @@ class OrderController extends BaseController
 	public $table_name = "orders";
 	public $links;
 	public $orders;
+	public $user;
 
 	public function __construct()
 	{		
 		// if(!Role::middleware('user') || !Role::middleware('admin')){
 		// 	Redirect::to('/login');
 		// }
-		
-		$total = Order::all()->count();
+		$this->user = User::where('username', Session::get('SESSION_USER_NAME'))->get();
+		// var_dump($this->user); exit;
+		$this->user = $this->user['0']['id'];
+
+		$total = Order::where('user_id', $this->user)->count();
 		list($this->orders , $this->links) = _paginate(3, $total, $this->table_name, new Order);
 	}
 	public function show()
@@ -38,8 +43,12 @@ class OrderController extends BaseController
 		// $orders = Order::all();
 		$orders = $this->orders;
 		$links = $this->links;
+		$buyer_id = $this->user;
+		// var_dump($orders[0]['user_id']); exit;
 		// var_dump($orders); exit;
-		return _view('customers/products/order', compact('token', 'orders', 'links'));
+		// var_dump($buyer_id); exit;
+		// var_dump(Session::get('SESSION_USER_NAME'));exit;
+		return _view('customers/products/order', compact('token', 'orders', 'links', 'buyer_id'));
 	}
 }
 ?>

@@ -11,7 +11,7 @@
 				<h2 class="text-center">Create Account</h2>
 				@include('includes.message')
 
-				<form action="/sam_public/sam_public/admin/users/create" method="post">
+				<form action="/sam_public/admin/users/create" method="post">
 
 					<input type="text" name="fullname" placeholder="Fullname"
 					value="{{\SAM\Classes\Request::old('post', 'fullname')}}">

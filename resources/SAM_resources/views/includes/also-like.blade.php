@@ -10,7 +10,7 @@
     <div class="center-responsive col-md-3 col-sm-6"><!--center-responsive col-md-3 col-sm-6 start -->
         <div class="product same-height"><!--product same-height start-->
             <a href="details">
-                <img src="product_images/product_demo.jpg" class="img-responsive">
+                <img src="/sam_public/images/product_images/product_demo.jpg" class="img-responsive">
             </a>
 
             <div class="text"><!-- text start -->
@@ -19,12 +19,12 @@
             </div>
 
         </div>
-    </div>
+    </div>  
     <!-- product 2-->
     <div class="center-responsive col-md-3 col-sm-6"><!--center-responsive col-md-3 col-sm-6 start -->
         <div class="product same-height"><!--product same-height start-->
             <a href="details">
-                <img src="product_images/product_demo.jpg" class="img-responsive">
+                <img src="/sam_public/images/product_images/product_demo.jpg" class="img-responsive">
             </a>
 
             <div class="text"><!-- text start -->
@@ -38,11 +38,11 @@
     <div class="center-responsive col-md-3 col-sm-6"><!--center-responsive col-md-3 col-sm-6 start -->
         <div class="product same-height"><!--product same-height start-->
             <a href="details">
-                <img src="product_images/product_demo.jpg" class="img-responsive">
+                <img src="/sam_public/images/product_images/product_demo.jpg" class="img-responsive">
             </a>
 
             <div class="text"><!-- text start -->
-                <h3><a href="details">Product Details3</a></h3>
+                <h3><a href="/sam_public/details/{{$product->id}}">Product Details3</a></h3>
                 <p class="price">$50</p>
             </div>
 

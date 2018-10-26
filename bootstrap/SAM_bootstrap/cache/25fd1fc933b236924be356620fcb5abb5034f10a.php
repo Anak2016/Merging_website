@@ -1,12 +1,3 @@
-
-<?php
-	use SAM\Classes\Role;
-	if(!Role::middleware('user') || !Role::middleware('user')){
-		echo "MISSING VALIDATING ROLE";
-	}else{
-		echo "MISSING VALIDATING ROLE";
-	}
-?>
 <div class="panel panel-default sidebar-menu"><!-- panel panel-default sidebar-menu-->
 	<div class="panel-heading"><!--panel-heading -->
 		<center>
@@ -29,7 +20,7 @@
 			<li><a href="/sam_public/customer/change_password"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Change Password</a></li>
 			<li><a href="/sam_public/customer/delete"><i class="a fa-trash-o" aria-hidden="true"></i>&nbsp; Delete Account</a></li>
 			<li><a href="/sam_public/customer/payments"><i class="fa fa-plus fa-fw" aria-hidden="true"></i>&nbsp; Payments</a></li>
-			<li><a href="#"><i class="fa fa-sign-out fa-fw" aria-hidden="true"></i>&nbsp; Logout</a></li>
+			<li><a href="/sam_public/logout"><i class="fa fa-sign-out fa-fw" aria-hidden="true"></i>&nbsp; Logout</a></li>
 		</ul>
 	</div>
 

@@ -9,9 +9,9 @@ class OrderDetail extends Model
 	use SoftDeletes;
 	public $timestamps = true;
 	// vars to be inserted to
-	protected $fillable = ['user_id', 'order_no'];
+	protected $fillable = ['user_id', 'product_id', 'unit-price', 'quantity', 'total', 'status', 'order_no'];
+	// protected $fillable = ['user_id', 'product_id', 'unit-price', 'quantity', 'total', 'statu_no'];
 	protected $dates = ['deleted_at'];
-
 }
 
 ?>

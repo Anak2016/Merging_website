@@ -110,7 +110,7 @@ class UserController extends BaseController
 				User::where('id',$id)->update(['role'=> $request->role]);
 				// var_dump($request);exit;
 				Session::add('success','User is updated');
-				Redirect::to('/admin/users');
+				Redirect::to('/sam_public/admin/users');
 				exit;
 
 			}else{
@@ -131,7 +131,7 @@ class UserController extends BaseController
 				User::destroy($id);
 
 				Session::add('success','User Deleted');
-				Redirect::to('/admin/users');
+				Redirect::to('/sam_public/admin/users');
 			}
 			throw new \Exception('Token mismatch');
 		}

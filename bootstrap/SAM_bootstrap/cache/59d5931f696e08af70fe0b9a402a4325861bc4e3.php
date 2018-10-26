@@ -1,3 +1,5 @@
+<?php $__env->startSection('title', 'ChangePassword'); ?>
+<?php $__env->startSection('data-page-id', 'auth'); ?>
 <?php $__env->startSection('select'); ?>
 
 <h1 align="center">Change Password</h1>

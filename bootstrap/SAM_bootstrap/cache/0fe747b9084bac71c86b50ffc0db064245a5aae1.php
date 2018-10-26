@@ -24,11 +24,11 @@
 				</form>
 			</div>
 			<div class="small-12 medium-5 float-left cell">
-				<form action="/sam_public/admin/product/categories" method="post">
+				<form action="/sam_public/sam_public/admin/product/categories" method="post">
 					<div class="input-group">
 						<input type="text" class="input-group-field" name="name" placeholder="Search by name">
 
-						<input type="hidden" name="token" value="<?php echo e(\App\Classes\CSRFToken::_token()); ?>">
+						<input type="hidden" name="token" value="<?php echo e(\SAM\Classes\CSRFToken::_token()); ?>">
 
 						<div class="input-group-button">
 							<input type="submit" class="button" value="Create">
@@ -74,8 +74,8 @@
 						data-tooltip aria-haspopup="true" class="has-tip top"
 						data-disable-hover="false" tabindex="1"
 						title="Delete Category">
-						<form method="POST" action="/sam_public/admin/product/categories/<?php echo e($category['id']); ?>/delete" class="delete-item">
-							<input type="hidden" name="token" value="<?php echo e(\App\Classes\CSRFToken::_token()); ?>">
+						<form method="POST" action="/sam_public/sam_public/admin/product/categories/<?php echo e($category['id']); ?>/delete" class="delete-item">
+							<input type="hidden" name="token" value="<?php echo e(\SAM\Classes\CSRFToken::_token()); ?>">
 							<button type="submit"><i class="fa fa-times delete"></i></button>
 						</form>
 					</span>
@@ -93,13 +93,13 @@
 									<input type="submit" class="button update-category" 
 									id ="<?php echo e($category['id']); ?>" 
 									name="token" 
-									data-token="<?php echo e(\App\Classes\CSRFToken::_token()); ?>"
+									data-token="<?php echo e(\SAM\Classes\CSRFToken::_token()); ?>"
 									value="Update">
 								</div>
 							</div>
 						</form>
 
-						<a href="/sam_public/admin/product/categories" class="close-button" aria-label="Close modal" type="button">
+						<a href="/sam_public/sam_public/admin/product/categories" class="close-button" aria-label="Close modal" type="button">
 							<span aria-hidden="true">&times;</span>
 						</a>
 					</div>
@@ -119,13 +119,13 @@
 									<input type="submit" class="button add-subcategory" 
 									id ="<?php echo e($category['id']); ?>" 
 									name="token" 
-									data-token="<?php echo e(\App\Classes\CSRFToken::_token()); ?>"
+									data-token="<?php echo e(\SAM\Classes\CSRFToken::_token()); ?>"
 									value="Create">
 								</div>
 							</div>
 						</form>
 
-						<a href="/sam_public/admin/product/categories" class="close-button" aria-label="Close modal" type="button">
+						<a href="/sam_public/sam_public/admin/product/categories" class="close-button" aria-label="Close modal" type="button">
 							<span aria-hidden="true">&times;</span>
 						</a>
 					</div>
@@ -181,8 +181,8 @@
 						data-tooltip aria-haspopup="true" class="has-tip top"
 						data-disable-hover="false" tabindex="1"
 						title="Delete Subcategory">
-						<form method="POST" action="/sam_public/admin/product/subcategory/<?php echo e($subcategory['id']); ?>/delete" class="delete-item">
-							<input type="hidden" name="token" value="<?php echo e(\App\Classes\CSRFToken::_token()); ?>">
+						<form method="POST" action="/sam_public/sam_public/admin/product/subcategory/<?php echo e($subcategory['id']); ?>/delete" class="delete-item">
+							<input type="hidden" name="token" value="<?php echo e(\SAM\Classes\CSRFToken::_token()); ?>">
 							<button type="submit"><i class="fa fa-times delete"></i></button>
 						</form>
 					</span>
@@ -197,7 +197,7 @@
 
 								<label>Change Category
 									<select id="item-category-<?php echo e($subcategory['category_id']); ?>">
-										<?php $__currentLoopData = \App\Models\Category::all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+										<?php $__currentLoopData = \SAM\Models\Category::all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 										<?php if($category->id == $subcategory['category_id']): ?>
 										<option selected="selected" value="<?php echo e($category->id); ?>">
 											<?php echo e($category->name); ?>
@@ -215,13 +215,13 @@
 									id ="<?php echo e($subcategory['id']); ?>" 
 									data-category-id="<?php echo e($subcategory['category_id']); ?>"
 									data-test = "<?php echo e($subcategory['category_id']); ?>"
-									data-token="<?php echo e(\App\Classes\CSRFToken::_token()); ?>"
+									data-token="<?php echo e(\SAM\Classes\CSRFToken::_token()); ?>"
 									value="Update">
 								</div>
 							</div>
 						</form>
 
-						<a href="/sam_public/admin/product/categories" class="close-button" aria-label="Close modal" type="button">
+						<a href="/sam_public/sam_public/admin/product/categories" class="close-button" aria-label="Close modal" type="button">
 							<span aria-hidden="true">&times;</span>
 						</a>
 					</div>

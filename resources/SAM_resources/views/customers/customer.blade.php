@@ -13,7 +13,7 @@ then check route --}}
 @section('data-page-id', 'customer')
 
 @section('content')
-<div id="content"><!--content start -->
+<div id="content" style="padding-top: 150px;"><!--content start -->
     <div class="container"><!--container start-->
         <div class="col-md-12"><!--col-md-12 start-->
             <ul class="breadcrumb"><!--breadcrumb start -->

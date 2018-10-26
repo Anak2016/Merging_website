@@ -27,12 +27,13 @@
 								<td><?php echo e($order['added']); ?></td>
 
 								<td width="70" class="text-right">
+									
 
 									
 									<span data-tooltip aria-haspopup="true" class="has-tip top"
 									data-disable-hover="false" tabindex="1"
 									title="order details">Edit
-									<a href="/admin/orders/<?php echo e($order['order_no']); ?>"><i class="fa fa-edit"></i></a>
+									<a href="/sam_public/sam_public/admin/orders/<?php echo e($order['order_no']); ?>"><i class="fa fa-edit"></i></a>
 								</span>
 
 								
@@ -40,8 +41,8 @@
 								data-tooltip aria-haspopup="true" class="has-tip top"
 								data-disable-hover="false" tabindex="1"
 								title="Delete Order">
-								<form method="POST" action="/admin/orders/<?php echo e($order['id']); ?>/delete" class="delete-item" >
-									<input type="hidden" name="token" value="<?php echo e(\App\Classes\CSRFToken::_token()); ?>">
+								<form method="POST" action="/sam_public/sam_public/admin/orders/<?php echo e($order['id']); ?>/delete" class="delete-item" >
+									<input type="hidden" name="token" value="<?php echo e(\SAM\Classes\CSRFToken::_token()); ?>">
 									<button type="submit"><i class="fa fa-times delete"></i></button>
 								</form>
 							</td>

@@ -2,7 +2,6 @@
 	'use strict';
 
 	ACMESTORE.homeslider.homePageProducts = function(){
-		console.log("before runing Vue");
 		var app = new Vue({
 			el:'#root',
 			data: {
@@ -51,7 +50,7 @@
 			},
 			created: function(){
 				// console.log("before runing Vue");
-				console.log("firstsafasdfa");
+				console.log("in Anak Vue.js");
 				this.getFeaturedProducts(); 
 			},
 			mounted: function(){ //after Vue finsihed loaded.

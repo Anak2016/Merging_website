@@ -1,5 +1,5 @@
 <?php $__env->startSection('title', 'login'); ?>
-<?php $__env->startSection('data-page-id', 'login'); ?>
+<?php $__env->startSection('data-page-id', 'auth'); ?>
 
 <?php $__env->startSection('content'); ?>
 
@@ -8,16 +8,16 @@
         <div class="col-md-12"><!--col-md-12 start-->
             <ul class="breadcrumb"><!--breadcrumb start -->
                 <li>
-                    <a href="index.php">Home</a>
+                    <a href="/sam_public/">Home</a>
                 </li>
                 <li>
-                    Hot's Deal
+                    login
                 </li>
             </ul>
         </div> <!--col-md-12 end-->
-
+        
         <div class="col-md-3"><!-- col-md-3-->
-            <?php echo $__env->make('includes/product-sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>;
+            <?php echo $__env->make('includes.product-sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>;
         </div>
         <div class="col-md-9">
             <div class="box"><!--box -->
@@ -27,8 +27,8 @@
                         <p class="/sam_public/lead">Already our Customer? Please login to your account.</p>
                     </center>
                     <div class="row"><!--row start -->
-                        MISSING PHP VALIDATION HERE
-                        <form action="__DIR__/../checkout.php" method="post"><!--form start -->
+                        <?php echo $__env->make('includes.message', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <form action="/sam_public/login" method="post"><!--form start -->
                             <div class="form-group"><!--form-group start -->
                                 <label>Username:</label>
                                 <input type="text" class="form-control" name="username" required>
@@ -43,6 +43,7 @@
                                 </label>
                             </div>
                             <div class="text-center"><!--text-center start -->
+                                <input type="hidden" name="token" value="<?php echo e(\SAM\Classes\CSRFToken::_token()); ?>">
                                 <button name="loginBtn" value="Login" class="btn btn-primary">
                                     <i class="fa fa-sign-in"></i> Login
                                 </button>
@@ -50,7 +51,7 @@
                         </form>
                     </div>
                     <center><!--center start -->
-                        <a href="/sam_public/customer_register.php">
+                        <a href="/sam_public/customer_register">
                             <h3>New customer? Please register here.</h3>
                         </a>
                     </center>

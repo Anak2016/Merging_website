@@ -137,8 +137,7 @@
     </div>
 </div>
 
-<div id="root">
-    
+<div class="display-products" data-token="<?php echo e($token); ?>"  id="root">
     <div id="hot"><!-- hot start-->
         <div class="box"><!-- box start-->
             <div class="container"><!--container start-->
@@ -150,79 +149,93 @@
     </div>
     <!--Today's Deal product start-->
     <div id="content" class="container"><!-- container start-->
-        <div class="row"><!--row start-->
-            <?php $__currentLoopData = $deals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $deal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <div class='col-md-4 col-sm-6 single'>
+        <div v-if="countDeals > 0" class="row"><!--row start-->
+            <div class='col-md-4 col-sm-6 single' v-cloak v-for="dealProduct in dealProducts">
                 <div class='product'>
-                    <a href='details/<?php echo e($deal->id); ?>'>
-                        <img src='<?php echo e($deal->image_path1); ?>' class='img-responsive'>
+                    <a :href="'/sam_public/details/' + dealProduct.id">
+                        <img :src='dealProduct.image_path1' class='img-responsive'>
                     </a>
 
                     <div class='text'>
-                        <h3><a href='details/<?php echo e($deal->id); ?>'><?php echo e($deal->name); ?></a> </h3>
-                        <p class='price'>$<?php echo e($deal->price); ?></p>
+                        <h3>
+                            <a :href="'/sam_public/details/' + dealProduct.id">
+                                {{stringLimit(dealProduct.name, 18)}}
+                            </a> 
+                        </h3>
+                        <p class='price'>$ {{dealProduct.price}}</p>
                         <p class='buttons'>
-                            <a href='details/<?php echo e($deal->id); ?>' class='btn btn-default'>View Details</a>
-                            <a href='details/<?php echo e($deal->id); ?>' class='btn btn-primary'>
+                            <a :href="'/sam_public/details/' + dealProduct.id" class='btn btn-default'>View Details</a>
+                            <a  v-if="dealProduct.quantity > 0" :href="'/sam_public/details/' + dealProduct.id" @click.prevent="addToCart(dealProduct.id)" class='btn btn-primary'>
                                 <i class='fa fa-shopping-cart'></i> Add to Cart
                             </a>
+                            <a v-else class='btn btn-danger'disabled>
+                              Out of stock
+                          </a>
+                      </p>
+                  </div>
 
-                        </p>
-                    </div>
+              </div>
 
-                </div>
-
-            </div>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-        </div>
+          </div>
+      </div>
+      <div v-else>
+        <h1>No Deal Item</h1>
     </div>
+</div>
 
-    <div id="hot"><!-- hot start-->
-        <div class="box"><!-- box start-->
-            <div class="container"><!--container start-->
-                <div class="col-md-12"><!--col-md-12 start -->
-                    <h2>Popular Product</h2>
-                </div>
+<div id="hot"><!-- hot start-->
+    <div class="box"><!-- box start-->
+        <div class="container"><!--container start-->
+            <div class="col-md-12"><!--col-md-12 start -->
+                <h2>Popular Product</h2>
             </div>
-        </div>
-    </div>
-
-    
-    <!--Popular Product start here -->
-    <div id="content" class="container"><!-- container start-->
-        <div class="row"><!--row start-->
-            <!-- first product start here-->
-
-            <?php $__currentLoopData = $populars; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $popular): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <div class="col-sm-4 col-sm-6 single"><!--col-sm-4 col-sm-6 single start-->
-                <div class="product"><!--product start-->
-                    <a href="details/<?php echo e($popular->id); ?>">
-                        <img src="<?php echo e($popular->image_path1); ?>" class="img-responsive">
-                    </a>
-                    <div class="text"><!-- text start-->
-                        <h3><a href="details/<?php echo e($popular->id); ?>"><?php echo e($popular->name); ?></a></h3>
-                        <p class="price">$<?php echo e($popular->price); ?></p>
-                        <p class="price">Quantity: <?php echo e($popular->quantity); ?></p>
-                        <p  class="button">
-                            
-                            <a href="#" class="btn btn-default"> View Details</a>
-                            <a href="#" class="btn btn-primary">
-                                <i class="fa fa-shopping-cart">Add to cart</i>
-                            </a>
-                        </p>
-                        
-                        
-                        
-                    </div>
-
-                </div>
-            </div>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
         </div>
     </div>
 </div>
+
+
+<!--Popular Product start here -->
+<div id="content" class="container"><!-- container start-->
+    <div class="row"><!--row start-->
+        <!-- first product start here-->
+        <div v-if="countPopulars > 0" >
+            <div class="col-sm-4 col-sm-6 single" v-cloak v-for="popularProduct in popularProducts"><!--col-sm-4 col-sm-6 single start-->
+                <div class="product"><!--product start-->
+                    <a :href="'/sam_public/details/' + popularProduct.id">
+                        <img :src="popularProduct.image_path1" class="img-responsive">
+                    </a>
+                    <div class="text"><!-- text start-->
+                        <h3>
+                            <a :href="'details/' + popularProduct.id">
+                                {{stringLimit(popularProduct.name, 18)}}
+                            </a>
+                        </h3>
+                        <p class="price">$ {{popularProduct.price}}</p>
+                        <p class="price">Quantity: {{popularProduct.quantity}}</p>
+                        <p  class="button">
+                            <p class="button">
+                                <a :href="'/sam_public/details/' + popularProduct.id" class="btn btn-default"> View Details</a>
+                                <a v-if="popularProduct.quantity > 0" :href="'/sam_public/details/' + popularProduct.id" @click.prevent="addToCart(popularProduct.id)" class="btn btn-primary">
+                                    <i class="fa fa-shopping-cart">Add to cart</i>
+                                </a>
+                                <a v-else class='btn btn-primary' disabled>
+                                  Out of stock
+                              </a>
+                          </p>
+                      </p>
+                  </div>
+
+              </div>
+          </div>
+      </div>
+      <div v-else>
+        No Popular Item
+    </div>
+</div>
+</div>
+</div>
+
+
 <?php $__env->stopSection(); ?>
 
 

@@ -41,7 +41,7 @@ class OrderController extends BaseController
 		// $orders = Order::all();
 		$orders = $this->orders;
 		$links = $this->links;
-		// var_dump($orders); exit;
+		// var_dump($links); exit;
 		return _view('admin/products/order', compact('token', 'orders', 'links'));
 	}
 	public function showEditForm($order_no)	//id = order_no

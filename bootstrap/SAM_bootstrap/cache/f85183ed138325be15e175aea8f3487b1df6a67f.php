@@ -26,7 +26,7 @@
 
 	<?php echo $__env->yieldContent('body'); ?>
     
-    <script src="/js/all.js"></script>
+    <script src="/sam_public/js/all.js"></script>
     <?php echo $__env->yieldContent('stripe-checkout'); ?>
 </body>
 </html>

@@ -10,7 +10,7 @@ class User extends Model
 	use SoftDeletes;
 	public $timestamps = true;
 	// vars to be inserted to
-	protected $fillable = ['username', 'fullname', 'email', 'password', 'role', 'address', 'city', 'state', 'country', 'zipcode', 'phone', 'image_path', 'ip' ];
+	protected $fillable = ['id','username', 'fullname', 'email', 'password', 'role', 'address', 'city', 'state', 'country', 'zipcode', 'phone', 'image_path', 'ip' ];
 	protected $dates = ['deleted_at'];
 
 	//note: foriegn key is ClassName_id which is products_id in this case

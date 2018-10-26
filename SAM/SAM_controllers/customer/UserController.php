@@ -19,7 +19,7 @@ use SAM\Controllers\BaseController;
 class UserController extends BaseController
 {
 	public $table_name = 'users';
-	public $users;
+	public $users = "";
 	public $links;
 
 	public function __construct()
@@ -27,31 +27,41 @@ class UserController extends BaseController
 		// if(!Role::middleware('admin')|| !Role::middleware('admin')){
 		// 	Redirect::to('/login');
 		// }
-		
-		$this->users = User::all();
-		$total = User::all()->count();
 
-		list($this->users, $this->links) = _paginate(3, $total, $this->table_name, new User);
-		// var_dump($this->links); exit;
+		if(null !== Session::has('SESSION_USER_NAME'))
+		{
+			$this->user = User::where('username', Session::get('SESSION_USER_NAME'))->get();
+			// var_dump($this->user); exit;
+			$this->user = $this->user['0'];
+		}
+
 	}
 
 	public function showWishList()
 	{
 		// $user = User::where('id', 1)->with(['product'])->first();	
-
-		$users = $this->users;
-		$links = $this->links;
-		return _view('customers/account/wish-list');
+		$token = CSRFToken::_token();
+		return _view('customers/account/wish-list', compact('token'));
 	}
 
 	public function edit()
 	{
-		// $user = User::where('id', 1)->with(['product'])->first();	
+		if(Request::has('post')){
+			$request = Request::get('post');
+			var_dump(Product::destroy($id)); exit;
 
-		$users = $this->users;
-		$links = $this->links;
-		echo "successfully edit";exit;
-		// show message on the page
+			if(CSRFToken::verifyCSRFToken($request->token)){
+				//update record if ture
+				// User::destroy($id);
+				var_dump("in UserController::edit");exit;
+
+
+				Session::add('success','Successfully Edit');
+				Redirect::to('/sam_public/');
+			}
+			throw new \Exception('Token mismatch');
+		}
+		return null;
 	}
 
 	public function showEditForm()
@@ -59,25 +69,40 @@ class UserController extends BaseController
 		// demo user
 		// must be changed so that current user will get displayed
 		// $user = User::where('id', 1)->get();
-		$user = User::all()->first();	
-		// var_dump($user->username);exit;
+		// $token = CSRFToken::_token();
+		$user = $this->user;
+		// var_dump($user['username']);exit;
 		return _view('customers/account/edit-account', compact('user'));
 	}
 	public function showChangePassword()
 	{
-		// $user = User::where('id', 1)->with(['product'])->first();	
-
-		$users = $this->users;
-		$links = $this->links;
 		return _view('customers/account/change-pass');
 	}
+
 	public function showDelete()
 	{
-		// $user = User::where('id', 1)->with(['product'])->first();	
+		// $token = CSRFToken::_token();
 
-		$users = $this->users;
-		$links = $this->links;
 		return _view('customers/account/delete-account');
+	}
+
+	public function delete()
+	{
+		// var_dump("UserCotroller::showDelete"); exit;
+		if(Request::has('post')){
+			$request = Request::get('post');
+			// var_dump($this->user['id']);exit;
+			if(CSRFToken::verifyCSRFToken($request->token)){ 
+				//update record if ture
+				// var_dump($this->user['id']);exit;
+				User::destroy($this->user['id']); //hwo do i destroy id?
+				// var_dump(User::where('id', $this->user['id'])->get());exit;
+				// Session::add('success','User Deleted');
+				Redirect::to('/sam_public/');
+			}
+			throw new \Exception('Token mismatch');
+		}
+		return null;
 	}
 }
 

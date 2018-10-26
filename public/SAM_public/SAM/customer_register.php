@@ -315,11 +315,11 @@ if(isset($_POST['Register']))
 
                     <div class="form-group"><!--form-group start -->
                         <label>First Name:</label>
-                        <input type="text" class="form-control" name="c_firstname"  required>
+                        <input type="text" class="form-control" name="firstname"  required>
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>Last Name:</label>
-                        <input type="text" class="form-control" name="c_lastname" required>
+                        <input type="text" class="form-control" name="lastname" required>
                     </div>
 
                     <div class="form-group"><!--form-group start -->
@@ -338,31 +338,31 @@ if(isset($_POST['Register']))
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>Address:</label>
-                        <input type="text" class="form-control" name="c_address" required>
+                        <input type="text" class="form-control" name="address" required>
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>City:</label>
-                        <input type="text" class="form-control" name="c_city" required>
+                        <input type="text" class="form-control" name="city" required>
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>State:</label>
-                        <input type="text" class="form-control" name="c_state" required>
+                        <input type="text" class="form-control" name="state" required>
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>Country:</label>
-                        <input type="text" class="form-control" name="c_country" required>
+                        <input type="text" class="form-control" name="country" required>
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>Zip code:</label>
-                        <input type="text" class="form-control" name="c_zipcode" required>
+                        <input type="text" class="form-control" name="zipcode" required>
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>Phone No:</label>
-                        <input type="text" class="form-control" name="c_phone" required>
+                        <input type="text" class="form-control" name="phone" required>
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>Your Image:(.jpg/.gif/.bmp/.png Only)</label>
-                        <input type="file" class="form-control" name="c_image" >
+                        <input type="file" class="form-control" name="image" >
                     </div>
 
                     <div class="text-center"><!--text-center -->

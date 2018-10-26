@@ -20,6 +20,12 @@ class Order extends Model
 		//same as (Product::class, 'category_id', 'id' )// where category_id is foriegn key of category and id is primary key of product 
 		return $this->hasMany(Product::class); //same as specify 'App\Models\Product'
 	}
+	public function users()
+	{
+		return $this->belongsTo(User::class);
+		// return $this->belongsToMany(User::class);
+		// return $this->hasMany(User::class);
+	}
 
 	public function transform($data)
 	{

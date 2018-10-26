@@ -2,21 +2,20 @@
 
 
 	<?php if(isset($errors) && count($errors) || \SAM\Classes\Session::has('error') ): ?>
-		<div class="callout alert" data-closable>
-			<?php if(\SAM\Classes\Session::has('error')): ?>
-				<?php echo e(\SAM\Classes\Session::flash('error')); ?>
+		<div>
+			<ul style='color: red;'>
+				<?php if(\SAM\Classes\Session::has('error')): ?>
+					<?php echo e(\SAM\Classes\Session::flash('error')); ?>
 
-			<?php else: ?>
-				<?php $__currentLoopData = $errors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error_array): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-					<?php $__currentLoopData = $error_array; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error_item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-						<?php echo e($error_item); ?><br/> 
+				<?php else: ?>
+					<?php $__currentLoopData = $errors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error_array): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+						<?php $__currentLoopData = $error_array; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error_item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+							<li><?php echo e($error_item); ?> </li>
+						<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 					<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-				<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-			<?php endif; ?>
-
-			<button class="close-button" arial-label="Dismiss Message" type="button" data-close>
-				<span arial-hidden="true">&times;</span>
-			</button>
+				<?php endif; ?>
+			</ul>
+			
 		</div>
 	<?php endif; ?>
 

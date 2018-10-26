@@ -70,6 +70,7 @@ function show_errors($form_error_array)
     //loop through error array and display all item in a list
     foreach($form_error_array as $the_error)
     {
+        // .= is Concatenation assignment
         $errors .= "<li> {$the_error} </li>";
     }
     $errors .= "</ul></p>";

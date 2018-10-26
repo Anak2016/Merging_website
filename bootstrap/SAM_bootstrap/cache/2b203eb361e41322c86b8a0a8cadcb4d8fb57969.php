@@ -1,5 +1,5 @@
 <?php $__env->startSection('title', 'shop'); ?>
-<?php $__env->startSection('data-page-id', 'shop'); ?>
+<?php $__env->startSection('data-page-id', 'product'); ?>
 
 <?php $__env->startSection('content'); ?>
 
@@ -27,8 +27,7 @@
                     <h1>Shop</h1>
                     <p>TEST detail for shop</p>
                 </div>
-            </div>
-            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class='col-md-4 col-sm-6' center-responsive>
                     <div class='product'>
                         <a href='details/<?php echo e($product->id); ?>'>
@@ -49,7 +48,8 @@
 
                     </div>
                 </div>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
             
         </div>
 

@@ -14,7 +14,6 @@
 
 		switch($("body").data("page-id")){ //data-page-id is unique to every page 
 			case 'home':
-				console.log("here")
 				ACMESTORE.homeslider.initCarousel();
 				ACMESTORE.homeslider.homePageProducts();
 				break;
@@ -23,8 +22,6 @@
 				break;
 			case "groupby":
 				ACMESTORE.groupby.subCategory();
-				// ACMESTORE.homeslider.homePageProducts();
-				// ACMESTORE.groupping.Category();
 				break;
 			case 'cart':
 				ACMESTORE.product.cart();
@@ -44,6 +41,13 @@
 				ACMESTORE.admin.update();
 				ACMESTORE.admin.delete();
 				ACMESTORE.admin.create();
+				break;
+			case 'customer':
+				
+			// nothing just yet
+				break;
+			case 'customerProduct':
+			// nothing just yet
 				break;
 			default:
 				//do nothing

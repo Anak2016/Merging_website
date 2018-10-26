@@ -49,7 +49,8 @@ class Product extends Model
 				'image_path3' => $item->image_path3,
 				'deal' => $item->deal,
 				'popular' => $item->popular,
-				'keywords' => $item->keywords
+				'keywords' => $item->keywords,
+				'added' => $added->toFormattedDateString()
 			]);
 		}
 		

@@ -2,7 +2,7 @@
 <?php $__env->startSection('data-page-id', 'customer'); ?>
 
 <?php $__env->startSection('content'); ?>
-<div id="content"><!--content start -->
+<div id="content" style="padding-top: 150px;"><!--content start -->
     <div class="container"><!--container start-->
         <div class="col-md-12"><!--col-md-12 start-->
             <ul class="breadcrumb"><!--breadcrumb start -->

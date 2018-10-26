@@ -18,6 +18,7 @@
 				ACMESTORE.homeslider.homePageProducts();
 				break;
 			case 'product':
+				// show products details similar to one on the home page.
 				ACMESTORE.product.details();
 				break;
 			case "groupby":

@@ -10,7 +10,7 @@ $router->map( 'GET', '/sam_public/cart', 'SAM\Controllers\IndexController@showCa
 
 $router->map( 'GET', '/sam_public/hot_deal', 'SAM\Controllers\IndexController@showHot_deal', 'hot_deal' );
 
-$router->map( 'GET', '/sam_public/customer_register', 'SAM\Controllers\IndexController@showCustomer_register', 'customer_register' );
+// $router->map( 'GET', '/sam_public/customer_register', 'SAM\Controllers\IndexController@showCustomer_register', 'customer_register' );
 
 $router->map( 'GET', '/sam_public/checkout', 'SAM\Controllers\IndexController@showCheckout', 'checkout' );
 

@@ -12,7 +12,7 @@
 	
 	
 	<div class="column medium-11 float-left">	
-		<a href="/admin/products/create" class="button float-right">
+		<a href="/sam_public/sam_public/admin/products/create" class="button float-right">
 			<i class="fa fa-plus"></i> Add New Product
 		</a>
 	</div>
@@ -30,14 +30,15 @@
 						<?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 						<tr>
 							<td>
-								<img src="/<?php echo e($product['image_path']); ?>"  alt="<?php echo e($product['name']); ?>"
+								<img src="<?php echo e($product['image_path1']); ?>"  alt="<?php echo e($product['name']); ?>"
 								height="40" width="40">
 							</td>
 							<td><?php echo e($product['name']); ?></td>
 							<td><?php echo e($product['price']); ?></td>  
 							<td><?php echo e($product['quantity']); ?></td>
-							<td><?php echo e($product['category_name']); ?></td>
-							<td><?php echo e($product['sub_category_name']); ?></td>
+							<td><?php echo e($category['name']); ?></td>
+							<td><?php echo e($subCategory['name']); ?></td>
+							
 
 							
 							<td><?php echo e($product['added']); ?></td>
@@ -48,7 +49,7 @@
 								<span data-tooltip aria-haspopup="true" class="has-tip top"
 								data-disable-hover="false" tabindex="1"
 								title="Edit Product">Edit
-								<a href="/admin/products/<?php echo e($product['id']); ?>/edit"><i class="fa fa-edit"></i></a>
+								<a href="/sam_public/sam_public/admin/products/<?php echo e($product['id']); ?>/edit"><i class="fa fa-edit"></i></a>
 							</span>
 						</td>
 

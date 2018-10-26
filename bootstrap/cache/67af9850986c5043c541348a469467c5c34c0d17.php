@@ -2,7 +2,7 @@
 <?php $__env->startSection('data-page-id', 'cart'); ?>
 
 <?php $__env->startSection('stripe-checkout'); ?>
-	<script src="https://checkout.stripe.com/checkout.js"></script>
+<script src="https://checkout.stripe.com/checkout.js"></script>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -28,13 +28,13 @@
 						<tbody>
 							<tr v-for="item in items">
 								<td class="medium-text-center">
-									<a :href="'/product/'+item.id">
-										<img :src="'/'+item.image" alt="" height="60px" width="60px" alt="item.name">
+									<a :href="'/sam_public/product/'+item.id">
+										<img :src="item.image" alt="" height="60px" width="60px" alt="item.name">
 									</a>
 								</td>
 
 								<td>
-									<h5><a :href="'/product/'+item.id">{{item.name}}</a></h5>
+									<h5><a :href="'/sam_public/product/'+item.id">{{item.name}}</a></h5>
 									Status:
 									<span v-if="item.stock > 1" style="color: #00AA00;">In Stock</span>
 									<span v-else style="color: #ff0000;">Out of Stock</span>
@@ -52,7 +52,9 @@
 								<td>{{item.total}}</td> 
 								<td class='text-center'>	
 									<button @click="removeItem(item.index)">
+										
 										<i class="fa fa-times" aria-hidden="true"></i>
+										
 									</button>
 								</td>
 							</tr>

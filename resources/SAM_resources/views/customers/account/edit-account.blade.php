@@ -1,11 +1,12 @@
 @extends('customers.customer')
-
+@section('title', 'EditAccount')
+@section('data-page-id', 'auth')
 @section('select')
 
 
 <h1 align="center">Edit Your Account</h1>
 
-<form action="" method="post" enctype="/sam_public/customer/edit/{{$user['id']}}"><!--form start -->
+<form action="/sam_public/edit/{{$user['id']}}" method="post" enctype="/sam_public/customer/edit/{{$user['id']}}"><!--form start -->
     <div class="form-group"><!--form-group start -->
         <label>Email:</label>
         <input type="text" class="form-control" name="c_email" value="{{$user['email']}}" required>
@@ -44,6 +45,7 @@
     </div>
 
     <div class="text-center"><!--text-center -->
+        <input type="hidden" name="token" value="{{\SAM\Classes\CSRFToken::_token()}}">
         <button type="submit" name="update" class="btn btn-primary">
             <i class="fa fa-user-md"></i> Update Now
         </button>

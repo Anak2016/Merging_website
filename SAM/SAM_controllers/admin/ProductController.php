@@ -46,7 +46,10 @@ class ProductController extends BaseController
 
 		$products = $this->products;
 		$links = $this->links;
-		return _view('admin/products/inventory', compact("products", 'links'));
+		$category = $product['category'];
+		$subCategory = $product['subCategory'];  
+		// var_dump($subCategory['name']);exit;
+		return _view('admin/products/inventory', compact("products", 'links', 'category', 'subCategory'));
 	}
 
 	public function showEditProductForm($id)

@@ -18,17 +18,17 @@ call go-daddy
 ================================================
 to do
 
-:merge front end and back end
-	>find differences of orm and pdo then convert to one type or find way to work together
-	>differences
-		>bootstrap vs foundation
-			>>bootstrap
-		>orm vs pdo
-			>>
-		>mvc vs precedure
-			>>mvc
-		>dependencies differences
-			>>
+:main
+0.fix order_details, order, payment
+	>order order_details, payment don't create new row/data
+1.Cookie + ip to determine user_cart
+2.do paypal payment
+3. item in cart is not consistent. 
+	fix: maybe update page everytime user_cart is changed would fix
+		>>how can i make it consistent?
+		eg. 1. call directly from Session::user_cart
+		    2. call with Vue.js variable
+		    3. call with Php.blade variable
 
 :add created date and link
 	>what is model::transform for?

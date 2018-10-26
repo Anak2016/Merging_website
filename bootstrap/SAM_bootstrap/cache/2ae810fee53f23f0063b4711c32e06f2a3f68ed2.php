@@ -11,7 +11,7 @@
 	<?php echo $__env->make('includes.message', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 	
 	
-	<form method="post" action="/sam_public/admin/products/create" enctype="multipart/form-data">
+	<form method="post" action="/sam_public/sam_public/admin/products/create" enctype="multipart/form-data">
 		<div class="small-12 medium-11">
 			<div class="grid-x">
 				<div class="grid-x grid-margin-x grid-margin-y">

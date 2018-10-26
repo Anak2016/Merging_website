@@ -1,17 +1,17 @@
 <?php 
-$router->map( 'GET', '/product/[i:id]', 'App\Controllers\ProductController@show', 'product' );
-$router->map( 'GET', '/product-details/[i:id]', 'App\Controllers\ProductController@get', 'product_details');
+$router->map( 'GET', '/sam_public/product/[i:id]', 'SAM\Controllers\ProductController@show', 'product' );
+$router->map( 'GET', '/sam_public/product-details/[i:id]', 'SAM\Controllers\ProductController@get', 'product_details');
 
 
-$router->map( 'POST', '/cart', 'App\Controllers\CartController@addItem', 'add_item' );
-$router->map( 'GET', '/cart', 'App\Controllers\CartController@show', 'view_cart' );
-$router->map( 'GET', '/cart/items', 'App\Controllers\CartController@getCartItems', 'get_cart_items' );
+$router->map( 'GET', '/sam_public/cart', 'SAM\Controllers\CartController@show', 'view_cart' );
+$router->map( 'POST', '/sam_public/cart', 'SAM\Controllers\CartController@addItem', 'add_item' );
+$router->map( 'GET', '/sam_public/cart/items', 'SAM\Controllers\CartController@getCartItems', 'get_cart_items' );
 // $router->map( 'POST', '/cart/items', 'App\Controllers\CartController@getCartItems', 'get_cart_items' );
 
-$router->map( 'POST', '/cart/update-qty', 'App\Controllers\CartController@updateQuantity', 'update_cart_qty' );
-$router->map( 'POST', '/cart/remove-item', 'App\Controllers\CartController@removeItem', 'remove_cart_item' );
-$router->map( 'POST', '/cart/empty-cart', 'App\Controllers\CartController@emptyItem', 'empty_item' );
+$router->map( 'POST', '/sam_public/cart/update-qty', 'SAM\Controllers\CartController@updateQuantity', 'update_cart_qty' );
+$router->map( 'POST', '/sam_public/cart/remove-item', 'SAM\Controllers\CartController@removeItem', 'remove_cart_item' );
+$router->map( 'POST', '/sam_public/cart/empty-cart', 'SAM\Controllers\CartController@emptyItem', 'empty_item' );
 
-$router->map( 'POST', '/cart/payment', 'App\Controllers\CartController@checkout', 'handle_payment' );
+$router->map( 'POST', '/sam_public/cart/payment', 'SAM\Controllers\CartController@checkout', 'handle_payment' );
 
 ?>

@@ -32,14 +32,15 @@
 						@foreach($products as $product)
 						<tr>
 							<td>
-								<img src="/{{$product['image_path']}}"  alt="{{$product['name']}}"
+								<img src="{{$product['image_path1']}}"  alt="{{$product['name']}}"
 								height="40" width="40">
 							</td>
 							<td>{{$product['name']}}</td>
 							<td>{{$product['price']}}</td>  
 							<td>{{$product['quantity']}}</td>
-							<td>{{$product['category_name']}}</td>
-							<td>{{$product['sub_category_name']}}</td>
+							<td>{{$category['name']}}</td>
+							<td>{{$subCategory['name']}}</td>
+							{{-- <td>{{$product['sub_category_name']}}</td> --}}
 
 							{{-- Eloquent return date as carbon object so it can call carbon obj's method--}}
 							<td>{{$product['added']}}</td>

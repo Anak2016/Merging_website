@@ -32,7 +32,7 @@ function _make($filename, $data)
 
 	//include template
 
-	include(__DIR__.'/../../resources/views/emails/'.$filename.'.php');
+	include(__DIR__.'/../../../resources/SAM_resources/views/emails/'.$filename.'.php');
 	//get content of the file
 	$content = ob_get_contents();
 
@@ -79,7 +79,7 @@ function _isAuthenticated()
 
 function _user()
 {
-	if(isAuthenticated()){
+	if(_isAuthenticated()){
 		return User::findOrFail(Session::get('SESSION_USER_ID'));
 	}
 	return false;
@@ -102,6 +102,15 @@ function _convertMoneyToCents($value)
 /*This function is dynamic now, it can be use to any table for check the duplicate username
  *
  */
+function getRealUserIp(){
+    switch(true){
+        case (!empty($_SERVER['HTTP_X_REAL_IP'])) : return $_SERVER['HTTP_X_REAL_IP'];
+        case (!empty($_SERVER['HTTP_CLIENT_IP'])) : return $_SERVER['HTTP_CLIENT_IP'];
+        case (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) : return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        default : return $_SERVER['REMOTE_ADDR'];
+    }
+}
+
 function checkDuplicateEntries($table,$column_name,$value,$db_connect)
 {
 

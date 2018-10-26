@@ -14,9 +14,9 @@ class ProductController extends BaseController
 {
 	public function __construct()
 	{		
-		// if(!Role::middleware('user')){
-		// 	Redirect::to('/login');
-		// }
+		if(!Role::middleware('user')){
+			Redirect::to('login');
+		}
 	}
 	public function show($id)
 	{

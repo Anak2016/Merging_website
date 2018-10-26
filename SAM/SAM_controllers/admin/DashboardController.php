@@ -21,7 +21,7 @@ class DashboardController extends BaseController
 	public function __construct()
 	{		
 		if(!Role::middleware('admin')){
-			Redirect::to('/login');
+			Redirect::to('login');
 		}
 	}
 

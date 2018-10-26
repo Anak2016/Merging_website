@@ -260,14 +260,14 @@ class CartController extends BaseController
 			];
 			(new Mail())->send($data);
 
-		}catch(\Exception $ex){
-			echo $ex->getMessage();
+			}catch(\Exception $ex){
+				echo $ex->getMessage();
+			}
+			Cart::clear();
+			echo json_encode([
+				'success' => 'Thank you, we have received your payment and now processing your order.'
+			]);
 		}
-		Cart::clear();
-		echo json_encode([
-			'success' => 'Thank you, we have received your payment and now processing your order.'
-		]);
 	}
-}
 }
 ?>

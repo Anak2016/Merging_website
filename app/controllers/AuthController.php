@@ -95,6 +95,7 @@ class AuthController extends BaseController
 				$user = User::where('username', $request->username)->orWhere('email', $request->username)->first();
 
 				if($user){
+					// var_dump($user->password);exit;
 					if(!password_verify($request->password, $user->password)){
 						Session::add('error', 'Incorrect credentials');
 						return view('login');

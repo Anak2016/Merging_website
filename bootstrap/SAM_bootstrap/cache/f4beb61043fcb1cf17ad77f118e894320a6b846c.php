@@ -1,5 +1,5 @@
 <?php $__env->startSection('title', 'hot_deal'); ?>
-<?php $__env->startSection('data-page-id', 'hot_deal'); ?>
+<?php $__env->startSection('data-page-id', 'product'); ?>
 
 <?php $__env->startSection('content'); ?>
 

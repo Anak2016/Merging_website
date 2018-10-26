@@ -1,5 +1,6 @@
 @extends('customers.customer')
-
+@section('title', 'ChangePassword')
+@section('data-page-id', 'auth')
 @section('select')
 
 <h1 align="center">Change Password</h1>

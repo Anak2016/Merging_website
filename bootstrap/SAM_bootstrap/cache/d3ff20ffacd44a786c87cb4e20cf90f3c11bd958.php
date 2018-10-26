@@ -1,10 +1,12 @@
+<?php $__env->startSection('title', 'OrderPage'); ?>
+<?php $__env->startSection('data-page-id', 'customerProduct'); ?>
 <?php $__env->startSection('select'); ?>
 
 <center><!--center start -->
 	<h1>My Orders</h1>
 	<p class="leqad">Your order on one place</p>
 	<p class="text-muted">
-		If you have any questions, please feel free to <a href="contact">contact us,</a> our customer service center is working for you 24/7.
+		If you have any questions, please feel free to <a href="/sam_public/contact">contact us,</a> our customer service center is working for you 24/7.
 	</p>
 </center>
 
@@ -21,14 +23,19 @@
 		</thead>
 		<tbody> <!--tbody start -->
 			<?php $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-			<tr>
-				<td><?php echo e($order['order_no']); ?></td>
-				<td><?php echo e($order['added']); ?></td>
 
-			</tr>
+				<?php if($buyer_id == $order['user_id']): ?>
+					<tr>
+						
+						<td><?php echo e($order['order_no']); ?></td>
+						<td><?php echo e($order['added']); ?></td>
+					</tr>
+				<?php endif; ?>
 			<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 		</tbody>
 	</table>
+	<?php echo $links; ?>
+
 	
 	<?php else: ?>
 	<h2>this order does not exist.</h2>

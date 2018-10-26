@@ -1,24 +1,23 @@
 <?php
-
     $categories = SAM\Models\Category::all();
-
 ?>
+
 <div id="footer"><!--footer start-->
     <div class="container"><!-- container start-->
         <div class="row"><!--row start-->
             <div class="col-md-3 col-sm-6"><!--col-md-3 col-sm-6 start-->
                 <h4>Pages</h4>
                 <ul><!-- ul start-->
-                    <li><a href="cart">Shopping Cart</a></li>
-                    <li><a href="contact">Contact Us</a> </li>
-                    <li><a href="shop">Shop</a> </li>
+                    <li><a href="/sam_public/cart">Shopping Cart</a></li>
+                    <li><a href="/sam_public/contact">Contact Us</a> </li>
+                    <li><a href="/sam_public/shop">Shop</a> </li>
                     <li><a href="/sam_public/customer">My Account</a> </li>
                 </ul>
                 <hr>
                 <h4>User Section</h4>
                 <ul><!-- ul start-->
-                    <li><a href="checkout">Login</a> </li>
-                    <li><a href="customer_register">Register</a> </li>
+                    <li><a href="/sam_public/login">Login</a> </li>
+                    <li><a href="/sam_public/customer_register">Register</a> </li>
                 </ul>
                 <hr class="hidden-md hidden-lg hidden-sm">
             </div>
@@ -47,7 +46,7 @@
                     <strong>Name Lastname</strong>
                 </p>
 
-                <a href="contact">Go to Contact us page</a>
+                <a href="/sam_public/contact">Go to Contact us page</a>
 
                 <hr class="hidden-md hidden-lg">
             </div>

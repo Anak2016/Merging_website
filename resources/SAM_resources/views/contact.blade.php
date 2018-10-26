@@ -12,7 +12,7 @@
         <div class="col-md-12"><!--col-md-12 start-->
             <ul class="breadcrumb"><!--breadcrumb start -->
                 <li>
-                    <a href="index.php">Home</a>
+                    <a href="/sam_public/">Home</a>
                 </li>
                 <li>
                     Contact Us

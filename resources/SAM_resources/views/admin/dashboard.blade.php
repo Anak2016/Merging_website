@@ -22,7 +22,7 @@
 					</div>
 					<div class="card-divider">
 						<div class="grid-x cell">
-							<a href="/sam_public/orders">Order Details</a>
+							<a href="/sam_public/admin/orders">Order Details</a>
 						</div>
 					</div>
 				</div>
@@ -62,7 +62,7 @@
 					</div>
 					<div class="card-divider">
 						<div class="grid-x cell">
-							<a href="/sam_public/payments">Payment Details</a>
+							<a href="/sam_public/admin/payments">Payment Details</a>
 						</div>
 					</div>
 				</div>
@@ -82,7 +82,7 @@
 					</div>
 					<div class="card-divider">
 						<div class="grid-x cell">
-							<a href="/sam_public/register">Register Users</a>
+							<a href="/sam_public/admin/users/create">Register Users</a>
 						</div>
 					</div>
 				</div>

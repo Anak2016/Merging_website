@@ -29,50 +29,52 @@
 				SAM\Classes\Session::add('cartTotal', $cartTotal); // late will use this session to charge 
 		}
 ?>
-
+<div class="navbar navbar-default navbar-fixed-top" id="navbar">
 <!-- navebar     -->
-<div id="top"> <!-- top start-->
-	<div class="container"> <!-- container start-->
-		<div class="col-md-6 offer">
-			@if(!_isAuthenticated())
-			<a href="#" class="btn btn-success btn-sm">
-				Welcome Guest!!
-			</a>
-			@else
-			<a href="#" class="btn btn-success btn-sm">
-				Username 
-			</a>
-			@endif
-			<a href="#">Shopping Cart Total Price: {{$cartTotal}} and Total Item {{$totalQuantity}}</a>
-		</div>
-		<div class="col-md-6"> <!--Header start-->
-			<ul class="menu">
-				<li>
-					{{--  customer_register--}}
-					<a href="/sam_public/customer_register" >Register</a>
-				</li>
-				<li>
-					{{-- customer/my_account --}}
-					<a href="#">My Account</a>
-				</li>
-				<li>
-					<a href="/sam_public/cart">Go to Cart</a>
-				</li>
-				<li>
-					@if(!_isAuthenticated())
-					<a href="/sam_public/login">Login</a>
-					@else
-					<a href="#">Logout</a>
-					@endif                        
-				</li>
+	<div id="top"> <!-- top start-->
+		<div class="container"> <!-- container start-->
+			<div class="col-md-6 offer">
+				@if(!_isAuthenticated())
+				<a href="/sam_public/login" class="btn btn-success btn-sm">
+					Welcome Guest!!
+				</a>
+				@else
+				<a href="/sam_public/customer" class="btn btn-success btn-sm">
+					{{SAM\Classes\Session::get('SESSION_USER_NAME')}}
+				</a>
+				@endif
+				<a href="/sam_public/cart">Shopping Cart Total Price: {{$cartTotal}} and Total Item {{$totalQuantity}}</a>
+			</div>
+			<div class="col-md-6"> <!--Header start-->
+				<ul class="menu">
+					<li>
+						{{--  customer_register--}}
+						<a href="/sam_public/customer_register" >Register</a>
+					</li>
+					@if(_isAuthenticated())
+						<li>
+							{{-- customer/my_account --}}
+							<a href="#">My Account</a>
+						</li>
+					@endif
+					<li>
+						<a href="/sam_public/cart">Go to Cart</a>
+					</li>
+					<li>
+						@if(!_isAuthenticated())
+						<a href="/sam_public/login">Login</a>
+						@else
+						<a href="/sam_public/logout">Logout</a>
+						@endif                        
+					</li>
 
-			</ul>
-		</div>
+				</ul>
+			</div>
 
+		</div>
 	</div>
-</div>
 
-<div class="navbar navbar-default" id="navbar"> <!--navbar navbar-default start-->
+ <!--navbar navbar-default start-->
 	<div class="container"> <!--container start-->
 		<div class="navbar-header"><!-- navbar-header Start-->
 			<a class="navbar-brand home" href="/sam_public"><!--navbar-brand home start-->
@@ -104,7 +106,12 @@
 					</li>
 					<li>
 						{{-- customer/my_account.php --}}
-						<a href ="/sam_public/customer">My Account</a>
+						@if(!_isAuthenticated())
+							<a href ="/sam_public/login">My Account</a>
+						@else
+							<a href ="/sam_public/customer">My Account</a>
+							
+						@endif
 					</li>
 					<li>
 						<a href="/sam_public/cart">Shopping Cart</a>
@@ -145,6 +152,7 @@
 
 		</div>
 	</div>
+
 </div>
 
 <!--End of Navigator bar-->

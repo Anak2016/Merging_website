@@ -29,50 +29,53 @@
 				SAM\Classes\Session::add('cartTotal', $cartTotal); // late will use this session to charge 
 		}
 ?>
-
+<div class="navbar navbar-default navbar-fixed-top" id="navbar">
 <!-- navebar     -->
-<div id="top"> <!-- top start-->
-	<div class="container"> <!-- container start-->
-		<div class="col-md-6 offer">
-			<?php if(!_isAuthenticated()): ?>
-			<a href="#" class="btn btn-success btn-sm">
-				Welcome Guest!!
-			</a>
-			<?php else: ?>
-			<a href="#" class="btn btn-success btn-sm">
-				Username 
-			</a>
-			<?php endif; ?>
-			<a href="#">Shopping Cart Total Price: <?php echo e($cartTotal); ?> and Total Item <?php echo e($totalQuantity); ?></a>
-		</div>
-		<div class="col-md-6"> <!--Header start-->
-			<ul class="menu">
-				<li>
-					
-					<a href="/sam_public/customer_register" >Register</a>
-				</li>
-				<li>
-					
-					<a href="#">My Account</a>
-				</li>
-				<li>
-					<a href="/sam_public/cart">Go to Cart</a>
-				</li>
-				<li>
-					<?php if(!_isAuthenticated()): ?>
-					<a href="/sam_public/login">Login</a>
-					<?php else: ?>
-					<a href="#">Logout</a>
-					<?php endif; ?>                        
-				</li>
+	<div id="top"> <!-- top start-->
+		<div class="container"> <!-- container start-->
+			<div class="col-md-6 offer">
+				<?php if(!_isAuthenticated()): ?>
+				<a href="/sam_public/login" class="btn btn-success btn-sm">
+					Welcome Guest!!
+				</a>
+				<?php else: ?>
+				<a href="/sam_public/customer" class="btn btn-success btn-sm">
+					<?php echo e(SAM\Classes\Session::get('SESSION_USER_NAME')); ?>
 
-			</ul>
-		</div>
+				</a>
+				<?php endif; ?>
+				<a href="/sam_public/cart">Shopping Cart Total Price: <?php echo e($cartTotal); ?> and Total Item <?php echo e($totalQuantity); ?></a>
+			</div>
+			<div class="col-md-6"> <!--Header start-->
+				<ul class="menu">
+					<li>
+						
+						<a href="/sam_public/customer_register" >Register</a>
+					</li>
+					<?php if(_isAuthenticated()): ?>
+						<li>
+							
+							<a href="#">My Account</a>
+						</li>
+					<?php endif; ?>
+					<li>
+						<a href="/sam_public/cart">Go to Cart</a>
+					</li>
+					<li>
+						<?php if(!_isAuthenticated()): ?>
+						<a href="/sam_public/login">Login</a>
+						<?php else: ?>
+						<a href="/sam_public/logout">Logout</a>
+						<?php endif; ?>                        
+					</li>
 
+				</ul>
+			</div>
+
+		</div>
 	</div>
-</div>
 
-<div class="navbar navbar-default" id="navbar"> <!--navbar navbar-default start-->
+ <!--navbar navbar-default start-->
 	<div class="container"> <!--container start-->
 		<div class="navbar-header"><!-- navbar-header Start-->
 			<a class="navbar-brand home" href="/sam_public"><!--navbar-brand home start-->
@@ -104,7 +107,12 @@
 					</li>
 					<li>
 						
-						<a href ="/sam_public/customer">My Account</a>
+						<?php if(!_isAuthenticated()): ?>
+							<a href ="/sam_public/login">My Account</a>
+						<?php else: ?>
+							<a href ="/sam_public/customer">My Account</a>
+							
+						<?php endif; ?>
 					</li>
 					<li>
 						<a href="/sam_public/cart">Shopping Cart</a>
@@ -145,6 +153,7 @@
 
 		</div>
 	</div>
+
 </div>
 
 <!--End of Navigator bar-->

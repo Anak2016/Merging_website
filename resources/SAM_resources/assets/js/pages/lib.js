@@ -3,9 +3,12 @@
 
 	ACMESTORE.module= {
 		truncateString: function limit(string, value){
+			// console.log(string.length > value);
 			if(string.length > value){
+				// console.log(string.substring(0, value) + '...');
 				return string.substring(0, value) + '...';
 			}else{
+				// console.log(string);
 				return string;
 			}
 		},
@@ -14,15 +17,16 @@
 		addItemToCart: function(id, callback){
 			var token = $('.display-products').data('token');
 
+			console.log(token);
+
 			if(token == null || !token){
 				token = $('.product').data('token');
 			}
-
 			//data that will be post to PHP script
 			var postData = $.param({product_id: id, token: token});
 
 			//send post request URL which call CartController::addItem (send status message of the request, succeed vs failure) 
-			axios.post('/cart', postData).then(function(response){
+			axios.post('/sam_public/cart', postData).then(function(response){
 				console.log(response.data);	
 				callback(response.data.success);
 			})

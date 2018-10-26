@@ -1,50 +1,7 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Nordize
- * Date: 9/29/2018
- * Time: 6:50 PM
- */
-
-if(isset($_GET['pro_id']))
-{
-    $product_id = $_GET['pro_id'];
-    $get_product = "SELECT * FROM products WHERE product_id = '$product_id'";
-
-    $run_product = $db_connect->query($get_product);
-
-    $row_product = $run_product->fetch(PDO::FETCH_BOTH);
-    
-    // var_dump($row_product);exit;
-
-    $p_cat_id = $row_product['p_cat_id'];
-    $pro_title = $row_product['product_title'];
-    $pro_price = $row_product['product_price'];
-    $pro_desc = $row_product['product_desc'];
-    $pro_img1 = $row_product['product_img1'];
-    $pro_img2 = $row_product['product_img2'];
-    $pro_img3 = $row_product['product_img3'];
-
-    $get_p_cat = "SELECT * FROM product_categories WHERE p_cat_id = '$p_cat_id'";
-
-    $run_p_cat = $db_connect->query($get_p_cat);
-
-    $row_p_cat = $run_p_cat->fetch(PDO::FETCH_BOTH);
-
-    $p_cat_title = $row_p_cat['p_cat_title'];
-
-
-}
-
-
-$average = 0; //use for rating
-
-
-?>
 
 @extends('layouts.app')
 @section('title', 'details')
-@section('data-page-id', 'details')
+@section('data-page-id', 'product')
 
 @section('content')
 
@@ -57,27 +14,30 @@ $average = 0; //use for rating
         <div class="col-md-12"><!--col-md-12 -->
             <ul class="breadcrumb"><!--breadcrumb start -->
                 <li>
-                    <a href="index.php">Home</a>
+                    <a href="/sam_public/">Home</a>
                 </li>
                 <li>
-                    <a href="shop.php">Shop</a>
+                    <a href="/sam_public/shop">Shop</a>
                 </li>
                 <li>
-                    <a href="shop.php?p_cat=<?php echo $p_cat_id; ?>"> <?php echo $p_cat_title; ?></a>
+                    <a href="#">{{$category->name}}</a>
                 </li>
                 <li>
-                    <?php echo $pro_title; ?>
+                    {{$product['name']}}
+
                 </li>
             </ul>
         </div>
 
         <div class="col-md-3"><!-- col-md-3-->
-            <?php include ("includes/sidebar.php");?>
+            @include('includes.product-sidebar')
         </div>
 
         <!-- begin of product details -->
         <div class="col-md-9"><!--col-md-9 -->
+           
             <div class="row" id="productMain"><!--row start -->
+
                 <div class="col-sm-6"><!--col-sm-6 -->
                     <div id="mainImage"><!--mainImage start-->
                         <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -89,17 +49,17 @@ $average = 0; //use for rating
                             <div class="carousel-inner"><!-- carousel-inner-->
                                 <div class="item active">
                                     <center>
-                                        <img src="admin_area/product_images/<?php echo $pro_img1; ?>" class="img-responsive">
+                                        <img src="{{$product['image_path1']}}" class="img-responsive">
                                     </center>
                                 </div>
                                 <div class="item">
                                     <center>
-                                        <img src="admin_area/product_images/<?php echo $pro_img2; ?>" class="img-responsive">
+                                        <img src="{{$product['image_path2']}}" class="img-responsive">
                                     </center>
                                 </div>
                                 <div class="item">
                                     <center>
-                                        <img src="admin_area/product_images/<?php echo $pro_img3; ?>" class="img-responsive">
+                                        <img src="{{$product['image_path3']}}" class="img-responsive">
                                     </center>
                                 </div>
 
@@ -120,13 +80,14 @@ $average = 0; //use for rating
                         </div>
                     </div> <!--mainImage end-->
                 </div>   <!--col-sm-6 end -->
-
+                
+                
                 <div class="col-sm-6"><!--col-sm-6 start -->
                     <div class="box"><!--box start -->
-                        <h1 class="text-center"><?php echo $pro_title; ?></h1>
+                        <h1 class="text-center">{{$product['name']}}</h1>
 
 
-                        <form action="details.php?add_cart=<?php echo$product_id; ?>" method="post" class="form-horizontal"><!--form-horizontal -->
+                        <form action="details/{{$product['id']}}" method="post" class="form-horizontal"><!--form-horizontal -->
                             <div class="form-group"><!--form-group -->
                                 <label class="col-md-5 control-label">Product Quantity</label>
 
@@ -157,7 +118,7 @@ $average = 0; //use for rating
                                     </select>
                                 </div>
                             </div>
-                            <p class="price">$<?php echo $pro_price; ?></p>
+                            <p class="price">$ {{$product['price']}}</p>
                             <p class="text-center buttons"><!--text-center buttons start -->
                                 <button class="btn btn-primary" type="submit">
                                     <i class="fa fa-shopping-cart"></i>Add to Cart
@@ -171,25 +132,22 @@ $average = 0; //use for rating
                     <div class="row" id="thumbs"><!--row start -->
                         <div class="col-xs-4"><!-- col-xs-4-->
                             <a href="#" class="thumb">
-                                <img src="admin_area/product_images/<?php echo $pro_img1; ?>" class="img-responsive">
+                                <img src="{{$product['image_path1']}}" class="img-responsive">
 
                             </a>
                         </div>
                         <div class="col-xs-4"><!-- col-xs-4-->
                             <a href="#" class="thumb">
-                                <img src="admin_area/product_images/<?php echo $pro_img2; ?>" class="img-responsive">
+                                <img src="{{$product['image_path2']}}" class="img-responsive">
 
                             </a>
                         </div>
                         <div class="col-xs-4"><!-- col-xs-4-->
                             <a href="#" class="thumb">
-                                <img src="admin_area/product_images/<?php echo $pro_img3; ?>" class="img-responsive">
-
+                                <img src="{{$product['image_path3']}}" class="img-responsive">
                             </a>
                         </div>
                     </div>
-
-
                 </div>
 
             </div> <!-- row Ends-->
@@ -197,7 +155,7 @@ $average = 0; //use for rating
             <div class="box" id="details"><!--box start -->
                 <p><!--p start-->
                     <h4>Product details</h4>
-                    <p><?php echo $pro_desc; ?></p>
+                    <p>{{$product['desc']}}</p>
                     <h4>Size</h4>
                     <ul>
                         <li>Small</li>
@@ -211,8 +169,9 @@ $average = 0; //use for rating
             </div>
 
 
-
-            <?php include ("includes/also_like.php")?>
+            {{-- redo also-like --}}
+            {{-- also-like should have page-id = home --}}
+            @include('includes.also-like')
 
 
 
@@ -223,7 +182,7 @@ $average = 0; //use for rating
                 <h4>Product Reviews</h4>
                 <p>Overall star of the product here</p>
                 <hr>
-                <?php include ('includes/product_review.php');?>
+                @include('includes.review')
 
             </div>
 

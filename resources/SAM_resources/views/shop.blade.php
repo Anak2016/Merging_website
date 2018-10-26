@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'shop')
-@section('data-page-id', 'shop')
+@section('data-page-id', 'product')
 
 @section('content')
 
@@ -28,8 +28,7 @@
                     <h1>Shop</h1>
                     <p>TEST detail for shop</p>
                 </div>
-            </div>
-            @foreach($products as $product)
+                @foreach($products as $product)
                 <div class='col-md-4 col-sm-6' center-responsive>
                     <div class='product'>
                         <a href='details/{{$product->id}}'>
@@ -50,7 +49,8 @@
 
                     </div>
                 </div>
-            @endforeach
+                @endforeach
+            </div>
             {{-- {!!$links!!} --}}
         </div>
 

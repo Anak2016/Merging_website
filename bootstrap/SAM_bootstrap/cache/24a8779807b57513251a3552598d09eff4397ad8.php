@@ -1,3 +1,5 @@
+<?php $__env->startSection('title', 'WishListPage'); ?>
+<?php $__env->startSection('data-page-id', 'customerProduct'); ?>
 <?php $__env->startSection('select'); ?>
 
 <h1>wish-list.php</h1>
