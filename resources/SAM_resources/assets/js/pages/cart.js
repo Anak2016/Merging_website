@@ -35,6 +35,7 @@
 			methods:{
 				displayItems: function(){
 					this.loading = true;
+
 					axios.all(
 					[
 						axios.get('/sam_public/cart/items')
@@ -53,6 +54,7 @@
 							app.loading = false;
 							app.authenticated = response.data.authenticated;
 							app.amountInCents = response.data.amountInCents;
+							console.log(app.items);
 						}
 					}));
 				},
@@ -91,6 +93,7 @@
 						amount: app.amountInCents,
 						zipCode:true
 					});
+					// redirect to Order Complete after payment has been made.
 				},
 				stringLimit: function(string, value){
 					// console.log(ACMESTORE.module.truncateString(string,value));

@@ -158,6 +158,7 @@ include ('functions/functions.php');
                     Cart
                 </li>
             </ul>
+             
         </div>
 
         <div class="col-md-9" id="cart"><!--col-md-9 start -->

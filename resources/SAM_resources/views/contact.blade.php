@@ -20,11 +20,7 @@
             </ul>
         </div> <!--col-md-12 end-->
 
-        <div class="col-md-3"><!-- col-md-3-->
-            @include("includes.product-sidebar")
-        </div>
-
-        <div class="col-md-9"><!--col-md-9 -->
+        <div class="col-md-12"><!--col-md-9 -->
             <div class="box"><!--box start -->
                 <div class="box-header"><!--box-header -->
                     <center><!--center start -->

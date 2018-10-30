@@ -22,6 +22,14 @@
                         Cart
                     </li>
                 </ul>
+                <div class ="crumb_body">
+                    <div class="breadcrumb_nav flat" >
+                        <a href="/sam_public/cart" class="active">Shopping Cart</a>
+                        <a href="/sam_public/checkout">Checkout Details</a>
+                        <a href="/sam_public/order-complete" >Order Complete</a>
+                        
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-9" id="cart"><!--col-md-9 start -->
@@ -170,10 +178,10 @@
                                     <td>$0.00</td>
                                 </tr>
                                 <tr>
-                                 <td>Tax</td>
-                                 <td>0.00</td>
-                             </tr>
-                             <tr class='total'>
+                                   <td>Tax</td>
+                                   <td>0.00</td>
+                               </tr>
+                               <tr class='total'>
                                 <td>Total</td>
                                 <th>${{cartTotal}}</th>
                             </tr>

@@ -12,7 +12,7 @@ $router->map( 'GET', '/sam_public/hot_deal', 'SAM\Controllers\IndexController@sh
 
 // $router->map( 'GET', '/sam_public/customer_register', 'SAM\Controllers\IndexController@showCustomer_register', 'customer_register' );
 
-$router->map( 'GET', '/sam_public/checkout', 'SAM\Controllers\IndexController@showCheckout', 'checkout' );
+
 
 $router->map( 'GET', '/sam_public/details/[i:id]', 'SAM\Controllers\IndexController@showDetails', 'details' );
 

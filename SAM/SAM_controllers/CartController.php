@@ -32,6 +32,20 @@ class CartController extends BaseController
 		return view('cart');
 	}
 
+	public function showCheckout()
+	{
+		$token = CSRFToken::_token();
+
+		return _view('checkout', compact('token'));
+	}
+
+	public function showOrderComplete()
+	{
+		$token = CSRFToken::_token();
+
+		return _view('order-complete', compact('token'));
+	}
+
 	public function addItem()
 	{
 		if(Request::has('post')){

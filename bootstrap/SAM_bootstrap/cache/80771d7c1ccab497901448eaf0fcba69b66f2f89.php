@@ -18,11 +18,7 @@
             </ul>
         </div> <!--col-md-12 end-->
 
-        <div class="col-md-3"><!-- col-md-3-->
-            <?php echo $__env->make("includes.product-sidebar", \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-        </div>
-
-        <div class="col-md-9"><!--col-md-9 -->
+        <div class="col-md-12"><!--col-md-9 -->
             <div class="box"><!--box start -->
                 <div class="box-header"><!--box-header -->
                     <center><!--center start -->

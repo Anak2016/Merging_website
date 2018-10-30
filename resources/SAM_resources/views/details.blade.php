@@ -29,12 +29,8 @@
             </ul>
         </div>
 
-        <div class="col-md-3"><!-- col-md-3-->
-            @include('includes.product-sidebar')
-        </div>
-
         <!-- begin of product details -->
-        <div class="col-md-9"><!--col-md-9 -->
+        <div class="col-md-12"><!--col-md-9 -->
 
             <div class="row" id="productMain"><!--row start -->
 

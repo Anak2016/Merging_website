@@ -76,12 +76,7 @@ class IndexController extends BaseController
 		return _view('hot_deal', compact('token', 'products'));
 	}
 	
-	public function showCheckout()
-	{
-		$token = CSRFToken::_token();
-
-		return _view('checkout', compact('token'));
-	}
+	
 	public function showDetails($id)
 	{
 		$token = CSRFToken::_token();
@@ -174,110 +169,193 @@ class IndexController extends BaseController
 	public function loadCheckedItems()
 	{
 		// $selected = [];
-		$count = 0;
+		
 		// $result = null;
 		if(isset($_POST['selectedManufacturers']) || isset($_POST['selectedCategories']) || isset($_POST['selectedSubCategories'])){
 
+			//ONLY MANUFACTURERS
 			if(isset($_POST['selectedManufacturers'])){	
 				$selectedManufacturers = $_POST['selectedManufacturers'];
-
 			// var_dump($selectedManufacturers);exit;
 				if(!empty($selectedManufacturers)){
+					$count = 0;
 					foreach($selectedManufacturers as $selectedManufacturer){
 					// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
 						$results[$count] = Product::where("manufacturer_id", $selectedManufacturer)->get();
 						$count = $count + 1;
 					// var_dump($products[0]->name);exit;	
 					}
-
 				}
 			}
-
+			//ONLY CATEGORY 
 			if(isset($_POST['selectedCategories'])){	
 				$selectedCategories = $_POST['selectedCategories'];
-			// var_dump("1");
+			// var_dump($selectedManufacturers);exit;
 				if(!empty($selectedCategories)){
-				// var_dump("2");
-					if(!isset($results)){
-					// var_dump("3");
-						$count = 0;
-						foreach($selectedCategories as $selectedCategory){
-						// var_dump($selectedCategory);
-							$results[$count] = Product::where("category_id", $selectedCategory)->get();
-							$count = $count + 1;
-						}
-					}else{
-					// var_dump("4");
-						foreach($selectedCategories as $selectedCategory){
-							// var_dump(count(array_unique((array) $results, SORT_REGULAR )));exit;
-							foreach($results as $result){
-								// var_dump($count);
-								$products = Product::where("category_id", $selectedCategory)->get();
-								// $products = $products; //product-id
-								$count1 = 0;
-								// var_dump((array) $result[0]); 
-								foreach($products as $product){
-									
-									// I can't get the logic right because I don't understand structure of the variable
-									// so I leave it right here
-									if(in_array($products, (array) $result[0]) ){
-										// var_dump($count1);
-										$results[$count] = $products[$count1];
-										$count = $count + 1;
-										$count1 = $count1 + 1;
-										// var_dump($count);
-									}
-									// var_dump($result[0]);
-									// var_dump((array) $result[0]);exit;
-									// var_dump(gettype($result[0]));exit;
-									// var_dump(count(array_unique((array) $result[0], SORT_REGULAR )));exit;
-								}
-							}
-						}
+					$count = 0;
+					foreach($selectedCategories as $selectedCategory){
+					// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
+						$results[$count] = Product::where("category_id", $selectedCategory)->get();
+						$count = $count + 1;
+					// var_dump($products[0]->name);exit;	
 					}
 				}
 			}
-
-			
+			//ONLY SUBCATEGORY
 			if(isset($_POST['selectedSubCategories'])){	
 				$selectedSubCategories = $_POST['selectedSubCategories'];
-			// var_dump("1");
+			// var_dump($selectedManufacturers);exit;
 				if(!empty($selectedSubCategories)){
-				// var_dump("2");
-					if(!isset($results)){
-					// var_dump("3");
-						$count = 0;
-						foreach($selectedSubCategories as $selectedSubCategory){
-						// var_dump($selectedCategory);
-							$results[$count] = Product::where("sub_category_id", $selectedSubCategory)->get();
-							$count = $count + 1;
-						}
-					}else{
-					// var_dump("4");
-						foreach($selectedSubCategories as $selectedSubCategory){
+					$count = 0;
+					foreach($selectedSubCategories as $selectedSubCategory){
 					// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
-				// var_dump($selectedCategory);exit;=
-							$count1 = 0;
-							foreach($results as $result){
-
-								$products = Product::where("sub_category_id", $selectedSubCategory)->get();
-							// $products = $products; //product-id
-								foreach($products as $product){
-
-									if(!in_array($products, (array) $result[0]) ){
-										$results[$count] = $products[$count1];
-										$count = $count + 1;
-										$count1 = $count1 + 1;
-									}
-								}
-							}
-						}
-				// var_dump($products[0]->name);exit;	
+						$results[$count] = Product::where("sub_category_id", $selectedSubCategory)->get();
+						$count = $count + 1;
+					// var_dump($products[0]->name);exit;	
 					}
 				}
 			}
+
+			//MANUFACTURER AND CATEGORY
+			if(isset($_POST['selectedManufacturers']) && isset($_POST['selectedCategories'])){	
+				$selectedManufacturers = $_POST['selectedManufacturers'];
+				$selectedCategories = $_POST['selectedCategories'];
+			// var_dump($selectedManufacturers);exit;
+				if( !empty($selectedManufacturers) && !empty($selectedCategories)){
+					$count = 0;
+					foreach($selectedManufacturers as $selectedManufacturer){
+						foreach($selectedCategories as $selectedCategory){
+						// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
+							$results[$count] = Product::where("manufacturer_id", $selectedManufacturer)->orWhere('category_id', $selectedCategory)->get();
+							$count = $count + 1;
+						}	
+					}
+				}		
+			}
+
+			//MANUFACTURER AND SUBCATEGORY
+			if(isset($_POST['selectedManufacturers']) && isset($_POST['selectedSubCategories'])){	
+				$selectedManufacturers = $_POST['selectedManufacturers'];
+				$selectedSubCategories = $_POST['selectedSubCategories'];
+			// var_dump($selectedManufacturers);exit;
+				if( !empty($selectedManufacturers) && !empty($selectedSubCategories)){
+					$count = 0;
+					foreach($selectedManufacturers as $selectedManufacturer){
+						foreach($selectedSubCategories as $selectedSubCategory){
+						// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
+							$results[$count] = Product::where("manufacturer_id", $selectedManufacturer)->orWhere('sub_category_id', $selectedSubCategory)->get();
+							$count = $count + 1;
+						}	
+					}
+				}		
+			}
+
+			//CATEGORY AND SUBCATEGORY
+			if(isset($_POST['selectedCategories']) && isset($_POST['selectedSubCategories'])){	
+				$selectedCategories = $_POST['selectedCategories'];
+				$selectedSubCategories = $_POST['selectedSubCategories'];
+			// var_dump($selectedManufacturers);exit;
+				if( !empty($selectedCategories ) && !empty($selectedSubCategories )){
+					$count = 0;
+					foreach($selectedCategories as $selectedCategory){
+						foreach($selectedSubCategories  as $selectedSubCategory){
+						// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
+							$results[$count] = Product::where("category_id", $selectedCategory)->orWhere('sub_category_id', $selectedSubCategory)->get();
+							$count = $count + 1;
+						}	
+					}
+				}		
+			}
+
+			//MANUFACTURER AND CATEGORY AND SUBCATEGORY
+			if(isset($_POST['selectedManufacturers']) && isset($_POST['selectedCategories']) && isset($_POST['selectedSubCategories'])){	
+				$selectedManufacturers = $_POST['selectedManufacturers'];
+				$selectedCategories = $_POST['selectedCategories'];
+				$selectedSubCategories = $_POST['selectedSubCategories'];
+			// var_dump($selectedManufacturers);exit;
+				if( !empty($selectedManufacturers) && !empty($selectedCategories) && !empty($selectedSubCategories)){
+					$count = 0;
+					foreach($selectedManufacturers as $selectedManufacturer){
+						foreach($selectedCategories as $selectedCategory){
+							foreach($selectedSubCategories as $selectedSubCategory){
+								// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
+								$results[$count] = Product::where("manufacturer_id", $selectedManufacturer)->orWhere('category_id', $selectedCategory)->orWhere('sub_category_id', $selectedSubCategory)->get();
+								$count = $count + 1;
+							}
+						}	
+					}
+					
+				}		
+			}
+			// if(isset($_POST['selectedCategories'])){	
+			// 	$selectedCategories = $_POST['selectedCategories'];
+			// 	if(!empty($selectedCategories)){
+			// 		if(!isset($results)){
+			// 			$count = 0;
+			// 			foreach($selectedCategories as $selectedCategory){
+			// 				$results[$count] = Product::where("category_id", $selectedCategory)->get();
+			// 				$count = $count + 1;
+			// 			}
+			// 		}else{
+			// 			foreach($selectedCategories as $selectedCategory){
+			// 				foreach($results as $result){
+			// 					$products = Product::where("category_id", $selectedCategory)->get();
+			// 					$count1 = 0;
+			// 					foreach($products as $product){
+
+			// 						// I can't get the logic right because I don't understand structure of the variable
+			// 						// so I leave it right here
+			// 						if(in_array($products, (array) $result[0]) ){
+			// 							$results[$count] = $products[$count1];
+			// 							$count = $count + 1;
+			// 							$count1 = $count1 + 1;
+			// 						}
+			// 					}
+			// 				}
+			// 			}
+			// 		}
+			// 	}
+			// }
+
 			
-			// var_dump(count(array_unique((array) $result[0]))); exit;
+			// if(isset($_POST['selectedSubCategories'])){	
+			// 	$selectedSubCategories = $_POST['selectedSubCategories'];
+			// // var_dump("1");
+			// 	if(!empty($selectedSubCategories)){
+			// 	// var_dump("2");
+			// 		if(!isset($results)){
+			// 		// var_dump("3");
+			// 			$count = 0;
+			// 			foreach($selectedSubCategories as $selectedSubCategory){
+			// 			// var_dump($selectedCategory);
+			// 				$results[$count] = Product::where("sub_category_id", $selectedSubCategory)->get();
+			// 				$count = $count + 1;
+			// 			}
+			// 		}else{
+			// 		// var_dump("4");
+			// 			foreach($selectedSubCategories as $selectedSubCategory){
+			// 		// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
+			// 	// var_dump($selectedCategory);exit;=
+			// 				$count1 = 0;
+			// 				foreach($results as $result){
+
+			// 					$products = Product::where("sub_category_id", $selectedSubCategory)->get();
+			// 				// $products = $products; //product-id
+			// 					foreach($products as $product){
+
+			// 						if(!in_array($products, (array) $result[0]) ){
+			// 							$results[$count] = $products[$count1];
+			// 							$count = $count + 1;
+			// 							$count1 = $count1 + 1;
+			// 						}
+			// 					}
+			// 				}
+			// 			}
+			// 	// var_dump($products[0]->name);exit;	
+			// 		}
+			// 	}
+			// }
+			
 
 			echo json_encode(['products' => $results, 'count' => count($results)]); exit;
 		}

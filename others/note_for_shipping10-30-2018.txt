@@ -1,0 +1,63 @@
+update 10/30/2018
+Sorry for a Thousand lines of code bro, 
+its long because it just a same pattern with PDO and javascript that repeat again and again and separated by if/else/elseif.  
+
+Add new file javascript and css file in admin_area
+	->/css/chosen.min.css
+	->/css/chosen-sprite.png
+	->/css/jquery-ui.min.css
+	->/js/chosen.jquery.min.js
+	->/js/jquery-ui.min.js
+	
+Edit file javascript and css file in admin_area/css/
+	->admin_style.css (forgot which line, just copy all)
+
+In admin_area folder
+->CREATE NEW FILES
+	->delete_shipping_rate.php
+	->edit_shiping_rates.php
+	->edit_shipping_types.php
+	->edit_shipping_zone.php
+	->insert_shipping_rate.php
+	->insert_shipping_type.php
+	->insert_shipping_zone.php
+	->update_type_order.php
+	->update_zone_order.php
+	->view_shipping_types.php
+	->view_shipping_zones.php
+
+In folder functions
+	->edit function add_cart()
+		->create column p_price for store price data from the cart
+		->add variable $show_price including if/else for $product_label
+	
+	->edit function total_price()
+		->Fixed the $final_total variable (actually you can copy the whole function is fine)
+		
+In folder includes/
+	->edit the whole file for using shipping method
+	->edit just fixed a variable $final_total
+	->add a stripe_config.php for using stripe API
+	
+In ecom_store/styles/
+	->styles.css (forgot which line, just copy all)
+		
+In ecom_store/
+	->edit cart.php by import js and css files, add a javscript in <script> tag 
+	->edit checkour.php by import js and css files, add a javscript in <script> tag 
+	->add a checkout_body.php file for get data with $.ajax() from review.order for using in shipping and payment method
+	->add composer.json and composer.lock including folder named "vendor" for using stripe API
+	->edit customer_register.php at lines 360-396 for using dropdown countries
+		->add lines 15-18 for security
+		->add lines 111-115 for using in shipping method
+	->edit file logout.php at line 14 for fixed bug	
+	->add a review_order.php for using as a page for user fill in the billing and shipping data and also choose the shipping type and payment methods
+	->add update_billing_shipping_details.php for get data from review_order.php by using $.ajax() for update billing and shipping to customer_addresses table
+	
+	
+
+	
+	
+	
+	
+		
