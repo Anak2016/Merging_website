@@ -19,12 +19,21 @@ $router->map( 'GET', '/sam_public/details/[i:id]', 'SAM\Controllers\IndexControl
 $router->map( 'GET', '/sam_public/contact', 'SAM\Controllers\IndexController@showContact', 'contact' );
 
 
+$router->map( 'GET', '/sam_public/result', 'SAM\Controllers\IndexController@showSearchResult', 'show_search_result' );
+$router->map( 'post', '/sam_public/searchResult', 'SAM\Controllers\IndexController@getSearchResult', 'get_search_result' );
+
 
 // ============================================Vue.js LOGIC============================================
 $router->map( 'GET', '/sam_public/dealProducts', 'SAM\Controllers\IndexController@dealProducts', 'deal_product' );
 $router->map( 'GET', '/sam_public/popularProducts', 'SAM\Controllers\IndexController@popularProducts', 'popular_product' );
+$router->map( 'GET', '/sam_public/products', 'SAM\Controllers\IndexController@products', 'all_products' );
+$router->map( 'GET', '/sam_public/manufacturers', 'SAM\Controllers\IndexController@manufacturers', 'all_manufacturers' );
+$router->map( 'GET', '/sam_public/categories', 'SAM\Controllers\IndexController@categories', 'all_categories' );
+$router->map( 'GET', '/sam_public/sub-categories', 'SAM\Controllers\IndexController@subCategories', 'all_subCategory' );
 
+$router->map( 'POST', '/sam_public/loadCheckedItems', 'SAM\Controllers\IndexController@loadCheckedItems', 'load_checked_items' );
 
+$router->map( 'GET', '/sam_public/ip', 'SAM\Controllers\IndexController@getIP', 'get_user_ip' );
 // require_once __DIR__.'/../SAM_controllers/customer/DashboardController.php';
 // $router->map( 'GET', '/sam_public/customer', 'SAM\Controllers\Customer\DashboardController@show', 'show_dashboard' );
 

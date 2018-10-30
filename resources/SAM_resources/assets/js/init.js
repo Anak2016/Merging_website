@@ -42,10 +42,10 @@
 				ACMESTORE.admin.delete();
 				ACMESTORE.admin.create();
 				break;
-			case 'customer':
+			case  'search':
+				ACMESTORE.product.search();
 				
 			// nothing just yet
-				break;
 			case 'customerProduct':
 			// nothing just yet
 				break;

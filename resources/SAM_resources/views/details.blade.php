@@ -35,7 +35,7 @@
 
         <!-- begin of product details -->
         <div class="col-md-9"><!--col-md-9 -->
-           
+
             <div class="row" id="productMain"><!--row start -->
 
                 <div class="col-sm-6"><!--col-sm-6 -->
@@ -54,12 +54,12 @@
                                 </div>
                                 <div class="item">
                                     <center>
-                                        <img src="{{$product['image_path2']}}" class="img-responsive">
+                                        {{-- <img src="{{$product['image_path2']}}" class="img-responsive"> --}}
                                     </center>
                                 </div>
                                 <div class="item">
                                     <center>
-                                        <img src="{{$product['image_path3']}}" class="img-responsive">
+                                        {{-- <img src="{{$product['image_path3']}}" class="img-responsive"> --}}
                                     </center>
                                 </div>
 
@@ -81,55 +81,66 @@
                     </div> <!--mainImage end-->
                 </div>   <!--col-sm-6 end -->
                 
-                
-                <div class="col-sm-6"><!--col-sm-6 start -->
-                    <div class="box"><!--box start -->
-                        <h1 class="text-center">{{$product['name']}}</h1>
+                <div class="product"  id="product" data-token="{{$token}}" data-id="{{ $product->id}}">
+                    <div class="col-sm-6"><!--col-sm-6 start -->
+                        <div class="box"><!--box start -->
+                            {{-- <h1 class="text-center">{{$product['name']}}</h1> --}}
+                            <h1 class="text-center">@{{stringLimit(product.name, 18)}}</h1>
 
+                            {{--  <form action="details/{{$product['id']}}" method="post" class="form-horizontal"> --}}
 
-                        <form action="details/{{$product['id']}}" method="post" class="form-horizontal"><!--form-horizontal -->
-                            <div class="form-group"><!--form-group -->
-                                <label class="col-md-5 control-label">Product Quantity</label>
+                                <div class="form-group"><!--form-group -->
+                                    <label class="col-md-5 control-label">Product Quantity</label>
 
-                                <div class="col-md-7"><!--col-md-7 -->
-                                    <select name="product_qty" class="form-control">
-                                        <option>Select Quantity</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                    <div class="col-md-7"><!--col-md-7 -->
+                                        <select name="product_qty" class="form-control">
+                                            <option>Select Quantity</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
 
-                                    </select>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group"><!--form-group -->
-                                <label class="col-md-5 control-label">Product Size</label>
-                                <div class="col-md-7"><!-- col-md-7-->
-                                    <select name="product_size" class="form-control">
-                                        <option>Select a Size</option>
-                                        <option>Small</option>
-                                        <option>Medium</option>
-                                        <option>Large</option>
-                                        <option>X-Large</option>
-                                        <option>XX-Large</option>
-                                        <option>XXX-Large</option>
-                                    </select>
+                                <div class="form-group"><!--form-group -->
+                                    <label class="col-md-5 control-label">Product Size</label>
+                                    <div class="col-md-7"><!-- col-md-7-->
+                                        <select name="product_size" class="form-control">
+                                            <option>Select a Size</option>
+                                            <option>Small</option>
+                                            <option>Medium</option>
+                                            <option>Large</option>
+                                            <option>X-Large</option>
+                                            <option>XX-Large</option>
+                                            <option>XXX-Large</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <p class="price">$ {{$product['price']}}</p>
-                            <p class="text-center buttons"><!--text-center buttons start -->
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="fa fa-shopping-cart"></i>Add to Cart
-                                </button>
-                            </p>
+                                <p class="price">$ {{$product['price']}}</p>
+                                {{-- <p class="text-center buttons">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fa fa-shopping-cart"></i>Add to Cart
+                                    </button>
+                                </p> --}}
+                                <p class="text-center buttons">
+                                    {{-- <a :href="'/sam_public/details/' + product.id" class='btn btn-default'>View Details</a> --}}
+                                    <a  v-if="product.quantity > 0" :href="'/sam_public/details/' + product.id" @click.prevent="addToCart(product.id)" class='btn btn-primary'>
+                                        <i class='fa fa-shopping-cart'></i> Add to Cart
+                                    </a>
+
+                                   <a v-else class='btn btn-danger'disabled>
+                                      Out of stock
+                                  </a>
+                              </p>
 
 
-                        </form>
-                    </div>
+                          {{-- </form> --}}
+                      </div>
 
-                    <div class="row" id="thumbs"><!--row start -->
+                      <div class="row" id="thumbs"><!--row start -->
                         <div class="col-xs-4"><!-- col-xs-4-->
                             <a href="#" class="thumb">
                                 <img src="{{$product['image_path1']}}" class="img-responsive">
@@ -149,47 +160,48 @@
                         </div>
                     </div>
                 </div>
-
-            </div> <!-- row Ends-->
-
-            <div class="box" id="details"><!--box start -->
-                <p><!--p start-->
-                    <h4>Product details</h4>
-                    <p>{{$product['desc']}}</p>
-                    <h4>Size</h4>
-                    <ul>
-                        <li>Small</li>
-                        <li>Medium</li>
-                        <li>Large</li>
-                        <li>X-Large</li>
-                        <li>XX-Large</li>
-                    </ul>
-                </p>
-                <hr>
             </div>
 
+        </div> <!-- row Ends-->
 
-            {{-- redo also-like --}}
-            {{-- also-like should have page-id = home --}}
-            @include('includes.also-like')
-
-
-
+        <div class="box" id="details"><!--box start -->
+            <p><!--p start-->
+                <h4>Product details</h4>
+                <p>{{$product['desc']}}</p>
+                <h4>Size</h4>
+                <ul>
+                    <li>Small</li>
+                    <li>Medium</li>
+                    <li>Large</li>
+                    <li>X-Large</li>
+                    <li>XX-Large</li>
+                </ul>
+            </p>
+            <hr>
         </div>
-        <div class="col-md-9" "><!--col-md-9 -->
 
-            <div class="box" id="comments"  style="width: 140%;"><!--comment -->
-                <h4>Product Reviews</h4>
-                <p>Overall star of the product here</p>
-                <hr>
-                @include('includes.review')
 
-            </div>
-
-        </div>
+        {{-- redo also-like --}}
+        {{-- also-like should have page-id = home --}}
+        @include('includes.also-like')
 
 
 
     </div>
+    <div class="col-md-9" "><!--col-md-9 -->
+
+        <div class="box" id="comments"  style="width: 140%;"><!--comment -->
+            <h4>Product Reviews</h4>
+            <p>Overall star of the product here</p>
+            <hr>
+            @include('includes.review')
+
+        </div>
+
+    </div>
+
+
+
+</div>
 </div>
 @stop

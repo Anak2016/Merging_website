@@ -11,13 +11,11 @@ $dsn = 'mysql:host=localhost;dbname=ecom_store';
 $password ='';
 
 try{
-	// phpinfo(); exit;
     $db_connect = new PDO($dsn,$username,$password);
-    // echo "here"; exit;
 
     $db_connect->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
-    // echo "Coonected to the register database";
+    // echo "Connected to the register database";
 }catch (PDOException $ex)
 {
     echo "Connection Failed ".$ex->getMessage();

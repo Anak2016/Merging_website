@@ -127,7 +127,7 @@
                         </div>
                         <div class="pull-right"><!--pull-right -->
 
-                        
+                            
                             <button @click="emptyCart(items)" class="btn btn-default" type="submit"name="empty" value="Update Cart"><i class="fa fa-refresh"></i>Empty Cart</button>
                             <a v-if="authenticated" href="/sam_public/checkout" class="btn btn-primary">
                                 &nbsp; Proceed to checkout <i class="fa fa-chevron-right"></i>
@@ -137,24 +137,47 @@
                                     Proceed to checkout &nbsp; <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                 </a>
                             </span>
-                      </div>
-                  </div>
-              </div>
-
-          </div>
-
-
-          <div class="col-md-3"><!--col-md-3 -->
-            <div class="box" id="order-summary"><!--box start -->
-                <div class="box-header"><!--box-header-->
-                    <h3>Order Summary</h3>
+                        </div>
+                    </div>
                 </div>
-                <p class="text-muted">
-                    Shipping and additional costs are calculated based on the values you have entered.
-                </p>
-                <div class="table-responsive"><!-- table-responsive-->
-                    <table class="table"><!--table start-->
-                        
+
+            </div>
+
+
+            <div class="col-md-3"><!--col-md-3 -->
+                <div class="box" id="order-summary"><!--box start -->
+                    <div class="box-header"><!--box-header-->
+                        <h3>Order Summary</h3>
+                    </div>
+                    <p class="text-muted">
+                        Shipping and additional costs are calculated based on the values you have entered.
+                    </p>
+                    <div class="table-responsive"><!-- table-responsive-->
+                        <table class="table"><!--table start-->
+                            
+                            <tbody><!--tbody start -->
+                                <tr>
+                                    <td>Order Subtotal</td>
+                                    <th>${{cartTotal}}</th>
+                                </tr>
+                                <tr>
+                                    <td>Cart Total Weight: </td>
+                                    <th>0.00 lbs</th>
+
+                                </tr>
+                                <tr>
+                                    <td>Shipping and handling</td>
+                                    <td>$0.00</td>
+                                </tr>
+                                <tr>
+                                 <td>Tax</td>
+                                 <td>0.00</td>
+                             </tr>
+                             <tr class='total'>
+                                <td>Total</td>
+                                <th>${{cartTotal}}</th>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
 

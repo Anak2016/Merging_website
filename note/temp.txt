@@ -1,0 +1,29 @@
+<div class="col-md-9">
+<div class='box'>
+                    <h1>Shop</h1>
+                    <p>TEST detail for shop</p>
+                </div>
+                @foreach($products as $product)
+                <div class='col-md-4 col-sm-6' center-responsive>
+                    <div class='product'>
+                        <a href='details/{{$product->id}}'>
+                            <img src='{{$product->image_path1}}' class='img-responsive'>
+
+                        </a>
+                        <div class='text'>
+                            <h3><a href='details/{{$product->id}}'>$pro_title</a></h3>
+                            <p class='price'>$ {{$product->price}}</p>
+                            <p class='buttons'>
+                                <a href='details/{{$product->id}}' class='btn btn-default'>View Details</a>
+                                <a href='details/{{$product->id}}' class='btn btn-primary'>
+                                    <i class='fa fa-shopping-cart'></i> Add to Cart
+                                </a>
+                            </p>
+
+                        </div>
+
+                    </div>
+                </div>
+                @endforeach
+            </div>
+</div>

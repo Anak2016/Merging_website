@@ -134,8 +134,9 @@
 					<i class="fa fa-search"></i>
 				</button>
 			</div>
+
 			<div class="collapse clearfix" id="search"> <!--collapse clearfix starts-->
-				<form class="navbar-form" method="get" action="#"><!--navbar-form start-->
+				<form class="navbar-form" method="get" action="/sam_public/result"><!--navbar-form start-->
 					<button type="button" value="All" name="all" class="btn btn-primary" style="height: 33px;">
 						All <!-- comeback to do the all category -->
 					</button>

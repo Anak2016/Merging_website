@@ -42446,6 +42446,8 @@ __webpack_require__(63);
 __webpack_require__(64);
 __webpack_require__(65);
 __webpack_require__(66);
+__webpack_require__(67);
+__webpack_require__(68);
 
 /***/ }),
 /* 54 */
@@ -42846,6 +42848,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /* 61 */
 /***/ (function(module, exports) {
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 (function () {
 	'use strict';
 
@@ -42855,16 +42859,52 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			data: {
 				dealProducts: [],
 				popularProducts: [],
+				products: [],
+				manufacturers: [],
+				categories: [],
+				subCategories: [],
+				searchProducts: [],
+				selectedProduct: [],
 				countDeals: 0,
 				countPopulars: 0,
-				loading: false
+				countProducts: 0,
+				countSearches: 0,
+				countSelected: 0,
+				countMenufactures: 0,
+				keyword: "nothing",
+				loading: false,
+				checkedMenufacturers: [],
+				checkedCategories: [],
+				checkedSubCategories: []
+
 			},
 			methods: { // all of the function must be inside of the object is passed to method property's of Vue.js.
 				getFeaturedProducts: function getFeaturedProducts() {
-					this.loading = true;
+					// if($('#data-keyword').length){
+					// 	this.keyword = $('.keyword').data('keyword');
+					// 	console.log(keyword);
+					// 	var data= $.param({keyword: keyword});
+					// 	axios.post('/sam_public/searchResult',data)
+					// 	.then(function(response){
+					// 		app.searchProducts = response.data.results;
+					// 		app.countSearches = response.data.count;
+					// 		app.loading = false;
+					// 	});
+					// }
+
+					// this.loading = true;
+					// var selectedManufacturers = [];
+					// if(this.checkedBoxes == undefined || this.checkedBoxes.length == 0){
+					// 	this.checkedBoxes.forEach(function(element){
+					// 		// console.log(element);
+					// 		selectedManufacturers.push(element);
+					// 	});
+					// }
+					// var data= $.param({selectedManufacturers: selectedManufacturers});
+
 					axios.all([
 					// create these 2 routes.
-					axios.get('/sam_public/dealProducts'), axios.get('/sam_public/popularProducts')]).then(axios.spread(function (dealResponse, popularResponse) {
+					axios.get('/sam_public/dealProducts'), axios.get('/sam_public/popularProducts'), axios.get('/sam_public/products'), axios.get('/sam_public/manufacturers'), axios.get('/sam_public/categories'), axios.get('/sam_public/sub-categories')]).then(axios.spread(function (dealResponse, popularResponse, productResponse, manufacturerResponse, categoryResponse, subCategoryResponse) {
 						// console.log(dealResponse.data.count);
 						app.dealProducts = dealResponse.data.deals;
 						app.countDeals = dealResponse.data.count;
@@ -42872,6 +42912,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 						app.popularProducts = popularResponse.data.populars;
 						app.countPopulars = popularResponse.data.count;
 						// console.log(app.popularProducts[0].name);
+						app.products = productResponse.data.products;
+						app.countProducts = productResponse.data.count;
+						// console.log(app.products[0].id);
+						app.manufacturers = manufacturerResponse.data.manufacturers;
+						app.countMenufactures = manufacturerResponse.data.count;
+						// console.log(app.manufacturers);
+						console.log(manufacturerResponse.data);
+						app.categories = categoryResponse.data.categories;
+						// app.countCategories = manufacturerResponse.data.count;
+						// console.log(app.categories);
+						console.log(categoryResponse.data);
+						app.subCategories = subCategoryResponse.data.subCategories;
+						// app.countSubCategories = manufacturerResponse.data.count;
+						// console.log(app.subCategories);
+						console.log(subCategoryResponse.data);
 						app.loading = false;
 					}));
 				},
@@ -42879,6 +42934,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					return ACMESTORE.module.truncateString(string, value);
 				},
 				addToCart: function addToCart(id) {
+					// axios.get('/sam_public/ip').then(
+					// 	function(response){
+					// 		alert(response.data.ip);
+					// 		console.log(response.data.ip);
+					// 		app.ip = resposne.data.ip;
+					// 	});
 					ACMESTORE.module.addItemToCart(id, function (message) {
 						$(".notify").css("display", "block").delay(4000).slideUp(300).html(message);
 					});
@@ -42894,22 +42955,58 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 						app.count = response.data.count;
 						app.loading = false;
 					});
+				},
+				loadCheckedItems: function loadCheckedItems() {
+					// console.log(this.checkedBoxes);
+					var selectedManufacturers = [];
+					var selectedCategories = [];
+					var selectedSubCategories = [];
+					this.checkedMenufacturers.forEach(function (element) {
+						// console.log(element);
+						selectedManufacturers.push(element);
+					});
+					this.checkedCategories.forEach(function (element) {
+						// console.log(element);
+						selectedCategories.push(element);
+					});
+					this.checkedSubCategories.forEach(function (element) {
+						// console.log(element);
+						selectedSubCategories.push(element);
+					});
+
+					var data = $.param({ selectedManufacturers: selectedManufacturers, selectedCategories: selectedCategories, selectedSubCategories: selectedSubCategories });
+					axios.post('/sam_public/loadCheckedItems', data).then(function (response) {
+						// var selectedProduct = response.data.products;
+						console.log(_typeof(response.data));
+						app.selectedProduct = response.data.products;
+						console.log(app.selectedProduct);
+						app.products = [];
+						for (var i = 0; i < app.selectedProduct.length; i++) {
+							app.products = app.products.concat(app.selectedProduct[i]);
+							// console.log(app.products);
+						}
+						// console.log(app.products);
+						// app.products = response.data.products;
+						app.countProducts = response.data.count;
+						// app.getFeaturedProducts();
+						app.loading = false;
+						// console.log(app.selectedProduct[1][0].id);
+					});
 				}
 			},
 			created: function created() {
 				// console.log("before runing Vue");
 				this.getFeaturedProducts();
-			},
-
-			mounted: function mounted() {
-				//after Vue finsihed loaded.
-				$(window).scroll(function () {
-
-					if ($(window).scrollTop() + $(window).height() + 1 > $(document).height()) {
-						app.loadMoreProducts();
-					}
-				});
 			}
+			// ,
+			// mounted: function(){ //after Vue finsihed loaded.
+			// 	$(window).scroll(function(){
+
+			// 		if($(window).scrollTop() + $(window).height() +1 > $(document).height()){
+			// 			app.getFeaturedProducts();
+			// 		}
+			// 	})
+			// }
 		});
 	};
 })();
@@ -42924,6 +43021,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	ACMESTORE.module = {
 		truncateString: function limit(string, value) {
 			// console.log(string.length > value);
+			// console.log(string);
 			if (string.length > value) {
 				// console.log(string.substring(0, value) + '...');
 				return string.substring(0, value) + '...';
@@ -42937,17 +43035,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		addItemToCart: function addItemToCart(id, callback) {
 			var token = $('.display-products').data('token');
 
-			console.log(token);
+			// console.log(token);
 
 			if (token == null || !token) {
 				token = $('.product').data('token');
 			}
 			//data that will be post to PHP script
 			var postData = $.param({ product_id: id, token: token });
-
+			// console.log(postData);	
 			//send post request URL which call CartController::addItem (send status message of the request, succeed vs failure) 
 			axios.post('/sam_public/cart', postData).then(function (response) {
-				console.log(response.data);
+				// console.log(response.data);	
 				callback(response.data.success);
 			});
 		}
@@ -42958,6 +43056,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /* 63 */
 /***/ (function(module, exports) {
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 (function () {
 	'use strict';
 
@@ -42965,37 +43065,128 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var app = new Vue({
 			el: "#product",
 			data: {
-				popularProducts: [],
-				dealProducts: [],
+				product: [],
+				category: [],
 				subCategory: [],
+				manufacturers: [],
 				similarProducts: [],
+				countMenufactures: 0,
 				productId: $('#product').data('id'),
+				ip: "nothing",
+				checkedMenufacturers: [],
+				checkedCategories: [],
+				checkedSubCategories: [],
+				selectedProduct: [],
+				countProducts: 0,
 				loading: false
 			},
 			methods: {
 				getProductDetails: function getProductDetails() {
 					// I belive that Vue instance is created after url is retreived by post or get
-					axios.get('/product-details/' + this.productId).then(function (response) {
-						console.log(response.data.product.image_path);
+					// console.log(this.productId);
+					// axios.get('/sam_public/product-details/' + this.productId).then(
+					// 	function(response){
+					// 		console.log("here in getProductDetails");
+					// 		console.log(response.data);
+					// 		app.product = response.data.product;
+					// 		app.category = response.data.category;
+					// 		app.subCategory = response.data.subCategory;
+					// 		app.similarProducts = response.data.similarProducts;
+					// 		app.loading = false;
+					// 	});
+					axios.all([
+					// create these 2 routes.
+					axios.get('/sam_public/product-details/' + this.productId), axios.get('/sam_public/products'), axios.get('/sam_public/manufacturers'), axios.get('/sam_public/categories'), axios.get('/sam_public/sub-categories')]).then(axios.spread(function (response, productResponse, manufacturerResponse, categoryResponse, subCategoryResponse) {
+						// console.log(dealResponse.data.count);
 						app.product = response.data.product;
-						app.category = response.data.category;
-						app.subCategory = response.data.subCategory;
+						// app.category = response.data.category;
+						// app.subCategory = response.data.subCategory;
 						app.similarProducts = response.data.similarProducts;
+
+						app.products = productResponse.data.products;
+						app.countProducts = productResponse.data.count;
+
+						app.manufacturers = manufacturerResponse.data.manufacturers;
+						app.countMenufactures = manufacturerResponse.data.count;
+						console.log(manufacturerResponse.data.manufacturers);
+						console.log(categoryResponse.data.categories);
+						console.log(subCategoryResponse.data.subCategories);
+
+						app.categories = categoryResponse.data.categories;
+
+						app.subCategories = subCategoryResponse.data.subCategories;
+
 						app.loading = false;
-					});
+					}));
 				},
 				stringLimit: function stringLimit(string, value) {
-					ACMESTORE.module.truncateString(string, value);
+					return ACMESTORE.module.truncateString(string, value);
 				},
 				addToCart: function addToCart(id) {
 					// console.log(id);
+					// get ip from php helper function 
+					// axios.get('/sam_public/ip').then(
+					// 	function(response){
+					// 		alert(response.data.ip);
+					// 		console.log(response.data.ip);
+					// 		app.ip = resposne.data.ip;
+					// 	});
 					ACMESTORE.module.addItemToCart(id, function (message) {
 						$(".notify").css("display", "block").delay(4000).slideUp(300).html(message);
+					});
+				},
+				// submitComment: function(product_id){
+				submitComment: function submitComment() {
+					alert("here in showComment");
+					var postData = $.param({ product_id: product_id });
+					// axios.post("/sam_public/customer/comment", postData).then( function(response){
+					// 	$(".notify").css("display", "block").delay(4000).slideUp(300) 
+					// 		.html(response.data.success);
+					// });
+				},
+				loadCheckedItems: function loadCheckedItems() {
+					// console.log(this.checkedBoxes);
+					var selectedManufacturers = [];
+					var selectedCategories = [];
+					var selectedSubCategories = [];
+					this.checkedMenufacturers.forEach(function (element) {
+						// console.log(element);
+						selectedManufacturers.push(element);
+					});
+					this.checkedCategories.forEach(function (element) {
+						// console.log(element);
+						selectedCategories.push(element);
+					});
+					this.checkedSubCategories.forEach(function (element) {
+						// console.log(element);
+						selectedSubCategories.push(element);
+					});
+
+					var data = $.param({ selectedManufacturers: selectedManufacturers, selectedCategories: selectedCategories, selectedSubCategories: selectedSubCategories });
+					axios.post('/sam_public/loadCheckedItems', data).then(function (response) {
+						// var selectedProduct = response.data.products;
+						console.log(_typeof(response.data));
+						app.selectedProduct = response.data.products;
+						console.log(app.selectedProduct);
+						app.products = [];
+						for (var i = 0; i < app.selectedProduct.length; i++) {
+							app.products = app.products.concat(app.selectedProduct[i]);
+							// console.log(app.products);
+						}
+						// console.log(app.products);
+						// app.products = response.data.products;
+						app.countProducts = response.data.count;
+						// app.getFeaturedProducts();
+						app.loading = false;
+						// console.log(app.selectedProduct[1][0].id);
 					});
 				}
 			},
 			created: function created() {
+				// console.log("here in create");
 				this.getProductDetails();
+				// this.submitComment();
+				// alert("here in showComment");
 			}
 		});
 	};
@@ -43086,6 +43277,145 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /* 66 */
 /***/ (function(module, exports) {
 
+(function () {
+	'use strict';
+
+	ACMESTORE.product.search = function () {
+		var app = new Vue({
+			el: '#root',
+			data: {
+				products: [],
+				manufacturers: [],
+				searchProducts: [],
+				countSearches: 0,
+				countMenufactures: 0,
+				// keyword: "nothing",
+				loading: false
+			},
+			methods: { // all of the function must be inside of the object is passed to method property's of Vue.js.
+				getFeaturedProducts: function getFeaturedProducts() {
+
+					var keyword = $('#keyword').val();
+
+					// console.log($('#keyword').val());
+					// console.log(keyword);
+					var data = $.param({ keyword: keyword });
+					// axios.post('/sam_public/searchResult',data)
+					// .then(function(response){
+
+					// 	app.searchProducts = response.data.results;
+					// 	app.countSearches = response.data.count;
+					// 	app.loading = false;
+					// });
+
+					axios.all([
+					// create these 2 routes.
+					axios.post('/sam_public/searchResult', data), axios.get('/sam_public/manufacturers')]).then(axios.spread(function (response, manufacturerResponse) {
+						// console.log(dealResponse.data.count);
+						app.searchProducts = response.data.results;
+						app.countSearches = response.data.count;
+						app.loading = false;
+						// console.log(app.products[0].id);
+						app.manufacturers = manufacturerResponse.data.manufacturers;
+						app.countMenufactures = manufacturerResponse.data.count;
+						// console.log(app.manufacturers[0].id);
+
+						app.loading = false;
+					}));
+
+					this.loading = true;
+				},
+				stringLimit: function stringLimit(string, value) {
+					return ACMESTORE.module.truncateString(string, value);
+				},
+				addToCart: function addToCart(id) {
+					ACMESTORE.module.addItemToCart(id, function (message) {
+						$(".notify").css("display", "block").delay(4000).slideUp(300).html(message);
+					});
+				},
+				loadMoreProducts: function loadMoreProducts() {
+					var token = $('.display-products').data('token');
+					this.loading = true;
+					// we use jQuery here becuase axios pass all javascript object to JSON 
+					//but php scripts only understand encoded format which can be done by using jQuery
+					var data = $.param({ next: 2, token: token, count: app.count });
+					axios.post('/load-more', data).then(function (response) {
+						app.products = response.data.products;
+						app.count = response.data.count;
+						app.loading = false;
+					});
+				}
+			},
+			created: function created() {
+				// console.log("before runing Vue");
+				this.getFeaturedProducts();
+			}
+			// ,
+			// mounted: function(){ //after Vue finsihed loaded.
+			// 	$(window).scroll(function(){
+
+			// 		if($(window).scrollTop() + $(window).height() +1 > $(document).height()){
+			// 			app.getFeaturedProducts();
+			// 		}
+			// 	})
+			// }
+		});
+	};
+})();
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports) {
+
+$(function () {
+    // rating form hide/show
+    $("#rateProduct").click(function () {
+        $("#ratingDetails").hide();
+        $("#ratingSection").show();
+    });
+    $("#cancelReview").click(function () {
+        $("#ratingSection").hide();
+        $("#ratingDetails").show();
+    });
+    // implement start rating select/deselect
+    $(".rateButton").click(function () {
+        if ($(this).hasClass('btn-grey')) {
+            $(this).removeClass('btn-grey btn-default').addClass('btn-warning star-selected');
+            $(this).prevAll('.rateButton').removeClass('btn-grey btn-default').addClass('btn-warning star-selected');
+            $(this).nextAll('.rateButton').removeClass('btn-warning star-selected').addClass('btn-grey btn-default');
+        } else {
+            $(this).nextAll('.rateButton').removeClass('btn-warning star-selected').addClass('btn-grey btn-default');
+        }
+        $("#rating").val($('.star-selected').length);
+    });
+    // save review using Ajax
+    $('#ratingForm').submit(function (event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+        // alert(formData);
+        $.ajax({
+            type: 'POST',
+            url: '/sam_public/customer/comment',
+            data: formData,
+            success: function success(response) {
+                console.log(response);
+                // alert(response);
+                $("#ratingForm")[0].reset();
+                window.setTimeout(function () {
+                    window.location.reload();
+                }, 1000);
+            },
+            error: function error(XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus);alert("Error: " + errorThrown);
+            }
+        });
+    });
+});
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports) {
+
 // (function(){
 // 	'use strict'; //enable strict mode which reports error when its occured in our script.
 
@@ -43130,10 +43460,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				ACMESTORE.admin.delete();
 				ACMESTORE.admin.create();
 				break;
-			case 'customer':
+			case 'search':
+				ACMESTORE.product.search();
 
-				// nothing just yet
-				break;
+			// nothing just yet
 			case 'customerProduct':
 				// nothing just yet
 				break;

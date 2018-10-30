@@ -21,6 +21,8 @@ to do
 :main
 0.fix order_details, order, payment
 	>order order_details, payment don't create new row/data
+	>see how udemy does the Models::create
+		>>compare then fix it
 1.Cookie + ip to determine user_cart
 2.do paypal payment
 3. item in cart is not consistent. 
@@ -29,10 +31,18 @@ to do
 		eg. 1. call directly from Session::user_cart
 		    2. call with Vue.js variable
 		    3. call with Php.blade variable
-
-:add created date and link
-	>what is model::transform for?
-	>what is relationsiop of product and order? hasone or belong to
+		>>echo"<script>window.open('cart.php','_self')</script>";
+4. cookie for guest user
+	>guest added to cart then login. item that got added will appear in cart
+5.fix product-sidebar in detail page. 
+	>I am guessing that there is error in Vue.js
+6.Fix product-sidebar functionality
+	>cant select across all subCategory + category + manufacturer
+		>> cannot convert object to array correctly
+7. Order, Payment, OrderDetails do not get posted to database when payment is made.
+8. fix Admin back-end.
+9. create sell button for customers to sell.
+10. merge shipping
 
 :allow user to change order, and see orders' history
 :move category and subcategory out of admin folder

@@ -163,6 +163,7 @@
                             </a> 
                         </h3>
                         <p class='price'>$ {{dealProduct.price}}</p>
+                        <p class="price">Quantity: {{dealProduct.quantity}}</p>
                         <p class='buttons'>
                             <a :href="'/sam_public/details/' + dealProduct.id" class='btn btn-default'>View Details</a>
                             <a  v-if="dealProduct.quantity > 0" :href="'/sam_public/details/' + dealProduct.id" @click.prevent="addToCart(dealProduct.id)" class='btn btn-primary'>
@@ -218,7 +219,7 @@
                                 <a v-if="popularProduct.quantity > 0" :href="'/sam_public/details/' + popularProduct.id" @click.prevent="addToCart(popularProduct.id)" class="btn btn-primary">
                                     <i class="fa fa-shopping-cart">Add to cart</i>
                                 </a>
-                                <a v-else class='btn btn-primary' disabled>
+                                <a v-else class='btn btn-danger' disabled>
                                   Out of stock
                               </a>
                           </p>

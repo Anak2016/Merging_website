@@ -102,15 +102,19 @@ function _convertMoneyToCents($value)
 /*This function is dynamic now, it can be use to any table for check the duplicate username
  *
  */
-function getRealUserIp(){
+
+
+function _getRealUserIp(){
     switch(true){
-        case (!empty($_SERVER['HTTP_X_REAL_IP'])) : return $_SERVER['HTTP_X_REAL_IP'];
-        case (!empty($_SERVER['HTTP_CLIENT_IP'])) : return $_SERVER['HTTP_CLIENT_IP'];
-        case (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) : return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        // case (!empty($_SERVER['HTTP_X_REAL_IP'])) : return $_SERVER['HTTP_X_REAL_IP'];
+        // case (!empty($_SERVER['HTTP_CLIENT_IP'])) : return $_SERVER['HTTP_CLIENT_IP'];
+        // case (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) : return $_SERVER['HTTP_X_FORWARDED_FOR'];
         default : return $_SERVER['REMOTE_ADDR'];
+        // default : return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        // default : return $_SERVER['HTTP_X_REAL_IP'];
+        // default : return $_SERVER['HTTP_CLIENT_IP'];
     }
 }
-
 function checkDuplicateEntries($table,$column_name,$value,$db_connect)
 {
 

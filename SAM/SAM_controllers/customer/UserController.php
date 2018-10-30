@@ -5,6 +5,7 @@ use SAM\Classes\CSRFToken;
 use SAM\Models\Category;
 use SAM\Models\SubCategory;
 use SAM\Models\User;
+use SAM\Models\ItemRating;
 
 use SAM\Classes\Request;
 use SAM\Classes\ValidateRequest;
@@ -104,6 +105,43 @@ class UserController extends BaseController
 		}
 		return null;
 	}
+
+	public function submitComment()
+	{
+		
+		// var_dump("here in UserController::showCommentForm");exit;
+		if(Request::has('post')){
+			$request = Request::get('post');
+			// var_dump($request);
+			// exit;
+
+			$user = User::findOrFail(Session::get('SESSION_USER_ID'));
+			// var_dump($user);exit;
+
+			ItemRating::create([
+				'title'=> $request->title,
+				'comments'=> $request->comments,
+				'product_id'=> $request->product_id,
+				'rating_number'=> $request->rating_number,
+				'user_id'=> $user->id
+			]);
+
+				// list($this->categories, $this->links) = _paginate(3, $total, $this->table_name, $object);	
+				// list($this->subcategories, $this->subcategories_links) = _paginate(3, $subTotal, 'sub_categories', new SubCategory);	
+			
+				// return _view('admin/products/categories', ['categories' => $this->categories, 'links' => $this->links, 'success'=> "Category Created",
+				// 	'subcategories' => $this->subcategories, 'subcategories_links' => $this->subcategories_links]);
+			echo json_encode(['success' => "Comments is successfully posted."]);
+
+		}
+		return null;
+	}
+	// public function showCommentForm()
+	// {
+	
+	// 	var_dump("here in UserController::showCommentForm");exit;
+	// 	// return _view('customers/account/comment');
+	// }
 }
 
 ?>	

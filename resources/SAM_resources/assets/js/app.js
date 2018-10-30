@@ -23,5 +23,7 @@ require('../../assets/js/pages/lib');
 require('../../assets/js/pages/product_details');
 require('../../assets/js/pages/slider');
 require('../../assets/js/pages/groupby');
+require('../../assets/js/pages/search');
+require('../../assets/js/rating');
 require('../../assets/js/init');
 

@@ -14,13 +14,13 @@ class Category extends Model
 	protected $dates = ['deleted_at'];
 
 	//note: foriegn key is ClassName_id which is category_id in this case
-	public function products()
+	public function product()
 	{
 		//same as (Product::class, 'category_id', 'id' )// where category_id is foriegn key of category and id is primary key of product 
 		return $this->hasMany(Product::class); //same as specify 'App\Models\Product'
 	}
 
-	public function subCategories()
+	public function subCategory()
 	{
 		//same as (SubCategory::class, 'category_id', 'id' )// where category_id is foriegn key of category and id is primary key of product 
 		return $this->hasMany(SubCategory::class); 

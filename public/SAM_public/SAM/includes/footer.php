@@ -6,8 +6,7 @@
  * Time: 3:52 PM
  */
 
-// include ('includes/dblogin.php');
-include ('dblogin.php');
+include ('includes/dblogin.php');
 
 ?>
 

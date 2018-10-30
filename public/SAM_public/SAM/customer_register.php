@@ -107,6 +107,9 @@ if(isset($_POST['Register']))
                     $result = "<p style='padding:20px; border: 1px solid gray; color: green;'> Registration Successful</p>";
                 }
 
+
+
+
                 #check when have some item on cart
                 $sel_cart = "SELECT COUNT(*) FROM cart WHERE ip_add='$c_ip'";
 
@@ -124,7 +127,7 @@ if(isset($_POST['Register']))
                     $_SESSION['customer_username']=$c_username;
                     echo"<script>alert('You have been Registered Successfully')</script>";
 
-                    echo"<script>window.open('index.php','_self')</script>";
+                    echo"<script>window.open('admin_index.php','_self')</script>";
                 }
 
 
@@ -161,7 +164,7 @@ if(isset($_POST['Register']))
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="js/jquery-3.3.1.min.js"></script>
-    <script scr="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -218,19 +221,21 @@ if(isset($_POST['Register']))
                 <img src="images/EiShops_resize.png" alt="E-commerce Logo" class="hidden-xs" style="margin-top: 5px;">
                 <img src="images/EiShops_resize.png" alt="E-commerce Logo" class="visible-xs" style="margin-top: 5px;">
             </a>
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
-                <span class="sr-only">Toggle Navigation</span>
-                <i class="fa fa-align-justify"></i>
-            </button>
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search">
-                <span class="sr-only">Toggle Search</span>
-                <i class="fa fa-search"></i>
-            </button>
         </div>
+        <!-- search bar start here -->
+        <?php include ('includes/searchModule.php');?>
+        <!-- search bar end here -->
+
+        <a class="btn btn-primary navbar-btn right" style="margin-right: 15px;" href="cart.php"><!--btn btn-primary navbar-btn right start-->
+            <i class="fa fa-shopping-cart"></i>
+            <span><?php items_in_cart();?> items in cart</span>
+        </a>
+
+
         <div class="navbar-collapse collapse" id="navigation"> <!--navbar-collapse collapse Starts-->
             <div class="padding-nav"> <!--padding-nav Starts-->
                 <ul class="nav navbar-nav navbar-left"><!-- nav navbar-nav navbar-left start-->
-                    <li  class="active">
+                    <li class="active">
                         <a href="index.php">Home</a>
                     </li>
                     <li>
@@ -248,40 +253,24 @@ if(isset($_POST['Register']))
                     <li>
                         <a href="#">Sell</a>
                     </li>
-                    <li >
+                    <li>
                         <a href="contact.php">Contact Us</a>
                     </li>
                 </ul>
             </div>
-            <a class="btn btn-primary navbar-btn right" href="cart.php"><!--btn btn-primary navbar-btn right start-->
-                <i class="fa fa-shopping-cart"></i>
-                <span><?php items_in_cart();?> items in cart</span>
-            </a>
-            <div class="navbar-collapse collapse right"><!--navbar-collapse collapse right start-->
-                <button class="btn navbar-btn btn-primary" type="button" data-toggle="collapse" data-target="#search" style="height: 33px;">
+
+            <!-- <div class="navbar-collapse collapse right"><!--navbar-collapse collapse right start-->
+            <!--    <button class="btn navbar-btn btn-primary" type="button" data-toggle="collapse" data-target="#search" style="height: 33px;">
                     <span class="sr-only">Toggle Search</span>
                     <i class="fa fa-search"></i>
                 </button>
-            </div>
-            <div class="collapse clearfix" id="search"> <!--collapse clearfix starts-->
-                <form class="navbar-form" method="get" action="results.php"><!--navbar-form start-->
-                    <button type="button" value="All" name="all" class="btn btn-primary" style="height: 33px;">
-                        All <!-- comeback to do the all category-->
-                    </button>
-                    <div class="input-group"><!--input-group start-->
-                        <input class="form-control" type="text" placeholder="Search" name="user_query" style="width: 995px" required>
-                        <span class="input-group-btn"><!--input-group-btn start-->
-                                <button type="submit" value="Search" name="search" class="btn btn-primary" style="height: 33px;">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                    </div>
-                </form>
-            </div>
+            </div>-->
 
         </div>
+
     </div>
 </div>
+
 <!--End of Navigator bar-->
 
 <div id="content"><!--content start -->
@@ -315,11 +304,11 @@ if(isset($_POST['Register']))
 
                     <div class="form-group"><!--form-group start -->
                         <label>First Name:</label>
-                        <input type="text" class="form-control" name="firstname"  required>
+                        <input type="text" class="form-control" name="c_firstname"  required>
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>Last Name:</label>
-                        <input type="text" class="form-control" name="lastname" required>
+                        <input type="text" class="form-control" name="c_lastname" required>
                     </div>
 
                     <div class="form-group"><!--form-group start -->
@@ -338,31 +327,31 @@ if(isset($_POST['Register']))
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>Address:</label>
-                        <input type="text" class="form-control" name="address" required>
+                        <input type="text" class="form-control" name="c_address" required>
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>City:</label>
-                        <input type="text" class="form-control" name="city" required>
+                        <input type="text" class="form-control" name="c_city" required>
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>State:</label>
-                        <input type="text" class="form-control" name="state" required>
+                        <input type="text" class="form-control" name="c_state" required>
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>Country:</label>
-                        <input type="text" class="form-control" name="country" required>
+                        <input type="text" class="form-control" name="c_country" required>
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>Zip code:</label>
-                        <input type="text" class="form-control" name="zipcode" required>
+                        <input type="text" class="form-control" name="c_zipcode" required>
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>Phone No:</label>
-                        <input type="text" class="form-control" name="phone" required>
+                        <input type="text" class="form-control" name="c_phone" required>
                     </div>
                     <div class="form-group"><!--form-group start -->
                         <label>Your Image:(.jpg/.gif/.bmp/.png Only)</label>
-                        <input type="file" class="form-control" name="image" >
+                        <input type="file" class="form-control" name="c_image" >
                     </div>
 
                     <div class="text-center"><!--text-center -->

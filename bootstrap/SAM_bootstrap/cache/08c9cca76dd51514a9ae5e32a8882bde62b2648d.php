@@ -23,7 +23,7 @@
                 <li>
                     <?php echo e($product['name']); ?>
 
-                
+
                 </li>
             </ul>
         </div>
@@ -34,7 +34,9 @@
 
         <!-- begin of product details -->
         <div class="col-md-9"><!--col-md-9 -->
+
             <div class="row" id="productMain"><!--row start -->
+
                 <div class="col-sm-6"><!--col-sm-6 -->
                     <div id="mainImage"><!--mainImage start-->
                         <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -51,12 +53,12 @@
                                 </div>
                                 <div class="item">
                                     <center>
-                                        <img src="<?php echo e($product['image_path2']); ?>" class="img-responsive">
+                                        
                                     </center>
                                 </div>
                                 <div class="item">
                                     <center>
-                                        <img src="<?php echo e($product['image_path3']); ?>" class="img-responsive">
+                                        
                                     </center>
                                 </div>
 
@@ -77,55 +79,63 @@
                         </div>
                     </div> <!--mainImage end-->
                 </div>   <!--col-sm-6 end -->
+                
+                <div class="product"  id="product" data-token="<?php echo e($token); ?>" data-id="<?php echo e($product->id); ?>">
+                    <div class="col-sm-6"><!--col-sm-6 start -->
+                        <div class="box"><!--box start -->
+                            
+                            <h1 class="text-center">{{stringLimit(product.name, 18)}}</h1>
 
-                <div class="col-sm-6"><!--col-sm-6 start -->
-                    <div class="box"><!--box start -->
-                        <h1 class="text-center"><?php echo e($product['name']); ?></h1>
+                            
 
+                                <div class="form-group"><!--form-group -->
+                                    <label class="col-md-5 control-label">Product Quantity</label>
 
-                        <form action="details/<?php echo e($product['id']); ?>" method="post" class="form-horizontal"><!--form-horizontal -->
-                            <div class="form-group"><!--form-group -->
-                                <label class="col-md-5 control-label">Product Quantity</label>
+                                    <div class="col-md-7"><!--col-md-7 -->
+                                        <select name="product_qty" class="form-control">
+                                            <option>Select Quantity</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
 
-                                <div class="col-md-7"><!--col-md-7 -->
-                                    <select name="product_qty" class="form-control">
-                                        <option>Select Quantity</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-
-                                    </select>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group"><!--form-group -->
-                                <label class="col-md-5 control-label">Product Size</label>
-                                <div class="col-md-7"><!-- col-md-7-->
-                                    <select name="product_size" class="form-control">
-                                        <option>Select a Size</option>
-                                        <option>Small</option>
-                                        <option>Medium</option>
-                                        <option>Large</option>
-                                        <option>X-Large</option>
-                                        <option>XX-Large</option>
-                                        <option>XXX-Large</option>
-                                    </select>
+                                <div class="form-group"><!--form-group -->
+                                    <label class="col-md-5 control-label">Product Size</label>
+                                    <div class="col-md-7"><!-- col-md-7-->
+                                        <select name="product_size" class="form-control">
+                                            <option>Select a Size</option>
+                                            <option>Small</option>
+                                            <option>Medium</option>
+                                            <option>Large</option>
+                                            <option>X-Large</option>
+                                            <option>XX-Large</option>
+                                            <option>XXX-Large</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <p class="price">$ <?php echo e($product['price']); ?></p>
-                            <p class="text-center buttons"><!--text-center buttons start -->
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="fa fa-shopping-cart"></i>Add to Cart
-                                </button>
-                            </p>
+                                <p class="price">$ <?php echo e($product['price']); ?></p>
+                                
+                                <p class="text-center buttons">
+                                    
+                                    <a  v-if="product.quantity > 0" :href="'/sam_public/details/' + product.id" @click.prevent="addToCart(product.id)" class='btn btn-primary'>
+                                        <i class='fa fa-shopping-cart'></i> Add to Cart
+                                    </a>
+
+                                   <a v-else class='btn btn-danger'disabled>
+                                      Out of stock
+                                  </a>
+                              </p>
 
 
-                        </form>
-                    </div>
+                          
+                      </div>
 
-                    <div class="row" id="thumbs"><!--row start -->
+                      <div class="row" id="thumbs"><!--row start -->
                         <div class="col-xs-4"><!-- col-xs-4-->
                             <a href="#" class="thumb">
                                 <img src="<?php echo e($product['image_path1']); ?>" class="img-responsive">
@@ -144,50 +154,50 @@
                             </a>
                         </div>
                     </div>
-
-
                 </div>
-
-            </div> <!-- row Ends-->
-
-            <div class="box" id="details"><!--box start -->
-                <p><!--p start-->
-                    <h4>Product details</h4>
-                    <p><?php echo e($product['desc']); ?></p>
-                    <h4>Size</h4>
-                    <ul>
-                        <li>Small</li>
-                        <li>Medium</li>
-                        <li>Large</li>
-                        <li>X-Large</li>
-                        <li>XX-Large</li>
-                    </ul>
-                </p>
-                <hr>
             </div>
 
+        </div> <!-- row Ends-->
 
-
-            <?php echo $__env->make('includes.also-like', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-
-
-
+        <div class="box" id="details"><!--box start -->
+            <p><!--p start-->
+                <h4>Product details</h4>
+                <p><?php echo e($product['desc']); ?></p>
+                <h4>Size</h4>
+                <ul>
+                    <li>Small</li>
+                    <li>Medium</li>
+                    <li>Large</li>
+                    <li>X-Large</li>
+                    <li>XX-Large</li>
+                </ul>
+            </p>
+            <hr>
         </div>
-        <div class="col-md-9" "><!--col-md-9 -->
 
-            <div class="box" id="comments"  style="width: 140%;"><!--comment -->
-                <h4>Product Reviews</h4>
-                <p>Overall star of the product here</p>
-                <hr>
-                <?php echo $__env->make('includes.review', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
-            </div>
-
-        </div>
+        
+        
+        <?php echo $__env->make('includes.also-like', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
 
 
     </div>
+    <div class="col-md-9" "><!--col-md-9 -->
+
+        <div class="box" id="comments"  style="width: 140%;"><!--comment -->
+            <h4>Product Reviews</h4>
+            <p>Overall star of the product here</p>
+            <hr>
+            <?php echo $__env->make('includes.review', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+        </div>
+
+    </div>
+
+
+
+</div>
 </div>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
