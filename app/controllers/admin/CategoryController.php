@@ -9,9 +9,11 @@ use App\Classes\CSRFToken;
 use App\Classes\Request;
 use App\Classes\Role;
 use App\Classes\Redirect;
+
 // use App\Classes\Mail;
 
-class CategoryController extends BaseController
+// class CategoryController extends BaseController
+class CategoryController 
 {
 	public function __construct()
 	{		

@@ -41,13 +41,18 @@ class CartController extends BaseController
 
 	public function showOrderComplete()
 	{
-		$token = CSRFToken::_token();
-
-		return _view('order-complete', compact('token'));
+		// return _view('order-complete');
+		return _view('order-complete');
 	}
-
+	public function completePayment()
+	{
+		Redirect::to('/sam_public/order-complete');
+	}
 	public function addItem()
 	{
+		// if is user then add things to this user cart
+
+		var_dump("in addItem()");
 		if(Request::has('post')){
 			$request = Request::get('post');
 			if(CSRFToken::verifyCSRFToken($request->token, false)){
@@ -55,11 +60,14 @@ class CartController extends BaseController
 				if(!$request->product_id){
 					throw new \Exception('Malicious Activity');
 				}
-				Cart::add($request);
+				Cart::add($request); // here
+				
+				var_dump("successfully added"); exit;
 				echo json_encode(['success'=> 'Product Added to Cart Successfully']);
 				exit;
 			}
 		}
+
 	}
 
 	public function getCartItems()
@@ -281,15 +289,21 @@ class CartController extends BaseController
 					'body' => $result
 				];
 				// var_dump((new Mail())->send($data));
+
 				(new Mail())->send($data);
+
+				//destroy Session(username) and Session('user_cart')
 
 			}catch(\Exception $ex){
 				echo $ex->getMessage();
 			}
 			Cart::clear();
+			// Cart::clear(_user()->username);
 			echo json_encode([
 				'success' => 'Thank you, we have received your payment and now processing your order.'
 			]);
+
+			 // Redirect::to('/sam_public/order-complete');// header is already by (new Mail())->send($data);
 		}
 	}
 }

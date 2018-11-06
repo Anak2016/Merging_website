@@ -826,3 +826,10 @@ html, body {min-height: 100%;}
 .placeholder-highlight{
     border: 1px solid #ccc;
 }
+
+.pagination .current {
+  padding: 0.1875rem 0.625rem;
+  background: #1779ba;
+  color: #fefefe;
+  cursor: default;
+}

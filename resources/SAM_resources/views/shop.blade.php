@@ -33,14 +33,18 @@
                     <div class='col-md-4 col-sm-6 single' v-cloak v-for="product in products">
                         {{-- <h1>HERE</h1> --}}
                         <div class='product'>
-                            <a :href="'/sam_public/details/' + product.id">
-                                <img :src='product.image_path1' class='img-responsive'>
-                            </a>
-
+                            <div class="box_sale">
+                                <div v-if="product.label == 1" class="ribbon"><span>Sale</span>
+                                    <a :href="'/sam_public/details/' + product.id">
+                                        <img :src='product.image_path1' class='img-responsive'>
+                                    </a>
+                                </div>
+                            </div>
                             <div class='text'>
                                 <h3>
                                     <a :href="'/sam_public/details/' + product.id">
-                                        @{{stringLimit(product.name, 18)}}
+                                        {{-- product.name is not a string --}}
+                                        @{{stringLimit(product.name, 18)}} 
                                     </a> 
                                 </h3>
                                 <p class='price'>$ @{{product.price}}</p>
@@ -56,6 +60,7 @@
                               </p>
                           </div>
 
+
                       </div>
 
                   </div>
@@ -64,6 +69,10 @@
                 <h1>No Deal Item</h1>
             </div>
             {{-- {!!$links !!} --}}
+            {{-- <pre>
+                @{{products}}
+            </pre> --}}
+
         </div>
 
     </div> <!--container end-->
@@ -71,4 +80,3 @@
 </div> 
 
 @stop
-

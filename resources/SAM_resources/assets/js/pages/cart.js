@@ -10,13 +10,20 @@
 			token: function(token){
 				//$.param will be sent as XHR request.
 				var data= $.param({stripeToken: token.id, stripeEmail:token.email});
-				//send XHR post request 
+
+				// //send XHR post request 
+
+				
 				axios.post('/sam_public/cart/payment', data).then(function(response){
 					$(".notify").css("display", "block").delay(4000).slideUp(300).html(response.data.success);
 					app.displayItems(200);
+					//redirect to new page
 				}).catch(function(error){
 					console.log(error);
 				});
+
+				window.location.replace("http://localhost/sam_public/order-complete");
+				
 			}
 		});
 
@@ -37,10 +44,10 @@
 					this.loading = true;
 
 					axios.all(
-					[
+						[
 						axios.get('/sam_public/cart/items')
-					]
-					).then(axios.spread(function(response){
+						]
+						).then(axios.spread(function(response){
 
 						// console.log(response.data.fail);
 						// console.log("here");
@@ -57,8 +64,8 @@
 							console.log(app.items);
 						}
 					}));
-				},
-				updateQuantity: function(product_id, operator){
+					},
+					updateQuantity: function(product_id, operator){
 					// alert(product_id + " " + operator);
 					var postData = $.param({product_id: product_id, operator:operator});
 					axios.post('/sam_public/cart/update-qty', postData).then(function(response){
@@ -66,23 +73,26 @@
 						app.displayItems();
 					});
 					// console.log("hi");
+					location.reload();
 				},
 				removeItem: function(index){
 					var postData = $.param({item_index: index});
 					axios.post("/sam_public/cart/remove-item", postData).then( function(response){
 						$(".notify").css("display", "block").delay(4000).slideUp(300) 
-							.html(response.data.success);
+						.html(response.data.success);
 						app.displayItems();
 					});
+					location.reload();
 				},
 				emptyCart: function(cart){
 					//remove the whole cart
 					var postData = $.param({cart:cart});
 					axios.post("/sam_public/cart/empty-cart", postData).then( function(response){
 						$(".notify").css("display", "block").delay(4000).slideUp(300) 
-							.html(response.data.success);
+						.html(response.data.success);
 						app.displayItems();
 					});
+					location.reload();
 				},
 				checkout: function(){
 					// alert('can see');
@@ -93,7 +103,12 @@
 						amount: app.amountInCents,
 						zipCode:true
 					});
-					// redirect to Order Complete after payment has been made.
+
+					// axios.get('/sam_public/complete-payment').then(function(response){
+					// //redirect to new page
+					// 	console.log('send to order-complete page');
+					// });
+
 				},
 				stringLimit: function(string, value){
 					// console.log(ACMESTORE.module.truncateString(string,value));

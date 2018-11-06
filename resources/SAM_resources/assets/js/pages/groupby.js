@@ -34,6 +34,8 @@
 						$(".notify").css("display", "block").delay(4000).slideUp(300)
 						.html(message);
 					});
+					// this.getSubcategoryProducts();
+					location.reload();
 				},
 				loadMoreSubcategoryProducts: function(){
 					var token = $('.display-products').data('token');

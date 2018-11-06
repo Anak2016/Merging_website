@@ -34,9 +34,65 @@
 			<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 		</tbody>
 	</table>
-	<?php echo $links; ?>
+	
 
 	
+	<?php if($selected < 7): ?>
+		<?php if($count < 7): ?>
+			<ul class="pagination">
+				<li><a href="#"><<</a></li>	
+
+				<?php for($i = 1; $i <= $count; $i++): ?>
+					<li><a href="#"><?php echo e($i); ?></a></li>
+				<?php endfor; ?>
+				
+				<li><a href="#">>></a></li>
+			</ul>
+		<?php else: ?>
+			<ul class="pagination">
+				<li><a href="#"><<</a></li>
+				<li><a href="#">1</a></li>
+				<li><a href="#">2</a></li>
+				<li><a href="#">3</a></li>
+				<li><a href="#">4</a></li>
+				<li><a href="#">5</a></li>
+				<li><a href="#">6</a></li>
+				<li><a href="#">7</a></li>
+				<li><a href="#">...</a></li>
+				<li><a href="#">>></a></li>
+			</ul>
+		<?php endif; ?>
+	<?php elseif($selected <7 and $selected > $count-6): ?>
+		<ul class="pagination">
+			<li><a href="#"><<</a></li>
+			<li><a href="#">...</a></li>
+			<li><a href="#">$selected-3</a></li>
+			<li><a href="#">$count-2</a></li>
+			<li><a href="#">$count-1</a></li>
+			<li><a href="#">$count</a></li>
+			<li><a href="#">$count+1</a></li>
+			<li><a href="#">$count+2</a></li>
+			<li><a href="#">$count+3</a></li>
+			<li><a href="#">...</a></li>
+			<li><a href="#">>></a></li>		
+		</ul>
+	<?php elseif($selected > $count - 6): ?>
+		<ul class="pagination">
+			<li><a href="#"><<</a></li>
+			<li><a href="#">...</a></li>
+			<li><a href="#">$count-6</a></li>
+			<li><a href="#">$count-5</a></li>
+			<li><a href="#">$count-4</a></li>
+			<li><a href="#">$count-3</a></li>
+			<li><a href="#">$count-2</a></li>
+			<li><a href="#">$count-1</a></li>
+			<li><a href="#">$count</a></li>
+			<li><a href="#">>></a></li>
+		</ul>
+	<?php endif; ?>
+	
+	
+
 	<?php else: ?>
 	<h2>this order does not exist.</h2>
 	<?php endif; ?>

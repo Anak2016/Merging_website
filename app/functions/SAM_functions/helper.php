@@ -97,6 +97,95 @@ function _convertMoneyToCents($value)
 	return round($value,2) *100;
 }
 
+// assign Session('user_cart') to Session($username) when logout.
+function _saveUserCart($username){ // this is not needed anymore
+    if(_isAuthenticated()){
+        //array must be assigned separately 
+        //we have to make $carts accible everywhere in the page
+        if(Session::has("user_cart"))
+        {
+            $carts = Session::get("user_cart");
+
+            foreach($carts as $cart)
+            {
+            //array_push($holding, $cart); // push to $holding array
+                Session::add($username, $cart);
+            }
+
+        }
+        return $_SESSION[$username];
+    }
+}
+
+// assign Session('username') to Session('user_cart') when login.
+function _getUserCart(){
+
+    if(_isAuthenticated()){
+        //array must be assigned separately 
+        // $user_carts = Session::get("user_cart");
+        $var = SAM\Classes\Session::get('SESSION_USER_NAME');
+
+        $total = array();
+        if(SAM\Classes\Session::has($var) && SAM\Classes\Session::has("user_cart")){
+            $var_cart = SAM\Classes\Session::get($var);
+            $user_cart = SAM\Classes\Session::get("user_cart"); 
+
+            $total = array_merge($user_cart, $var_cart);
+            // $_SESSION['user_cart']; is not consistent outside of the function
+            // new value below is not changed.
+            SAM\Classes\Session::add($var, $total);
+            SAM\Classes\Session::add("user_cart", $total); // I think its structure is correct. it could be wrong so keep this in mind.  
+            return $_SESSION['user_cart'];       
+        }elseif(SAM\Classes\Session::has($var)){
+            $total = array();
+            $var_cart = SAM\Classes\Session::get($var); 
+            $total = $var_cart;
+            SAM\Classes\Session::add($var, $total);
+            SAM\Classes\Session::add("user_cart", $total);
+            return $_SESSION["user_cart"];
+        }elseif(SAM\Classes\Session::has("user_cart")){
+            $total = array();
+            $user_cart = SAM\Classes\Session::get("user_cart");                
+            $total = $user_cart;
+            SAM\Classes\Session::add($var, $total);   
+            SAM\Classes\Session::add("user_cart", $total);
+            return $_SESSION["user_cart"];
+        }
+        // if(isset($_SESSION['user_cart'])){
+        //     return $_SESSION['user_cart'];
+        // }
+    }
+}
+// mayb we dont need cookie for now 
+//create code just so we have it for future need.
+function _setCookie($name, $value){
+
+
+    if($name !='' && !empty($name) && $value != '' && !empty($value)){
+            // echo "1 ";
+        setcookie($NAME, $value, -1);
+    }
+
+        // echo "0";
+        //throw exception if value is not defined or empty
+    throw new \Exception('COOKIE: Name and value required');
+}
+
+function _hasCookie($name){
+    if($name != '' && !empty($name)){
+
+        return (isset($_COOKIE[$name])) ?true:false;
+    }
+    return (isset($_COOKIE[$name])) ?true:false;
+}
+
+function _deleteCookie($name, $value){
+    if(_hasCookie($name)){
+        unset($_COOKIE[$name]);
+        setcookie($name, $value, -1);
+    }
+
+}
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ SAM FUNCTIONS ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 /*This function is dynamic now, it can be use to any table for check the duplicate username

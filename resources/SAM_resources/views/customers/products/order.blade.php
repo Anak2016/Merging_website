@@ -35,13 +35,70 @@
 			@endforeach
 		</tbody>
 	</table>
-	{!! $links !!}
+	{{-- {!! $links !!} --}}
+
 	{{-- <ul class="pagination " data-pagination-current="1" data-pagination-prev="false" data-pagination-next="2" data-pagination-length="2">
 		<li class="pagination--start"><a href="?p=1">&laquo;</a></li>
 		<li class="current"><a href="?p=1">1</a></li>
 		<li><a href="?p=2">2</a></li>
 		<li class="pagination--end"><a href="?p=2">&raquo;</a></li>
 	</ul> --}}
+	@if($selected < 7)
+		@if($count < 7)
+			<ul class="pagination">
+				<li><a href="#"><<</a></li>	
+
+				@for($i = 1; $i <= $count; $i++)
+					<li><a href="#">{{$i}}</a></li>
+				@endfor
+				
+				<li><a href="#">>></a></li>
+			</ul>
+		@else
+			<ul class="pagination">
+				<li><a href="#"><<</a></li>
+				<li><a href="#">1</a></li>
+				<li><a href="#">2</a></li>
+				<li><a href="#">3</a></li>
+				<li><a href="#">4</a></li>
+				<li><a href="#">5</a></li>
+				<li><a href="#">6</a></li>
+				<li><a href="#">7</a></li>
+				<li><a href="#">...</a></li>
+				<li><a href="#">>></a></li>
+			</ul>
+		@endif
+	@elseif($selected <7 and $selected > $count-6)
+		<ul class="pagination">
+			<li><a href="#"><<</a></li>
+			<li><a href="#">...</a></li>
+			<li><a href="#">$selected-3</a></li>
+			<li><a href="#">$count-2</a></li>
+			<li><a href="#">$count-1</a></li>
+			<li><a href="#">$count</a></li>
+			<li><a href="#">$count+1</a></li>
+			<li><a href="#">$count+2</a></li>
+			<li><a href="#">$count+3</a></li>
+			<li><a href="#">...</a></li>
+			<li><a href="#">>></a></li>		
+		</ul>
+	@elseif($selected > $count - 6)
+		<ul class="pagination">
+			<li><a href="#"><<</a></li>
+			<li><a href="#">...</a></li>
+			<li><a href="#">$count-6</a></li>
+			<li><a href="#">$count-5</a></li>
+			<li><a href="#">$count-4</a></li>
+			<li><a href="#">$count-3</a></li>
+			<li><a href="#">$count-2</a></li>
+			<li><a href="#">$count-1</a></li>
+			<li><a href="#">$count</a></li>
+			<li><a href="#">>></a></li>
+		</ul>
+	@endif
+	
+	
+
 	@else
 	<h2>this order does not exist.</h2>
 	@endif

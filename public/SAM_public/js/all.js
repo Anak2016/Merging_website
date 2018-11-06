@@ -42754,13 +42754,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			token: function token(_token) {
 				//$.param will be sent as XHR request.
 				var data = $.param({ stripeToken: _token.id, stripeEmail: _token.email });
-				//send XHR post request 
+
+				// //send XHR post request 
+
+
 				axios.post('/sam_public/cart/payment', data).then(function (response) {
 					$(".notify").css("display", "block").delay(4000).slideUp(300).html(response.data.success);
 					app.displayItems(200);
+					//redirect to new page
 				}).catch(function (error) {
 					console.log(error);
 				});
+
+				window.location.replace("http://localhost/sam_public/order-complete");
 			}
 		});
 
@@ -42779,6 +42785,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			methods: {
 				displayItems: function displayItems() {
 					this.loading = true;
+
 					axios.all([axios.get('/sam_public/cart/items')]).then(axios.spread(function (response) {
 
 						// console.log(response.data.fail);
@@ -42793,6 +42800,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 							app.loading = false;
 							app.authenticated = response.data.authenticated;
 							app.amountInCents = response.data.amountInCents;
+							console.log(app.items);
 						}
 					}));
 				},
@@ -42804,6 +42812,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 						app.displayItems();
 					});
 					// console.log("hi");
+					location.reload();
 				},
 				removeItem: function removeItem(index) {
 					var postData = $.param({ item_index: index });
@@ -42811,6 +42820,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 						$(".notify").css("display", "block").delay(4000).slideUp(300).html(response.data.success);
 						app.displayItems();
 					});
+					location.reload();
 				},
 				emptyCart: function emptyCart(cart) {
 					//remove the whole cart
@@ -42819,6 +42829,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 						$(".notify").css("display", "block").delay(4000).slideUp(300).html(response.data.success);
 						app.displayItems();
 					});
+					location.reload();
 				},
 				checkout: function checkout() {
 					// alert('can see');
@@ -42829,6 +42840,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 						amount: app.amountInCents,
 						zipCode: true
 					});
+
+					// axios.get('/sam_public/complete-payment').then(function(response){
+					// //redirect to new page
+					// 	console.log('send to order-complete page');
+					// });
 				},
 				stringLimit: function stringLimit(string, value) {
 					// console.log(ACMESTORE.module.truncateString(string,value));
@@ -42848,7 +42864,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /* 61 */
 /***/ (function(module, exports) {
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 (function () {
 	'use strict';
@@ -42856,7 +42872,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	ACMESTORE.homeslider.homePageProducts = function () {
 		var app = new Vue({
 			el: '#root',
-			data: {
+			data: _defineProperty({
 				dealProducts: [],
 				popularProducts: [],
 				products: [],
@@ -42865,6 +42881,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				subCategories: [],
 				searchProducts: [],
 				selectedProduct: [],
+				selectedDeal: [],
 				countDeals: 0,
 				countPopulars: 0,
 				countProducts: 0,
@@ -42875,9 +42892,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				loading: false,
 				checkedMenufacturers: [],
 				checkedCategories: [],
-				checkedSubCategories: []
-
-			},
+				checkedSubCategories: [],
+				manufacturerKeyword: "",
+				categoryKeyword: "",
+				subCategoryKeyword: ""
+			}, 'keyword', null),
 			methods: { // all of the function must be inside of the object is passed to method property's of Vue.js.
 				getFeaturedProducts: function getFeaturedProducts() {
 					// if($('#data-keyword').length){
@@ -42940,9 +42959,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					// 		console.log(response.data.ip);
 					// 		app.ip = resposne.data.ip;
 					// 	});
+					console.log("in home_product.addTocart()");
 					ACMESTORE.module.addItemToCart(id, function (message) {
 						$(".notify").css("display", "block").delay(4000).slideUp(300).html(message);
 					});
+					location.reload();
 				},
 				loadMoreProducts: function loadMoreProducts() {
 					var token = $('.display-products').data('token');
@@ -42963,39 +42984,116 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					var selectedSubCategories = [];
 					this.checkedMenufacturers.forEach(function (element) {
 						// console.log(element);
-						selectedManufacturers.push(element);
+						selectedManufacturers.push(element); //put selected id in array form
 					});
 					this.checkedCategories.forEach(function (element) {
 						// console.log(element);
-						selectedCategories.push(element);
+						selectedCategories.push(element); //put selected id in array form
 					});
 					this.checkedSubCategories.forEach(function (element) {
 						// console.log(element);
-						selectedSubCategories.push(element);
+						selectedSubCategories.push(element); //put selected id in array form
 					});
+
+					// console.log(selectedManufacturers);
+					// console.log(selectedCategories); 
+					// console.log(selectedSubCategories);
 
 					var data = $.param({ selectedManufacturers: selectedManufacturers, selectedCategories: selectedCategories, selectedSubCategories: selectedSubCategories });
 					axios.post('/sam_public/loadCheckedItems', data).then(function (response) {
-						// var selectedProduct = response.data.products;
-						console.log(_typeof(response.data));
+
+						// console.log("response.data.dealProducts = ");
+						// console.log(response.data)
+						// console.log(response.data.products);
 						app.selectedProduct = response.data.products;
-						console.log(app.selectedProduct);
+						app.selectedDeal = response.data.dealProducts; // 
 						app.products = [];
+						app.dealProducts = [];
+						// var an_array = [];
 						for (var i = 0; i < app.selectedProduct.length; i++) {
 							app.products = app.products.concat(app.selectedProduct[i]);
-							// console.log(app.products);
 						}
+
+						for (var i = 0; i < app.selectedDeal.length; i++) {
+							app.dealProducts = app.dealProducts.concat(app.selectedDeal[i]);
+						}
+						// console.log("+++++++++++++++++++++++++++++++++");
 						// console.log(app.products);
-						// app.products = response.data.products;
+						// console.log("+++++++++++++++++++++++++++++++++");
+						// console.log(app.products[100].id);
+
+						// app.products = ACMESTORE.module.arrayUnique(  app.products);
+						for (var i = 0; i < app.products.length; i++) {
+							if (typeof app.products[i] != 'undefined') {
+								// console.log("big i = " + i);
+								for (var j = 0; j < i; j++) {
+									// console.log(app.products);
+									if (typeof app.products[j] != 'undefined' && typeof app.products[i] != 'undefined') {
+										if (app.products[i].id == app.products[j].id) {
+											app.products.splice(i, 1);
+											j--;
+											i--;
+											// console.log("dubplicate: "+ app.products[j].id);
+										} else {
+												// console.log("not dubplicate:" + app.products[j].id);
+											}
+									} else {
+											// console.log("undefined");
+											// console.log("j = "+ j);
+											// console.log(app.products[j]);
+											// console.log("i = "+ i);
+											// console.log(app.products[i]);
+										}
+								}
+								// console.log("=========================");
+							}
+						}
+
+						for (var i = 0; i < app.dealProducts.length; i++) {
+							if (typeof app.dealProducts[i] != 'undefined') {
+								// console.log("big i = " + i);
+								for (var j = 0; j < i; j++) {
+									// console.log(app.products);
+									if (typeof app.dealProducts[j] != 'undefined' && typeof app.dealProducts[i] != 'undefined') {
+										if (app.dealProducts[i].id == app.dealProducts[j].id) {
+											app.dealProducts.splice(i, 1);
+											j--;
+											i--;
+										}
+									}
+								}
+							}
+						}
+						console.log(app.products);
+						// console.log(app.dealProducts);
 						app.countProducts = response.data.count;
-						// app.getFeaturedProducts();
+						app.countDeals = response.data.count;
 						app.loading = false;
-						// console.log(app.selectedProduct[1][0].id);
 					});
+				},
+				searchKeyword: function searchKeyword() {
+					//get result with query
+					//console.log("This is keywordInput = " + this.keywordInput);
+
+					var manufacturerData = $.param({ keyword: this.manufacturerKeyword });
+					var categoryData = $.param({ keyword: this.categoryKeyword });
+					var subCategoryData = $.param({ keyword: this.subCategoryKeyword });
+					this.manufacturers = [];
+					this.categories = [];
+					this.subCategories = [];
+					axios.all([
+					// create these 2 routes.
+					axios.post('/sam_public/manufacturerKeyword', manufacturerData), axios.post('/sam_public/categoryKeyword', categoryData), axios.post('/sam_public/subCategoryKeyword', subCategoryData)]).then(axios.spread(function (responseManufacturer, responseCategory, responseSubCategory) {
+						// console.log(typeof response.data);
+						// console.log(responseManufacture.data[Object.keys(response.data)[0]]);
+						app.manufacturers = responseManufacturer.data.keyword;
+						app.categories = responseCategory.data.keyword;
+						app.subCategories = responseSubCategory.data.keyword;
+					}));
 				}
 			},
 			created: function created() {
-				// console.log("before runing Vue");
+				console.log("in home_Product.js");
 				this.getFeaturedProducts();
 			}
 			// ,
@@ -43042,12 +43140,33 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			}
 			//data that will be post to PHP script
 			var postData = $.param({ product_id: id, token: token });
-			// console.log(postData);	
+
+			console.log(postData);
 			//send post request URL which call CartController::addItem (send status message of the request, succeed vs failure) 
 			axios.post('/sam_public/cart', postData).then(function (response) {
-				// console.log(response.data);	
+				console.log(response.data);
+				console.log("dafh");
 				callback(response.data.success);
 			});
+		},
+		arrayUnique: function arrayUnique(array) {
+			var a = array.concat();
+			for (var i = 0; i < a.length; ++i) {
+				for (var j = i + 1; j < a.length; ++j) {
+					if (a[i] === a[j]) a.splice(j--, 1);
+				}
+			}
+
+			return a;
+		},
+		removeDumps: function removeDumps(names) {
+			var unique = {};
+			names.forEach(function (i) {
+				if (!unique[i]) {
+					unique[i] = true;
+				}
+			});
+			return Object.keys(unique);
 		}
 	};
 })();
@@ -43066,8 +43185,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			el: "#product",
 			data: {
 				product: [],
-				category: [],
-				subCategory: [],
+				categories: [],
+				subCategories: [],
 				manufacturers: [],
 				similarProducts: [],
 				countMenufactures: 0,
@@ -43134,6 +43253,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					ACMESTORE.module.addItemToCart(id, function (message) {
 						$(".notify").css("display", "block").delay(4000).slideUp(300).html(message);
 					});
+					// this.getProductDetails();
+					location.reload();
 				},
 				// submitComment: function(product_id){
 				submitComment: function submitComment() {
@@ -43251,6 +43372,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					ACMESTORE.module.addItemToCart(id, function (message) {
 						$(".notify").css("display", "block").delay(4000).slideUp(300).html(message);
 					});
+					// this.getSubcategoryProducts();
+					location.reload();
 				},
 				loadMoreSubcategoryProducts: function loadMoreSubcategoryProducts() {
 					var token = $('.display-products').data('token');
@@ -43284,22 +43407,37 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var app = new Vue({
 			el: '#root',
 			data: {
-				products: [],
-				manufacturers: [],
+				product: [],
+				categories: [],
+				subCategories: [],
 				searchProducts: [],
-				countSearches: 0,
+				manufacturers: [],
+				similarProducts: [],
 				countMenufactures: 0,
-				// keyword: "nothing",
+				// countSearchProducts: 0,
+				ip: "nothing",
+
+				checkedMenufacturers: [],
+				checkedCategories: [],
+				checkedSubCategories: [],
+				selectedProduct: [],
+				selectedSearch: [],
+				countSearches: 0,
+				countProducts: 0,
+				keyword: '',
+				manufacturerKeyword: "",
+				categoryKeyword: "",
+				subCategoryKeyword: "",
 				loading: false
 			},
 			methods: { // all of the function must be inside of the object is passed to method property's of Vue.js.
 				getFeaturedProducts: function getFeaturedProducts() {
 
-					var keyword = $('#keyword').val();
+					this.keyword = $('#keyword').val();
 
 					// console.log($('#keyword').val());
 					// console.log(keyword);
-					var data = $.param({ keyword: keyword });
+					var data = $.param({ keyword: this.keyword });
 					// axios.post('/sam_public/searchResult',data)
 					// .then(function(response){
 
@@ -43310,7 +43448,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 					axios.all([
 					// create these 2 routes.
-					axios.post('/sam_public/searchResult', data), axios.get('/sam_public/manufacturers')]).then(axios.spread(function (response, manufacturerResponse) {
+					axios.post('/sam_public/searchResult', data), axios.get('/sam_public/manufacturers'), axios.get('/sam_public/categories'), axios.get('/sam_public/sub-categories')]).then(axios.spread(function (response, manufacturerResponse, categoryResponse, subCategoryResponse) {
 						// console.log(dealResponse.data.count);
 						app.searchProducts = response.data.results;
 						app.countSearches = response.data.count;
@@ -43319,6 +43457,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 						app.manufacturers = manufacturerResponse.data.manufacturers;
 						app.countMenufactures = manufacturerResponse.data.count;
 						// console.log(app.manufacturers[0].id);
+						app.categories = categoryResponse.data.categories;
+
+						app.subCategories = subCategoryResponse.data.subCategories;
 
 						app.loading = false;
 					}));
@@ -43332,6 +43473,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					ACMESTORE.module.addItemToCart(id, function (message) {
 						$(".notify").css("display", "block").delay(4000).slideUp(300).html(message);
 					});
+					location.reload();
 				},
 				loadMoreProducts: function loadMoreProducts() {
 					var token = $('.display-products').data('token');
@@ -43344,7 +43486,87 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 						app.count = response.data.count;
 						app.loading = false;
 					});
+				},
+				loadCheckedItems: function loadCheckedItems() {
+					// console.log(this.checkedBoxes);
+					var selectedManufacturers = [];
+					var selectedCategories = [];
+					var selectedSubCategories = [];
+					this.checkedMenufacturers.forEach(function (element) {
+						// console.log(element);
+						selectedManufacturers.push(element);
+					});
+					this.checkedCategories.forEach(function (element) {
+						// console.log(element);
+						selectedCategories.push(element);
+					});
+					this.checkedSubCategories.forEach(function (element) {
+						// console.log(element);
+						selectedSubCategories.push(element);
+					});
+
+					var data = $.param({ selectedManufacturers: selectedManufacturers, selectedCategories: selectedCategories, selectedSubCategories: selectedSubCategories, keyword: this.keyword });
+					axios.post('/sam_public/loadCheckedItems', data).then(function (response) {
+						// var selectedProduct = response.data.products;
+
+						console.log(response.data.searchProducts);
+						app.selectedSearch = response.data.searchProducts;
+						// app.selectedProduct = response.data.searchProducts;
+						// console.log(app.selectedProduct);
+
+						app.searchProducts = [];
+						for (var i = 0; i < app.selectedSearch.length; i++) {
+							app.searchProducts = app.searchProducts.concat(app.selectedSearch[i]);
+							// console.log(app.products);
+						}
+
+						for (var i = 0; i < app.searchProducts.length; i++) {
+							if (typeof app.searchProducts[i] != 'undefined') {
+								// console.log("big i = " + i);
+								for (var j = 0; j < i; j++) {
+									// console.log(app.products);
+									if (typeof app.searchProducts[j] != 'undefined' && typeof app.searchProducts[i] != 'undefined') {
+										if (app.searchProducts[i].id == app.searchProducts[j].id) {
+											app.searchProducts.splice(i, 1);
+											j--;
+											i--;
+										}
+									}
+								}
+							}
+						}
+
+						// }
+						console.log(app.searchProducts);
+						console.log(response.data.countSearches);
+						// app.products = response.data.products;
+						app.countSearches = response.data.countSearches;
+						// app.getFeaturedProducts();
+						app.loading = false;
+						// console.log(app.selectedProduct[1][0].id);
+					});
+				},
+				searchKeyword: function searchKeyword() {
+					//get result with query
+					//console.log("This is keywordInput = " + this.keywordInput);
+
+					var manufacturerData = $.param({ keyword: this.manufacturerKeyword });
+					var categoryData = $.param({ keyword: this.categoryKeyword });
+					var subCategoryData = $.param({ keyword: this.subCategoryKeyword });
+					this.manufacturers = [];
+					this.categories = [];
+					this.subCategories = [];
+					axios.all([
+					// create these 2 routes.
+					axios.post('/sam_public/manufacturerKeyword', manufacturerData), axios.post('/sam_public/categoryKeyword', categoryData), axios.post('/sam_public/subCategoryKeyword', subCategoryData)]).then(axios.spread(function (responseManufacturer, responseCategory, responseSubCategory) {
+						// console.log(typeof response.data);
+						// console.log(responseManufacture.data[Object.keys(response.data)[0]]);
+						app.manufacturers = responseManufacturer.data.keyword;
+						app.categories = responseCategory.data.keyword;
+						app.subCategories = responseSubCategory.data.keyword;
+					}));
 				}
+
 			},
 			created: function created() {
 				// console.log("before runing Vue");

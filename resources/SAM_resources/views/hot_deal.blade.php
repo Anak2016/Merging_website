@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', 'hot_deal')
 @section('data-page-id', 'home')
+{{-- @section('data-page-id', 'hot-deal') --}}
 
 @section('content')
 
@@ -34,10 +35,13 @@
                     <div v-if="countDeals > 0" class="row"><!--row start-->
                         <div class='col-md-4 col-sm-6 single' v-cloak v-for="dealProduct in dealProducts">
                             <div class='product'>
-                                <a :href="'/sam_public/details/' + dealProduct.id">
-                                    <img :src='dealProduct.image_path1' class='img-responsive'>
-                                </a>
-
+                               <div class="box_sale">
+                                    <div v-if="dealProduct.label == 1" class="ribbon"><span>Sale</span>
+                                        <a :href="'/sam_public/details/' + dealProduct.id">
+                                            <img :src='dealProduct.image_path1' class='img-responsive'>
+                                        </a>
+                                    </div>
+                                </div>
                                 <div class='text'>
                                     <h3>
                                         <a :href="'/sam_public/details/' + dealProduct.id">
@@ -57,19 +61,19 @@
                                   </p>
                               </div>
 
-                          </div>
-
+                          
                       </div>
                   </div>
-                  <div v-else>
-                    <h1>No Deal Item</h1>
-                </div>
+              </div>
+              <div v-else>
+                <h1>No Deal Item</h1>
             </div>
-            {{-- {!!$links !!} --}}
         </div>
+        {{-- {!!$links !!} --}}
+    </div>
 
 
-    </div> <!--container end-->
+</div> <!--container end-->
 </div> <!--content end-->
 </div>
 @stop

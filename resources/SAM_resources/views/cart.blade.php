@@ -138,6 +138,7 @@
 
                             {{-- update_cart(); --}}
                             <button @click="emptyCart(items)" class="btn btn-default" type="submit"name="empty" value="Update Cart"><i class="fa fa-refresh"></i>Empty Cart</button>
+
                             <a v-if="authenticated" href="/sam_public/checkout" class="btn btn-primary">
                                 &nbsp; Proceed to checkout <i class="fa fa-chevron-right"></i>
                             </a> 

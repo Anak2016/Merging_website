@@ -17,12 +17,20 @@
             </ol>
             <div class="carousel-inner"><!--carousel-inner start-->
                 <!--insert php for slider here -->
+                
+                <?php $count= 0; $notcount=0;?> 
                 @foreach($sliders as $slider)
+                @if($count == 0)
                 <div class='item active'>
                     <img src='{{$slider->image_path}}' alt="image holder">
                 </div>
+                <?php $count = $count + 10;?> 
+                @else
+                <div class='item'>
+                    <img src='{{$slider->image_path}}' alt="image holder">
+                </div>
+                @endif
                 @endforeach
-                
             </div>
 
             <a class="left carousel-control" href="#myCarousel" data-slide="prev"><!--left carousel-control-->
@@ -151,38 +159,56 @@
     <!--Today's Deal product start-->
     <div id="content" class="container"><!-- container start-->
         <div v-if="countDeals > 0" class="row"><!--row start-->
-            <div class='col-md-4 col-sm-6 single' v-cloak v-for="dealProduct in dealProducts">
+            <div class='col-md-3 col-sm-6 single' v-cloak v-for="dealProduct in dealProducts">
                 <div class='product'>
-                    <a :href="'/sam_public/details/' + dealProduct.id">
-                        <img :src='dealProduct.image_path1' class='img-responsive'>
-                    </a>
-
-                    <div class='text'>
-                        <h3>
+                    <div class="box_sale">
+                        {{--  --}}
+                        {{-- <div v-if="dealProduct.label == 1" class='ribbon'><span>Sale</span></div> --}}
+                        <div v-if="dealProduct.label == 1" class="ribbon"><span>Sale</span>
                             <a :href="'/sam_public/details/' + dealProduct.id">
-                                @{{stringLimit(dealProduct.name, 18)}}
-                            </a> 
-                        </h3>
-                        <p class='price'>$ @{{dealProduct.price}}</p>
-                        <p class="price">Quantity: @{{dealProduct.quantity}}</p>
-                        <p class='buttons'>
-                            <a :href="'/sam_public/details/' + dealProduct.id" class='btn btn-default'>View Details</a>
-                            <a  v-if="dealProduct.quantity > 0" :href="'/sam_public/details/' + dealProduct.id" @click.prevent="addToCart(dealProduct.id)" class='btn btn-primary'>
-                                <i class='fa fa-shopping-cart'></i> Add to Cart
+                                <img :src='dealProduct.image_path1' class='img-responsive'>
                             </a>
-                            <a v-else class='btn btn-danger'disabled>
-                              Out of stock
-                          </a>
-                      </p>
-                  </div>
+                        </div>
+                        {{-- <div class='ribbon'><span>Sale</span></div> --}}
+                    </div>
+                  {{-- <div class='box_sale'>
+                    <div class='ribbon'><span>Sale</span>
+                        <a href='details.php?pro_id=19' >
 
+                            <img src='admin_area/product_images/125461.jpg' class='img-responsive' >
+
+                        </a>
+                    </div>
+                </div> --}}
+                
+
+                <div class='text'>
+
+                    <h3>
+                        <a :href="'/sam_public/details/' + dealProduct.id">
+                            @{{stringLimit(dealProduct.name, 18)}}
+                        </a> 
+                    </h3>
+                    <p class='price'>$ @{{dealProduct.price}}</p>
+                    <p class="price">Quantity: @{{dealProduct.quantity}}</p>
+                    <p class='buttons'>
+                        <a :href="'/sam_public/details/' + dealProduct.id" class='btn btn-default'>View Details</a>
+                        <a  v-if="dealProduct.quantity > 0" :href="'/sam_public/details/' + dealProduct.id" @click.prevent="addToCart(dealProduct.id)" class='btn btn-primary'>
+                            <i class='fa fa-shopping-cart'></i> Add to Cart
+                        </a>
+                        <a v-else class='btn btn-danger'disabled>
+                          Out of stock
+                      </a>
+                  </p>
               </div>
 
           </div>
+
       </div>
-      <div v-else>
-        <h1>No Deal Item</h1>
-    </div>
+  </div>
+  <div v-else>
+    <h1>No Deal Item</h1>
+</div>
 </div>
 
 <div id="hot"><!-- hot start-->
@@ -201,11 +227,16 @@
     <div class="row"><!--row start-->
         <!-- first product start here-->
         <div v-if="countPopulars > 0" >
-            <div class="col-sm-4 col-sm-6 single" v-cloak v-for="popularProduct in popularProducts"><!--col-sm-4 col-sm-6 single start-->
+            <div class="col-md-3 col-sm-6 single" v-cloak v-for="popularProduct in popularProducts"><!--col-sm-4 col-sm-6 single start-->
                 <div class="product"><!--product start-->
-                    <a :href="'/sam_public/details/' + popularProduct.id">
-                        <img :src="popularProduct.image_path1" class="img-responsive">
-                    </a>
+                    <div class="box_sale">
+                        {{-- if condition doesn't go through --}}
+                        <div v-if="popularProduct.label == 1" class='ribbon'><span>Sale</span>
+                            <a :href="'/sam_public/details/' + popularProduct.id">
+                                <img :src="popularProduct.image_path1" class="img-responsive">
+                            </a>
+                        </div> 
+                    </div>
                     <div class="text"><!-- text start-->
                         <h3>
                             <a :href="'details/' + popularProduct.id">

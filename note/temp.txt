@@ -1,29 +1,107 @@
-<div class="col-md-9">
-<div class='box'>
-                    <h1>Shop</h1>
-                    <p>TEST detail for shop</p>
-                </div>
-                @foreach($products as $product)
-                <div class='col-md-4 col-sm-6' center-responsive>
-                    <div class='product'>
-                        <a href='details/{{$product->id}}'>
-                            <img src='{{$product->image_path1}}' class='img-responsive'>
+<?php 
+						if(_isAuthenticated()){
 
-                        </a>
-                        <div class='text'>
-                            <h3><a href='details/{{$product->id}}'>$pro_title</a></h3>
-                            <p class='price'>$ {{$product->price}}</p>
-                            <p class='buttons'>
-                                <a href='details/{{$product->id}}' class='btn btn-default'>View Details</a>
-                                <a href='details/{{$product->id}}' class='btn btn-primary'>
-                                    <i class='fa fa-shopping-cart'></i> Add to Cart
-                                </a>
-                            </p>
+						$var = SAM\Classes\Session::get('SESSION_USER_NAME');
+						
+						
+						//if(SAM\Classes\Session::has($var)){
+						//	$total_cart = array();
+						//	$var_cart = SAM\Classes\Session::get($var);
+						//	$user_cart = SAM\Classes\Session::get("user_cart");
+						//	array_push($total_cart, $var_cart);
+						//	foreach($user_cart as $cart)
+						//	{
+						//		array_push($total_cart, $cart);
+						//	}	
+						//}
+						$total = array();
 
-                        </div>
+						
+						if(SAM\Classes\Session::has($var))
+						{
+							$var_cart = SAM\Classes\Session::get($var);
+							$total = $var_cart;
+							var_dump("in has($var)");
+							echo "<br>";
+							var_dump($var_cart);
+							echo "<br>";
+							SAM\Classes\Session::add("user_cart", $total);
+							var_dump(SAM\Classes\Session::get("user_cart"));
+							echo "<br>";
+							echo "<br>";
+						}
+						if(SAM\Classes\Session::has("user_cart"))
+						{
+							$user_cart = SAM\Classes\Session::get("user_cart");
+							$total = $user_cart;
+							var_dump("in has('user_cart')");
+							echo "<br>";
+							var_dump($user_cart);
+							echo "<br>";
+							SAM\Classes\Session::add("user_cart", $total);
+							var_dump(SAM\Classes\Session::get("user_cart"));
+							echo "<br>";
+							echo "<br>";
+						}
+						if(SAM\Classes\Session::has($var) && SAM\Classes\Session::has("user_cart"))
+						{
+							$var_cart = SAM\Classes\Session::get($var);
+							$user_cart = SAM\Classes\Session::get("user_cart");
+							var_dump($var_cart);
+							echo "<br>";
+							var_dump($user_cart);// doesn't exist
+							echo "<br>";
+							if(SAM\Classes\Session::has($var)){
+								$total = array();
+								array_push($total, $var_cart);
+								array_push($total, $user_cart);
+							}
+							//$total = array_merge($var_cart, $user_cart); 
+							var_dump("in has both");
+							var_dump($total);
+							SAM\Classes\Session::add("user_cart", $total);
+							echo "<br>";
+							echo "<br>";
+						}
 
-                    </div>
-                </div>
-                @endforeach
-            </div>
-</div>
+						//SAM\Classes\Session::add($var, $total_cart[0]);
+						var_dump(SAM\Classes\Session::get("user_cart"));
+						echo "<br>";
+						echo "<br>";
+
+						//SAM\Classes\Session::remove("user_cart");
+						//SAM\Classes\Session::remove($var);
+						
+						//var_dump(SAM\Classes\Session::get($var));
+						$total = array();
+						//var_dump($total);
+
+						}else{
+							 //var_dump(SAM\Classes\Session::remove("store")); 
+					 		echo "store:  ";
+					 		var_dump(SAM\Classes\Session::get("store"));
+					 		echo "<br>";
+					 		echo "<br>";
+					 		echo "<br>";
+					 		echo "<br>";
+					 		echo "user_cart:  ";
+					 		var_dump(SAM\Classes\Session::get("user_cart")); 
+					 		echo "<br>";
+					 		echo "<br>";
+					 		echo "<br>";
+						}
+
+						$temps = SAM\Classes\Session::get("user_cart");
+
+						var_dump($temps);
+						echo "<br>";
+						echo "<br>";
+						echo "<br>";
+
+						foreach($temps as $temp){
+							var_dump($temp);
+							echo "<br>";
+							echo "<br>";
+							echo "<br>";
+						}
+				?>

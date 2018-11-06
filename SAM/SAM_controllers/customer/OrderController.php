@@ -44,11 +44,16 @@ class OrderController extends BaseController
 		$orders = $this->orders;
 		$links = $this->links;
 		$buyer_id = $this->user;
+
+		$count  = ceil(count($orders) / 8);  
+		$selected = 0;
 		// var_dump($orders[0]['user_id']); exit;
 		// var_dump($orders); exit;
 		// var_dump($buyer_id); exit;
 		// var_dump(Session::get('SESSION_USER_NAME'));exit;
-		return _view('customers/products/order', compact('token', 'orders', 'links', 'buyer_id'));
+		return _view('customers/products/order', compact('token', 'orders', 'links', 'buyer_id', "selected", "count"));
+
+
 	}
 }
 ?>

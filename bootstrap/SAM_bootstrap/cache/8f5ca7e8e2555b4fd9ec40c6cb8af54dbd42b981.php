@@ -44,13 +44,13 @@ $manufacturers = Capsule::table('manufacturers')->get();
 
             <div class="panel-body"><!-- panel-body Starts -->
 
-                <div class="input-group"><!-- input-group Starts -->
-
-                    <input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-manufacturer" placeholder="Filter Brand's Name">
+                
+                
+                <div class="input-group">
+                    <input v-on:input="searchKeyword()" name= "manufacturers" type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-manufacturer" placeholder="Filter Brand's Name" v-model="manufacturerKeyword">
 
                     <a class="input-group-addon"> <i class="fa fa-search"></i> </a>
-
-                </div><!-- input-group Ends -->
+                </div>
 
             </div><!-- panel-body Ends -->
             
@@ -116,10 +116,12 @@ $manufacturers = Capsule::table('manufacturers')->get();
 
                     <div class="panel-body"><!-- panel-body Starts -->
 
+                        
+
                         <div class="input-group"><!-- input-group Starts -->
 
-                            <input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-p-cats" placeholder="Filter Product Categories">
-
+                             <input v-on:input="searchKeyword()" name= "categories" type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-p-cats" placeholder="Filter Product Categories" v-model="categoryKeyword">
+                            
                             <a class="input-group-addon"> <i class="fa fa-search"></i> </a>
 
                         </div><!-- input-group Ends -->
@@ -184,10 +186,12 @@ $manufacturers = Capsule::table('manufacturers')->get();
 
             <div class="panel-body"><!-- panel-body Starts -->
 
+                
+
                 <div class="input-group"><!-- input-group Starts -->
 
-                    <input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-cats" placeholder="Filter Categories">
-
+                    <input v-on:input="searchKeyword()" name= "subCategories" type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-cats" placeholder="Filter Categories" v-model="subCategoryKeyword">
+                    
                     <a class="input-group-addon"> <i class="fa fa-search"> </i> </a>
 
                 </div><!-- input-group Ends -->

@@ -6,8 +6,8 @@
 			el: "#product",
 			data:{
 				product: [],
-				category: [],
-				subCategory: [],
+				categories: [],
+				subCategories: [],
 				manufacturers: [],
 				similarProducts: [],
 				countMenufactures: 0,
@@ -80,6 +80,8 @@
 						$(".notify").css("display", "block").delay(4000).slideUp(300)
 						.html(message);
 					});
+					// this.getProductDetails();
+					location.reload();
 				},
 				// submitComment: function(product_id){
 					submitComment: function(){

@@ -7,6 +7,7 @@ use SAM\Classes\Request;
 use SAM\Classes\ValidateRequest;
 use SAM\Classes\Redirect;
 use SAM\Classes\Session;
+
 use SAM\Models\User;
 
 // use App\Classes\Mail;
@@ -79,11 +80,17 @@ class AuthController extends BaseController
 						}
 
 					}
+					//assign user to his/her cart
+					// _getUserCart($request->username);// this is wrong
+					_getUserCart();
 				}else{
 					
 					Session::add('error', 'Incorrect credentials');
 					return _view('login');
 				}
+
+				
+
 			}
 			throw new \Exception('Token Mismatch');
 		}
@@ -146,13 +153,27 @@ class AuthController extends BaseController
 	public function logout()
 	{
 		if(isAuthenticated()){
+			$var = Session::get('SESSION_USER_NAME');
+			if(Session::has("user_cart")){
+	            $carts = Session::get("user_cart");
+	            
+	            Session::add($var, $carts); // this is not correct    
+	            //return "in if -> for";
+	        }
+	        //Session::remove($_SESSION[$var]);
+			
 			Session::remove('SESSION_USER_ID');
 			Session::remove('SESSION_USER_NAME');
 
-			if(!Session::has('user_cart')){
-				session_destroy();
-				session_regenerate_id(true); // not sure how it works
+
+			if(Session::has('user_cart')){
+				// var_dump($_SESSION); exit; 
+
+				Session::remove('user_cart');
+				//session_destroy(); //destroys all data registered to a session 
+				//session_regenerate_id(true); // not sure how it works
 			}
+			//Session::remove($var);
 		}
 		Redirect::to('/sam_public');
 	}

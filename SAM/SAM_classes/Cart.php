@@ -10,12 +10,16 @@ class Cart
 	{
 		try{
 			$index = 0;
+			
 			// Session::remove('user_cart'); return "removed";
+
 			if(!Session::has('user_cart') || count(Session::get('user_cart')) < 1){
 				Session::add('user_cart',[
 					0 => ['product_id' => $request->product_id, 'quantity' => 1]
 				]);
-			}else{
+				// add cart to Session of user's username 			
+			}
+			else{
 
 				//add 1 more quantity to items that are already in the cart  
 				foreach($_SESSION['user_cart'] as $cart_items){
@@ -24,11 +28,12 @@ class Cart
 						// return array($key, $value);
 						if($key == 'product_id' && $value == $request->product_id){
 							//$index -1 because the keys in the array starts from zero and we increased index ($index++) before the second forloop.
-							array_splice($_SESSION['user_cart'], $index-1, 1, [[ // I am hella mtfking sure that this array_splice shit cause this fking error.
+							array_splice($_SESSION['user_cart'], $index-1, 1, [[ 
 								'product_id' => $request->product_id, 
 								'quantity' => $cart_items['quantity'] + 1
 							]]);
 							self::$isItemInCart = true;
+
 						}
 
 					}
@@ -58,7 +63,16 @@ class Cart
 	}
 	public static function clear()
 	{
-		Session::remove('user_cart');
+		$var = Session::get('SESSION_USER_NAME');
+
+		if(Session::has("user_cart"))
+		{
+			Session::remove("user_cart");
+		}
+		if(Session::has($var))
+		{
+			Session::remove($var);
+		}
 	}
 }
 

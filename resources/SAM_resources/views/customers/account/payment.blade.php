@@ -35,5 +35,13 @@
 		</tbody>
 	</table>
 	{!! $links !!}
+	{{-- <ul class="pagination " data-pagination-current="1" data-pagination-prev="false" data-pagination-next="2" data-pagination-length="15">
+		<li class="pagination--start"><a href="?p=1">&laquo;</a></li>
+		<li class="current"><a href="?p=2">1</a></li>
+		<li><a href="?p=2">2</a></li>
+		<li><a href="?p=3">3</a></li>
+		<li class="pagination--end"><a href="?p=2">&raquo;</a></li>
+	</ul> --}}
+
 </div>
 @endsection

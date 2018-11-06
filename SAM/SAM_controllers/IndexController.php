@@ -168,9 +168,10 @@ class IndexController extends BaseController
 
 	public function loadCheckedItems()
 	{
-		// $selected = [];
-		
-		// $result = null;
+		if(isset($_POST['keyword'])){
+			$keyword = $_POST['keyword'];
+		}
+
 		if(isset($_POST['selectedManufacturers']) || isset($_POST['selectedCategories']) || isset($_POST['selectedSubCategories'])){
 
 			//ONLY MANUFACTURERS
@@ -178,26 +179,65 @@ class IndexController extends BaseController
 				$selectedManufacturers = $_POST['selectedManufacturers'];
 			// var_dump($selectedManufacturers);exit;
 				if(!empty($selectedManufacturers)){
+					$results = [];
 					$count = 0;
+					$dealProducts = [];
+					$count1 = 0;
+					$searchProducts = [];
+					$count2 = 0;
 					foreach($selectedManufacturers as $selectedManufacturer){
 					// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
 						$results[$count] = Product::where("manufacturer_id", $selectedManufacturer)->get();
 						$count = $count + 1;
-					// var_dump($products[0]->name);exit;	
+
+						$temp = Product::where("manufacturer_id", $selectedManufacturer)->where("deal", 1)->get(); 
+						if(!is_null($temp)){ // always true. not sure why 
+							$dealProducts[$count1] = $temp;
+							$count1 = $count1 + 1;
+						}
+
+						if(isset($keyword)){
+
+							$temp1 = Capsule::select("SELECT * FROM products WHERE manufacturer_id = $selectedManufacturer and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
+							if(!is_null($temp1)){ // always true. not sure why 
+								$searchProducts[$count2] = $temp1;
+								$count2 = $count2 + 1;
+							}
+						}
 					}
 				}
 			}
+
+			// var_dump($dealProducts);exit; 
 			//ONLY CATEGORY 
 			if(isset($_POST['selectedCategories'])){	
 				$selectedCategories = $_POST['selectedCategories'];
 			// var_dump($selectedManufacturers);exit;
 				if(!empty($selectedCategories)){
+					$results = [];
 					$count = 0;
+					$dealProducts = [];
+					$count1 = 0;
+					$searchProducts = [];
+					$count2 = 0;
 					foreach($selectedCategories as $selectedCategory){
 					// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
 						$results[$count] = Product::where("category_id", $selectedCategory)->get();
 						$count = $count + 1;
-					// var_dump($products[0]->name);exit;	
+
+						$temp = Product::where("category_id", $selectedCategory)->where("deal", 1)->get(); 
+						if(!is_null($temp)){
+							$dealProducts[$count1] = $temp;
+							$count1 = $count1 + 1;
+						}
+
+						if(isset($keyword)){
+							$temp1 = Capsule::select("SELECT * FROM products WHERE category_id = $selectedCategory and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
+							if(!is_null($temp1)){ // always true. not sure why 
+								$searchProducts[$count2] = $temp1;
+								$count2 = $count2 + 1;
+							}
+						}
 					}
 				}
 			}
@@ -206,12 +246,31 @@ class IndexController extends BaseController
 				$selectedSubCategories = $_POST['selectedSubCategories'];
 			// var_dump($selectedManufacturers);exit;
 				if(!empty($selectedSubCategories)){
+					$results = [];
 					$count = 0;
+					$dealProducts = [];
+					$count1 = 0;
+					$searchProducts = [];
+					$count2 = 0;
 					foreach($selectedSubCategories as $selectedSubCategory){
 					// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
 						$results[$count] = Product::where("sub_category_id", $selectedSubCategory)->get();
 						$count = $count + 1;
-					// var_dump($products[0]->name);exit;	
+
+						$temp = Product::where("sub_category_id", $selectedSubCategory)->where("deal", 1)->get(); 
+						if(!is_null($temp)){
+							$dealProducts[$count1] = $temp;
+							$count1 = $count1 + 1;
+						}
+
+						if(isset($keyword)){
+
+							$temp1 = Capsule::select("SELECT * FROM products WHERE sub_category_id = $selectedSubCategory and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
+							if(!is_null($temp1)){ // always true. not sure why 
+								$searchProducts[$count2] = $temp1;
+								$count2 = $count2 + 1;
+							}	
+						}
 					}
 				}
 			}
@@ -222,14 +281,56 @@ class IndexController extends BaseController
 				$selectedCategories = $_POST['selectedCategories'];
 			// var_dump($selectedManufacturers);exit;
 				if( !empty($selectedManufacturers) && !empty($selectedCategories)){
+					$results = [];
 					$count = 0;
+					$dealProducts = [];
+					$count1 = 0;
+					$searchProducts = [];
+					$count2 = 0;
 					foreach($selectedManufacturers as $selectedManufacturer){
 						foreach($selectedCategories as $selectedCategory){
-						// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
+
+							
+							// $query = Product::where("manufacturer_id", $selectedManufacturer)->orWhere('category_id', $selectedCategory)->get();
+							
+							// var_dump($query); exit;
+							// var_dump( array_merge($results,(array) $query));exit;
+							// $results[0] = (object) array_unique(array_merge((array) $results,(array) $query)); // maybe a problem here ????
+							// if(!empty($results)){
+							// 	$results[0] = (object) array_merge((array) $results[0],(array) $query);
+							// }else{
+							// 	$results[0] = $query;
+							// }
+
+
 							$results[$count] = Product::where("manufacturer_id", $selectedManufacturer)->orWhere('category_id', $selectedCategory)->get();
+							// var_dump($results); exit;
 							$count = $count + 1;
+							// var_dump ($selectedManufacturer); exit;
+							// $temp = Product::where("sub_category_id", $selectedSubCategory)->where("deal", 1)->get(); // this is what I think maybe a problme
+							$temp = Product::where("deal", 1) 
+											->where(function($q) use ($selectedManufacturer, $selectedCategory){ // understand what is $q is
+												$q->where("manufacturer_id", $selectedManufacturer)->orWhere('category_id', $selectedCategory);
+												// $q->where("manufacturer_id", 5 )->orWhere('category_id', 27); // 
+											})->get();
+
+											if(!is_null($temp)){
+												$dealProducts[$count1] = $temp;
+												$count1 = $count1 + 1;
+											}
+
+							if(isset($keyword)){
+
+								$temp1 = Capsule::select("SELECT * FROM products WHERE (manufacturer_id = $selectedManufacturer or category_id = $selectedCategory) and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
+								if(!is_null($temp1)){ // always true. not sure why 
+									$searchProducts[$count2] = $temp1;
+									$count2 = $count2 + 1;
+								}	
+							}				
+
 						}	
 					}
+					// var_dump($results); exit; // array object array object
 				}		
 			}
 
@@ -239,12 +340,41 @@ class IndexController extends BaseController
 				$selectedSubCategories = $_POST['selectedSubCategories'];
 			// var_dump($selectedManufacturers);exit;
 				if( !empty($selectedManufacturers) && !empty($selectedSubCategories)){
+					$results = [];
 					$count = 0;
+					$dealProducts = [];
+					$count1 = 0;
+					$searchProducts = [];
+					$count2 = 0;
 					foreach($selectedManufacturers as $selectedManufacturer){
 						foreach($selectedSubCategories as $selectedSubCategory){
 						// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
 							$results[$count] = Product::where("manufacturer_id", $selectedManufacturer)->orWhere('sub_category_id', $selectedSubCategory)->get();
 							$count = $count + 1;
+
+							
+							$temp = Product::where("deal", 1) 
+											->where(function($q) use ($selectedManufacturer, $selectedSubCategory) { // understand what is $q is
+												$q->where("manufacturer_id", $selectedManufacturer)->orWhere('sub_category_id', $selectedSubCategory);
+												// $q->where("manufacturer_id", $hold)->orWhere('sub_category_id', $hold1);
+											})
+											->get();
+
+											if(!is_null($temp)){
+												$dealProducts[$count1] = $temp;
+												$count1 = $count1 + 1;
+											}
+
+
+							if(isset($keyword)){
+
+								$temp1 = Capsule::select("SELECT * FROM products WHERE (manufacturer_id = $selectedManufacturer or sub_category_id = $selectedSubCategory) and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
+								if(!is_null($temp1)){ // always true. not sure why 
+									$searchProducts[$count2] = $temp1;
+									$count2 = $count2 + 1;
+								}
+							}
+
 						}	
 					}
 				}		
@@ -256,12 +386,36 @@ class IndexController extends BaseController
 				$selectedSubCategories = $_POST['selectedSubCategories'];
 			// var_dump($selectedManufacturers);exit;
 				if( !empty($selectedCategories ) && !empty($selectedSubCategories )){
+					$results = [];
 					$count = 0;
+					$dealProducts = [];
+					$count1 = 0;
+					$searchProducts = [];
+					$count2 = 0;
 					foreach($selectedCategories as $selectedCategory){
 						foreach($selectedSubCategories  as $selectedSubCategory){
 						// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
 							$results[$count] = Product::where("category_id", $selectedCategory)->orWhere('sub_category_id', $selectedSubCategory)->get();
 							$count = $count + 1;
+
+							$temp = Product::where("deal", 1) 
+											->where(function($q) use ($selectedCategory, $selectedSubCategory) { // understand what is $q is
+												$q->where("category_id", $selectedCategory)->orWhere('sub_category_id', $selectedSubCategory);
+											})
+											->get();
+
+											if(!is_null($temp)){
+												$dealProducts[$count1] = $temp;
+												$count1 = $count1 + 1;
+											}
+
+							if(isset($keyword)){
+								$temp1 = Capsule::select("SELECT * FROM products WHERE (category_id = $selectedCategory or sub_category_id = $selectedSubCategory) and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
+								if(!is_null($temp1)){ // always true. not sure why 
+									$searchProducts[$count2] = $temp1;
+									$count2 = $count2 + 1;
+								}
+							}
 						}	
 					}
 				}		
@@ -274,19 +428,49 @@ class IndexController extends BaseController
 				$selectedSubCategories = $_POST['selectedSubCategories'];
 			// var_dump($selectedManufacturers);exit;
 				if( !empty($selectedManufacturers) && !empty($selectedCategories) && !empty($selectedSubCategories)){
+					$results = [];
 					$count = 0;
+					$dealProducts = [];
+					$count1 = 0;
+					$searchProducts = [];
+					$count2 = 0;
 					foreach($selectedManufacturers as $selectedManufacturer){
 						foreach($selectedCategories as $selectedCategory){
 							foreach($selectedSubCategories as $selectedSubCategory){
 								// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
 								$results[$count] = Product::where("manufacturer_id", $selectedManufacturer)->orWhere('category_id', $selectedCategory)->orWhere('sub_category_id', $selectedSubCategory)->get();
 								$count = $count + 1;
+
+								$temp = Product::where("deal", 1) 
+											->where(function($q) use ($selectedManufacturer, $selectedCategory, $selectedSubCategory) { // understand what is $q is
+												$q->where("manufacturer_id", $selectedManufacturer)->orWhere('category_id', $selectedCategory)->orWhere('sub_category_id', $selectedSubCategory);
+											})
+											->get();
+
+											if(!is_null($temp)){
+												$dealProducts[$count1] = $temp;
+												$count1 = $count1 + 1;
+											}
+
+								if(isset($keyword)){
+									$temp1 = Capsule::select("SELECT * FROM products WHERE ( manufacturer_id = $selectedManufacturer or category_id = $selectedCategory or sub_category_id = $selectedSubCategory) and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
+									if(!is_null($temp1)){ // always true. not sure why 
+										$searchProducts[$count2] = $temp1;
+										$count2 = $count2 + 1;
+									}
+								}
 							}
 						}	
 					}
 					
 				}		
 			}
+
+			// echo json_encode(['products' => (array) $results, 'count' => count($results)]); exit;
+			// echo json_encode(['dealProducts' => (array) $dealProducts, 'countDeals' => count($dealProducts)]); exit;
+			// echo json_encode(['products' => (array) $results, 'count' => count($results), 'dealProducts' => (array) $dealProducts, 'countDeals' => count($dealProducts)]); exit;
+			echo json_encode(['products' => (array) $results, 'count' => count($results), 'dealProducts' => (array) $dealProducts, 'countDeals' => count($dealProducts), 'searchProducts' => (array) $searchProducts, 'countSearches' => count($searchProducts)]); exit; //countSearches is undefined
+
 			// if(isset($_POST['selectedCategories'])){	
 			// 	$selectedCategories = $_POST['selectedCategories'];
 			// 	if(!empty($selectedCategories)){
@@ -357,11 +541,24 @@ class IndexController extends BaseController
 			// }
 			
 
-			echo json_encode(['products' => $results, 'count' => count($results)]); exit;
+			// echo json_encode(['products' => $results, 'count' => count($results)]); exit;
 		}
 
-		$products = Product::inRandomOrder()->limit(8)->get();
-		echo json_encode(['products' => $products, 'count' => count($products)]); exit;
+		// $products = Product::inRandomOrder()->limit(8)->get();
+		$results = Product::all();
+		$dealProducts = Product::where("deal", 1)->get();
+
+		if(isset($_POST['keyword'])){
+			$keyword = $_POST['keyword'];
+			$searchProducts = Capsule::select("SELECT * FROM products WHERE keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')");
+
+			echo json_encode(['products' => (array) $results, 'count' => count($results), 'dealProducts' => (array) $dealProducts, 'countDeals' => count($dealProducts), 'searchProducts' => (array) $searchProducts, 'countSearches'=> count($searchProducts)]); exit;
+		}
+		
+		
+
+		echo json_encode(['products' => (array) $results, 'count' => count($results), 'dealProducts' => (array) $dealProducts, 'countDeals' => count($dealProducts)]); exit;
+		
 	}
 
 	public function getIP()
@@ -391,25 +588,70 @@ class IndexController extends BaseController
 	{
 		$token = CSRFToken::_token();
 		$keyword = $_POST['keyword'];
-		// $user_keyword = $_GET['user_query']; // This is in nav bar. fix ti;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+			// $user_keyword = $_GET['user_query']; // This is in nav bar. fix ti;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-		$count = Capsule::select("SELECT COUNT(*) FROM products WHERE keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')");
+		// $count = Capsule::select("SELECT COUNT(*) FROM products WHERE keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')");
 		$results = Capsule::select("SELECT * FROM products WHERE keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')");
-		// var_dump($keyword);
-		// var_dump(count($result));exit;
+		// $results = Product::all();;
+			// var_dump($keyword);
+			// var_dump(count($result));exit;
 		echo json_encode(['results' => $results, 'count' => count($results)]);
 	}
 
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	public function getProducts()
+	public function getManufacturerKeyword()
 	{
-		$products = Product::where('featured', 0)->skip(0)->take(2)->get();
-		echo json_encode(['products' => $products]);
+		if(isset($_POST['keyword'])){
+
+		$keyword = $_POST['keyword']; // not right.
+		$results = Capsule::select("SELECT * FROM manufacturers WHERE title LIKE '%$keyword%'");
+
+
+		echo json_encode(['keyword'=> $results]); exit;
 	}
 
-	public function subcategoryProducts($id)
-	{
-		$products = Product::where('sub_category_id', $id)->inRandomOrder()->limit(4)->get();
+	$results = Capsule::select("SELECT * FROM manufacturers");
+	echo json_encode(['keyword' => $results]); exit;
+}
+public function getSubCategoryKeyword()
+{
+	if(isset($_POST['keyword'])){
+
+		$keyword = $_POST['keyword']; // not right.
+		$results = Capsule::select("SELECT * FROM sub_categories WHERE name LIKE '%$keyword%'");
+
+
+		echo json_encode(['keyword'=> $results]); exit;
+	}
+	$results = Capsule::select("SELECT * FROM sub_categories");
+	echo json_encode(['keyword' => $results]); exit;
+}
+
+public function getCategoryKeyword()
+{
+	if(isset($_POST['keyword'])){
+
+		$keyword = $_POST['keyword']; // not right.
+		$results = Capsule::select("SELECT * FROM categories WHERE name LIKE '%$keyword%'");
+
+
+		echo json_encode(['keyword'=> $results]); exit;
+	}
+	$results = Capsule::select("SELECT * FROM categories");
+	echo json_encode(['keyword' => $results]); exit;
+}
+
+
+
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+public function getProducts()
+{
+	$products = Product::where('featured', 0)->skip(0)->take(2)->get();
+	echo json_encode(['products' => $products]);
+}
+
+public function subcategoryProducts($id)
+{
+	$products = Product::where('sub_category_id', $id)->inRandomOrder()->limit(4)->get();
 		//want to coutn all product that has sub_category_id = $id
 		$total = Product::where('sub_category_id', $id)->count();//wrongly use of all()
 		// var_dump($total); exit;	

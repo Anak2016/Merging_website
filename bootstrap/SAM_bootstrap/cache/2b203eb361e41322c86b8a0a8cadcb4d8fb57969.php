@@ -32,14 +32,18 @@
                     <div class='col-md-4 col-sm-6 single' v-cloak v-for="product in products">
                         
                         <div class='product'>
-                            <a :href="'/sam_public/details/' + product.id">
-                                <img :src='product.image_path1' class='img-responsive'>
-                            </a>
-
+                            <div class="box_sale">
+                                <div v-if="product.label == 1" class="ribbon"><span>Sale</span>
+                                    <a :href="'/sam_public/details/' + product.id">
+                                        <img :src='product.image_path1' class='img-responsive'>
+                                    </a>
+                                </div>
+                            </div>
                             <div class='text'>
                                 <h3>
                                     <a :href="'/sam_public/details/' + product.id">
-                                        {{stringLimit(product.name, 18)}}
+                                        
+                                        {{stringLimit(product.name, 18)}} 
                                     </a> 
                                 </h3>
                                 <p class='price'>$ {{product.price}}</p>
@@ -55,6 +59,7 @@
                               </p>
                           </div>
 
+
                       </div>
 
                   </div>
@@ -63,6 +68,8 @@
                 <h1>No Deal Item</h1>
             </div>
             
+            
+
         </div>
 
     </div> <!--container end-->
@@ -70,6 +77,5 @@
 </div> 
 
 <?php $__env->stopSection(); ?>
-
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -13,6 +13,7 @@
 				subCategories: [],
 				searchProducts: [],
 				selectedProduct:[],
+				selectedDeal:[],
 				countDeals: 0,
 				countPopulars: 0,
 				countProducts: 0,
@@ -23,7 +24,11 @@
 				loading: false,
 				checkedMenufacturers: [],
 				checkedCategories: [],
-				checkedSubCategories: []
+				checkedSubCategories: [],
+				manufacturerKeyword: "",
+				categoryKeyword: "",
+				subCategoryKeyword: "",
+				keyword: null
 
 			},
 			methods:{ // all of the function must be inside of the object is passed to method property's of Vue.js.
@@ -55,7 +60,7 @@
 					// create these 2 routes.
 					axios.get('/sam_public/dealProducts'), axios.get('/sam_public/popularProducts'), 
 					axios.get('/sam_public/products'), axios.get('/sam_public/manufacturers'), 
-					 axios.get('/sam_public/categories'), axios.get('/sam_public/sub-categories')   
+					axios.get('/sam_public/categories'), axios.get('/sam_public/sub-categories')   
 					]
 					).then(axios.spread(function(dealResponse, popularResponse, productResponse, manufacturerResponse, categoryResponse, subCategoryResponse){
 						// console.log(dealResponse.data.count);
@@ -93,10 +98,12 @@
 					// 		console.log(response.data.ip);
 					// 		app.ip = resposne.data.ip;
 					// 	});
+					console.log("in home_product.addTocart()");
 					ACMESTORE.module.addItemToCart(id, function(message){
 						$(".notify").css("display", "block").delay(4000).slideUp(300)
 						.html(message);
 					});
+					location.reload();
 				},
 				loadMoreProducts: function(){
 					var token = $('.display-products').data('token');
@@ -118,45 +125,131 @@
 					var selectedSubCategories = [];
 					this.checkedMenufacturers.forEach(function(element){
 						// console.log(element);
-						selectedManufacturers.push(element);
+						selectedManufacturers.push(element); //put selected id in array form
 					});
 					this.checkedCategories.forEach(function(element){
 						// console.log(element);
-						selectedCategories.push(element);
+						selectedCategories.push(element); //put selected id in array form
 					});
 					this.checkedSubCategories.forEach(function(element){
 						// console.log(element);
-						selectedSubCategories.push(element);
+						selectedSubCategories.push(element); //put selected id in array form
 					});
 
+					// console.log(selectedManufacturers);
+					// console.log(selectedCategories); 
+					// console.log(selectedSubCategories);
 
 					var data= $.param({selectedManufacturers: selectedManufacturers, selectedCategories: selectedCategories, selectedSubCategories:selectedSubCategories});
 					axios.post('/sam_public/loadCheckedItems',data)
 					.then(function(response){
-						// var selectedProduct = response.data.products;
-						console.log(typeof response.data);
+
+						// console.log("response.data.dealProducts = ");
+						// console.log(response.data)
+						// console.log(response.data.products);
 						app.selectedProduct = response.data.products;
-						console.log(app.selectedProduct);
+						app.selectedDeal = response.data.dealProducts; // 
 						app.products =[];
+						app.dealProducts = [];
+						// var an_array = [];
 						for(var i = 0; i < app.selectedProduct.length; i++)
 						{
 							app.products = app.products.concat(app.selectedProduct[i]);
-							// console.log(app.products);
 						}
+
+						for(var i = 0; i < app.selectedDeal.length; i++)
+						{
+							app.dealProducts = app.dealProducts.concat(app.selectedDeal[i]);
+						}
+						// console.log("+++++++++++++++++++++++++++++++++");
 						// console.log(app.products);
-						// app.products = response.data.products;
+						// console.log("+++++++++++++++++++++++++++++++++");
+						// console.log(app.products[100].id);
+
+						// app.products = ACMESTORE.module.arrayUnique(  app.products);
+						for(var i = 0; i < app.products.length; i ++){ 
+							if(typeof app.products[i] != 'undefined'){
+								// console.log("big i = " + i);
+								for(var j = 0; j < i; j ++){
+									// console.log(app.products);
+									if(typeof app.products[j] != 'undefined' && typeof app.products[i] != 'undefined')
+									{
+										if(app.products[i].id == app.products[j].id){
+											app.products.splice(i,1);
+											j--;
+											i--;
+											// console.log("dubplicate: "+ app.products[j].id);
+										}else{
+											// console.log("not dubplicate:" + app.products[j].id);
+										}
+									}else{
+										// console.log("undefined");
+										// console.log("j = "+ j);
+										// console.log(app.products[j]);
+										// console.log("i = "+ i);
+										// console.log(app.products[i]);
+									}
+								}
+								// console.log("=========================");
+							}
+							
+						}
+
+						for(var i = 0; i < app.dealProducts.length; i ++){ 
+							if(typeof app.dealProducts[i] != 'undefined'){
+								// console.log("big i = " + i);
+								for(var j = 0; j < i; j ++){
+									// console.log(app.products);
+									if(typeof app.dealProducts[j] != 'undefined' && typeof app.dealProducts[i] != 'undefined')
+									{
+										if(app.dealProducts[i].id == app.dealProducts[j].id){
+											app.dealProducts.splice(i,1);
+											j--;
+											i--;
+										}
+									}
+								}
+								
+							}
+							
+						}
+						console.log(app.products);
+						// console.log(app.dealProducts);
 						app.countProducts = response.data.count;
-						// app.getFeaturedProducts();
+						app.countDeals = response.data.count
 						app.loading = false;
-						// console.log(app.selectedProduct[1][0].id);
 					});
 
+				},
+				searchKeyword : function(){
+					//get result with query
+					//console.log("This is keywordInput = " + this.keywordInput);
+					
+					var manufacturerData = $.param({keyword: this.manufacturerKeyword}); 
+					var categoryData = $.param({keyword: this.categoryKeyword}); 
+					var subCategoryData = $.param({keyword: this.subCategoryKeyword}); 
+					this.manufacturers = [];
+					this.categories = [];
+					this.subCategories = [];
+					axios.all(
+						[
+						// create these 2 routes.
+						axios.post('/sam_public/manufacturerKeyword', manufacturerData), 
+						axios.post('/sam_public/categoryKeyword', categoryData),
+						axios.post('/sam_public/subCategoryKeyword', subCategoryData)
+						]).then(axios.spread(function(responseManufacturer, responseCategory, responseSubCategory ){
+						// console.log(typeof response.data);
+						// console.log(responseManufacture.data[Object.keys(response.data)[0]]);
+						app.manufacturers = responseManufacturer.data.keyword;
+						app.categories = responseCategory.data.keyword;
+						app.subCategories = responseSubCategory.data.keyword;
+					}));
+					}
+				},
+				created: function(){
+					console.log("in home_Product.js");
+					this.getFeaturedProducts();
 				}
-			},
-			created: function(){
-				// console.log("before runing Vue");
-				this.getFeaturedProducts();
-			}
 			// ,
 			// mounted: function(){ //after Vue finsihed loaded.
 			// 	$(window).scroll(function(){

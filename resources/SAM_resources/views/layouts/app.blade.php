@@ -6,7 +6,7 @@
 @include('includes.nav')
 
 {{-- Site Wrapper --}}
-<div class="site_wrapper" style="padding-top: 150px;">
+<div class="site_wrapper" style="padding-top: 200px;">
 	@yield('content')
 	{{-- when add, notify display right above footer --}}
 	<div class="notify text-center">

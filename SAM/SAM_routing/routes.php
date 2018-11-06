@@ -23,6 +23,11 @@ $router->map( 'GET', '/sam_public/result', 'SAM\Controllers\IndexController@show
 $router->map( 'post', '/sam_public/searchResult', 'SAM\Controllers\IndexController@getSearchResult', 'get_search_result' );
 
 
+$router->map( 'post', '/sam_public/manufacturerKeyword', 'SAM\Controllers\IndexController@getManufacturerKeyword', 'get_search_manufacturers' );
+$router->map( 'post', '/sam_public/categoryKeyword', 'SAM\Controllers\IndexController@getCategoryKeyword', 'get_search_categories' );
+$router->map( 'post', '/sam_public/subCategoryKeyword', 'SAM\Controllers\IndexController@getSubCategoryKeyword', 'get_search_sub_categories' );
+
+
 // ============================================Vue.js LOGIC============================================
 $router->map( 'GET', '/sam_public/dealProducts', 'SAM\Controllers\IndexController@dealProducts', 'deal_product' );
 $router->map( 'GET', '/sam_public/popularProducts', 'SAM\Controllers\IndexController@popularProducts', 'popular_product' );

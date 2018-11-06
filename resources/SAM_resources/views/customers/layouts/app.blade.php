@@ -6,7 +6,7 @@
 @include('includes.nav')
 
 {{-- Site Wrapper --}}
-<div class="site_wrapper">
+<div class="site_wrapper" style="padding-top: 50px;">
 	@yield('content')
 
 </div>

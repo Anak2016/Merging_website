@@ -15,6 +15,8 @@ $router->map( 'POST', '/sam_public/cart/empty-cart', 'SAM\Controllers\CartContro
 $router->map( 'POST', '/sam_public/cart/payment', 'SAM\Controllers\CartController@checkout', 'handle_payment' );
 
 $router->map( 'GET', '/sam_public/checkout', 'SAM\Controllers\CartController@showCheckout', 'checkout' );
-$router->map( 'GET', '/sam_public/order-complete', 'SAM\Controllers\CartController@showOrderComplete', 'order_complete' );
+
+$router->map( 'GET', '/sam_public/complete-payment', 'SAM\Controllers\CartController@completePayment', 'complete_payment' );
+$router->map( 'GET', '/sam_public/order-complete', 'SAM\Controllers\CartController@showOrderComplete', 'show_order_complete' );
 
 ?>

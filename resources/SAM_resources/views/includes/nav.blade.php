@@ -1,12 +1,31 @@
-{{-- add price of all product in cart here --}}
+ {{-- add price of all product in cart here --}}
 <?php
 			//CartTotal = TotalPrice of all items in the cart
 		$cartTotal = 0;
 		$totalQuantity = 0;
 
-		if(isset($_SESSION['user_cart'])){
-			foreach($_SESSION['user_cart'] as $cart_items){
+		
+		$var =SAM\Classes\Session::get('SESSION_USER_NAME');
 
+		//echo "SESSION[$var]= ";
+		//var_dump($_SESSION[$var]); //where did I do this ?
+
+		//echo "SESSION['user_cart']= "; 
+		//var_dump($_SESSION['user_cart']); //expect to be the same as Session(username) + Session(user_cart);
+
+		//echo "SESSION[total]= ";
+		//var_dump(_getUserCart()); //get total item_cart
+
+		//echo "After _getUserCart= ";
+		//var_dump($_SESSION['user_cart']);
+		
+		if(isset($_SESSION['user_cart'])){
+
+		//if(isset($_SESSION['user_cart'])){
+			//foreach($_SESSION['user_cart'] as $cart_items){
+		//if(_getUserCart()){
+			foreach($_SESSION['user_cart'] as $cart_items){
+			//foreach(_getUserCart() as $cart_items){
 				$productId = $cart_items['product_id'];
 
 					//quantity of items in the cart NOT quatity of item availble in the shop
@@ -29,17 +48,20 @@
 				SAM\Classes\Session::add('cartTotal', $cartTotal); // late will use this session to charge 
 		}
 ?>
+
 <div class="navbar navbar-default navbar-fixed-top" id="navbar">
 <!-- navebar     -->
 	<div id="top"> <!-- top start-->
 		<div class="container"> <!-- container start-->
 			<div class="col-md-6 offer">
+				
 				@if(!_isAuthenticated())
 				<a href="/sam_public/login" class="btn btn-success btn-sm">
-					Welcome Guest!!
+					Welcome Guest!! 
 				</a>
 				@else
 				<a href="/sam_public/customer" class="btn btn-success btn-sm">
+
 					{{SAM\Classes\Session::get('SESSION_USER_NAME')}}
 				</a>
 				@endif
@@ -82,15 +104,46 @@
 				<img src="/sam_public/images/EiShops_resize.png" alt="E-commerce Logo" class="visible-xs" style="margin-top: 5px;">
 
 			</a>
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
+		</div>
+		<div class="clearfix" style=" border-bottom: solid 1px #9adacd; text-align: left;  margin-top: 11px; ">
+		    
+		    <form class="navbar-form" method="get" action="/sam_public/result">
+		        <button type="button" value="All" name="all" class="btn btn-primary" style="height: 33px;">
+		            All <!-- comeback to do the all category-->
+		        </button>
+		        <div class="input-group"><!--input-group start-->
+		            <input class="form-control" type="text" placeholder="Search" name="user_query" style="width: 900px" required>
+		            <span class="input-group-btn"><!--input-group-btn start-->
+		                {{-- <button type="submit" value="Search" name="search" class="btn btn-primary" style="height: 33px;">
+		                    <i class="fa fa-search"></i>
+		                </button> --}}
+
+							<button type="submit" value="Search" name="search" class="btn btn-primary" style="height: 33px;">
+								<i class="fa fa-search"></i>
+							</button>
+		            </span>
+		        </div>
+		    </form>
+		</div>
+		<a class="btn btn-primary navbar-btn right" style="margin-right: 15px;" href="cart.php"><!--btn btn-primary navbar-btn right start-->
+                <i class="fa fa-shopping-cart"></i>
+                <span> {{$totalQuantity}} items in cart</span>
+            </a>
+
+
+			{{-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
 				<span class="sr-only">Toggle Navigation</span>
 				<i class="fa fa-align-justify"></i>
 			</button>
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search">
 				<span class="sr-only">Toggle Search</span>
 				<i class="fa fa-search"></i>
-			</button>
-		</div>
+			</button> --}}
+
+
+
+
+
 		<div class="navbar-collapse collapse" id="navigation"> <!--navbar-collapse collapse Starts-->
 			<div class="padding-nav"> <!--padding-nav Starts-->
 				<ul class="nav navbar-nav navbar-left"><!-- nav navbar-nav navbar-left start-->
@@ -124,32 +177,40 @@
 					</li>
 				</ul>
 			</div>
-			<a class="btn btn-primary navbar-btn right" href="cart"><!--btn btn-primary navbar-btn right start-->
+
+
+
+{{-- 
+			<a class="btn btn-primary navbar-btn right" href="cart">
 				<i class="fa fa-shopping-cart"></i>
 				<span> {{$totalQuantity}}</span>
 			</a>
-			<div class="navbar-collapse collapse right"><!--navbar-collapse collapse right start-->
+			<div class="navbar-collapse collapse right">
 				<button class="btn navbar-btn btn-primary" type="button" data-toggle="collapse" data-target="#search" style="height: 33px;">
 					<span class="sr-only">Toggle Search</span>
 					<i class="fa fa-search"></i>
 				</button>
 			</div>
 
-			<div class="collapse clearfix" id="search"> <!--collapse clearfix starts-->
-				<form class="navbar-form" method="get" action="/sam_public/result"><!--navbar-form start-->
+			<div class="collapse clearfix" id="search"> 
+				<form class="navbar-form" method="get" action="/sam_public/result">
 					<button type="button" value="All" name="all" class="btn btn-primary" style="height: 33px;">
-						All <!-- comeback to do the all category -->
+						All 
 					</button>
-					<div class="input-group"><!--input-group start-->
+					<div class="input-group">
 						<input class="form-control" type="text" placeholder="Search" name="user_query" style="width: 995px" required>
-						<span class="input-group-btn"><!--input-group-btn start-->
+						<span class="input-group-btn">
 							<button type="submit" value="Search" name="search" class="btn btn-primary" style="height: 33px;">
 								<i class="fa fa-search"></i>
 							</button>
 						</span>
 					</div>
 				</form>
-			</div>
+			</div> --}}
+
+
+
+
 
 		</div>
 	</div>

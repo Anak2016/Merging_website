@@ -19,30 +19,143 @@ call go-daddy
 to do
 
 :main
-0.fix order_details, order, payment
+*0.fix order_details, order, payment
 	>order order_details, payment don't create new row/data
 	>see how udemy does the Models::create
 		>>compare then fix it
-1.Cookie + ip to determine user_cart
-2.do paypal payment
-3. item in cart is not consistent. 
-	fix: maybe update page everytime user_cart is changed would fix
-		>>how can i make it consistent?
-		eg. 1. call directly from Session::user_cart
-		    2. call with Vue.js variable
-		    3. call with Php.blade variable
-		>>echo"<script>window.open('cart.php','_self')</script>";
-4. cookie for guest user
-	>guest added to cart then login. item that got added will appear in cart
-5.fix product-sidebar in detail page. 
-	>I am guessing that there is error in Vue.js
-6.Fix product-sidebar functionality
-	>cant select across all subCategory + category + manufacturer
-		>> cannot convert object to array correctly
-7. Order, Payment, OrderDetails do not get posted to database when payment is made.
-8. fix Admin back-end.
-9. create sell button for customers to sell.
-10. merge shipping
+2.do paypal payment // paypal API system is down 
+
+4. fix Admin back-end. // last priority
+5. create sell button for customers to sell.
+P6. send header location to OrderComplete from cart.
+	>design for order complete page. 
+**7. user custom pagination (First priority) 
+***8. do brand and country (Second priority)
+	>in home, change country to top 9 brands
+
+*9. make product display nicely. 
+*******10. make error user freindly 
+**11. import export data. with excel.
+*12. Order-Detail feature
+	>fix no detail with no picture
+13. wishlist + coupon + sell + subscripe[in footer] (optional)
+	>do if have time
+*14. fix search bar design
+*15. send submitted contact us form to our email.
+***16. "all" page, "category" page, and "sub-category" page.
+>addItem doesn't add item to the cart when log out
+17.Search is broken again. 
+	>make product-sidebar universal for all 3 pages
+		>dealProduct
+		>product
+		>searchProduct
+	>fix checkbox search
+	>fix searchname
+
+=================================================
+1. refactor shop.blade.php and result.blade.php to have the same page-id of 'home'
+	>get rid of page-id 'search'
+2. fix product-sidebar so that It can be used in following pages: shop, dealProduct, SearchProduct
+
+
+we want
+array[obj{key->array[obj]}] // we can change to obj{key->obj{key->array[obj]}}
+
+array(1) {
+  [1]=>
+  object(Illuminate\Database\Eloquent\Collection)#42 (1) {
+    ["items":protected]=>
+    array(2) {
+      [0]=>
+      object(SAM\Models\Product)#43 (27) {
+        ["timestamps"]=>
+        bool(true)
+        ["fillable":protected]=>
+        array(11) {
+          [0]=>
+          string(4) "name"
+          [1]=>
+          string(5) "price"
+          [2]=>
+          string(4) "desc"
+          [3]=>
+          string(11) "category_id"
+          [4]=>
+          string(8) "quantity"
+          [5]=>
+          string(15) "sub_category_id"
+          [6]=>
+          string(11) "image_path1"
+
+
+I have
+query = obj{key->array[obj]} 
+
+object(Illuminate\Database\Eloquent\Collection)#26 (1) {
+  ["items":protected]=>
+  array(2) {
+    [0]=>
+    object(SAM\Models\Product)#28 (27) {
+      ["timestamps"]=>
+      bool(true)
+      ["fillable":protected]=>
+      array(11) {
+        [0]=>
+        string(4) "name"
+        [1]=>
+        string(5) "price"
+        [2]=>
+        string(4) "desc"
+        [3]=>
+
+
+results = obj{key->array[obj]} // currently have this
+
+object(stdClass)#39 (1) {
+  ["items":protected]=>
+  array(2) {
+    [0]=>
+    object(SAM\Models\Product)#28 (27) {
+      ["timestamps"]=>
+      bool(true)
+      ["fillable":protected]=>
+      array(11) {
+        [0]=>
+        string(4) "name"
+        [1]=>
+        string(5) "price"
+        [2]=>
+        string(4) "desc"
+        [3]=>
+        string(11) "category_id"
+        [4]=>
+=======================================================
+
+>item in Cart is deleted after you logout.
+	>no item when you logg back in
+
+
+Guest
+	>user_cart session is added when addedItem is clicked
+
+User
+	>session(*username*) is set to session("user_cart") // we may not need it
+	logout: session(*username*) is set to session("user_cart") //push each array of item to session(*username*)
+	login: session("username") is set to session("user_cart") destroy session("user_cart")
+
+Session::get("user_cart") 
+	>array(1) { 
+		[0]=> array(2) { ["product_id"]=> string(1) "6" ["quantity"]=> int(2) } 
+		}
+	desc: array(1)[object->array(2)]
+
+>check login
+>check logout
+>check payment
+====================================================
+today
+1. fix search bar design
+2. make product display nicely
 
 :allow user to change order, and see orders' history
 :move category and subcategory out of admin folder
