@@ -232,15 +232,24 @@ class Paginator
   /**
    * create links for the paginator
    *
-   * @param string $path
+   * @param string $path, $pageIdentifierFromGet 
    *
    * @return string
    */
-  public function page_links(string $path = '?'): string
+  public function page_links(string $path = '?', string $pageIdentifierFromGet = ""): string
   {
     // init
     $counter = 0;
     $pagination = '';
+
+
+    if(isset($pageIdentifierFromGet) && $pageIdentifierFromGet != ""){
+       $this->_pageIdentifierFromGet = (int) $pageIdentifierFromGet;
+       // var_dump($pageIdentifierFromGet);exit;
+    }
+
+    // var_dump($this->_pageIdentifierFromGet);
+    // var_dump($this->_paginatorUlCssClass) exit;
 
     $prev = $this->_pageIdentifierFromGet - 1;
     $next = $this->_pageIdentifierFromGet + 1;

@@ -19,6 +19,7 @@
 		"motion-ui": "^2.0.3",
 		"npm": "^6.4.1",
 		"slick-carousel": "^1.8.1",
-		"vue": "^2.5.17"
+		"vue": "^2.5.17",
+		"vuejs-paginate": "^2.0.1"
 	}
 }

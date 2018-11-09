@@ -1,3 +1,7 @@
+<?php 
+	//var_dump($orders);exit;
+?>
+
 @extends('customers.customer')
 @section('title', 'OrderPage')
 @section('data-page-id', 'customerProduct')
@@ -14,6 +18,7 @@
 <hr>
 
 <div class="table-responsive"><!--table-responsive start -->
+	{{-- {{isset($orders)}} --}}
 	@if(isset($orders) && count($orders) >0)
 	<table class="table table-bordered table-hover"><!--table table-bordered table-hover start -->
 		<thead><!--thead start -->
@@ -23,19 +28,17 @@
 			</tr>
 		</thead>
 		<tbody> <!--tbody start -->
-			@foreach($orders as $order)
 
-				@if($buyer_id == $order['user_id'])
-					<tr>
-						{{-- {{$buyer_id}} --}}
-						<td>{{$order['order_no']}}</td>
-						<td>{{$order['added']}}</td>
-					</tr>
-				@endif
+			@foreach($orders as $order)
+				<tr>
+					{{-- {{$buyer_id}} --}}
+					<td>{{$order['order_no']}}</td>
+					<td>{{$order['added']}}</td>
+				</tr>
 			@endforeach
 		</tbody>
 	</table>
-	{{-- {!! $links !!} --}}
+	{!! $links !!}
 
 	{{-- <ul class="pagination " data-pagination-current="1" data-pagination-prev="false" data-pagination-next="2" data-pagination-length="2">
 		<li class="pagination--start"><a href="?p=1">&laquo;</a></li>
@@ -43,7 +46,13 @@
 		<li><a href="?p=2">2</a></li>
 		<li class="pagination--end"><a href="?p=2">&raquo;</a></li>
 	</ul> --}}
-	@if($selected < 7)
+
+	{{-- use jquery to add link 
+	1. <li class = "current"><a href=?p=i></a>
+	2. <a href="?p=2"> on other non-current class
+	3. <li class="pagination--start"><a href="?p = *firstpage* "></a>
+		4. <li class="pagination--end"><a href="?p = *lastpage* "></a> --}}
+{{-- 	@if($selected < 7)
 		@if($count < 7)
 			<ul class="pagination">
 				<li><a href="#"><<</a></li>	
@@ -95,12 +104,12 @@
 			<li><a href="#">$count</a></li>
 			<li><a href="#">>></a></li>
 		</ul>
-	@endif
-	
-	
+		@endif --}}
+		
+		
 
-	@else
-	<h2>this order does not exist.</h2>
-	@endif
-</div>
-@endsection
+		@else
+		<h2>this order does not exist.</h2>
+		@endif
+	</div>
+	@endsection

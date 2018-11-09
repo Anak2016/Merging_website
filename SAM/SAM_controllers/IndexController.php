@@ -9,10 +9,10 @@ use SAM\Models\ItemRating;
 use SAM\Models\Category;
 use SAM\Models\Manufacturer;
 
-
 use SAM\Classes\CSRFToken;
 use SAM\Classes\Request;
 // use SAM\Classes\Role;
+use voku\helper\Paginator;
 
 // use App\Classes\Mail;
 use Illuminate\Database\Capsule\Manager as Capsule; 
@@ -41,6 +41,8 @@ class IndexController extends BaseController
 		$deals = Product::where('deal', 1)->inRandomOrder()->limit(8)->get();
 		$populars = Product::where('popular', 1)->inRandomOrder()->limit(8)->get();		
 
+		// load more when scroll down
+
 		return _view('home', compact('token', 'sliders', 'deals', 'populars'));
 	}
 
@@ -65,11 +67,25 @@ class IndexController extends BaseController
 	{
 		$token = CSRFToken::_token();
 		$products = Product::where('deal',1)->inRandomOrder()->limit(8)->get();
-		// $total = Product::where('deal',1)->count();
-		// $total = Product::all()->count();
-		// list($products , $links) = paginate(8, $total, 'products', new Product);
 
-		// var_dump($products);exit;
+		// $total = Product::where('deal',1)->count();
+
+		// $products = [];
+
+		// $pages = new Paginator(2, 'p');
+		// $pages->set_total($total);
+
+		// $data = Capsule::select("SELECT *FROM products WHERE (deleted_at is null AND deal = 1) ORDER BY created_at DESC".$pages->get_limit());
+		
+		// // var_dump($data);exit;
+		// $object = new Product;
+		// $products = $object->transform($data);
+		// $links = $pages->page_links();
+		
+		// $links = $pages->page_links("?", "2");
+		
+		// var_dump($links);
+		// var_dump($data);exit;
 
 		// return _view('hot_deal', compact('token', 'products','links'));
 
@@ -108,36 +124,96 @@ class IndexController extends BaseController
 
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Vue.js LOGIC^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+	// public function dealProducts($pageNumber = null) // maybe sned pageNumber with request Get will be better. 
 	public function dealProducts()
 	{
-		$products = Product::where('deal', 1)->skip(0)->take(2)->get();
+		$pageNum = 1;
+		//each page has 2 products
+		// var_dump($pageNum);exit;
+		$pageNum = $pageNum -1;
+		$skipProducts = $pageNum * 2;
+		$products = Product::where('deal', 1)->skip($skipProducts)->take(2)->get(); //limit to first 2 product
 
-		echo json_encode(['deals' => $products, 'count' => count($products)]);
+		$all = Product::where('deal', 1)->get();
+		$countProducts = count($all); 
+		$pageCount = ceil($countProducts/2);
+		// $products = Product::where('deal', 1)->skip(2)->take(2)->get(); //limit to first 2 product
+		// var_dump($products); exit;
+		// $products = Product::where('deal', 1)->get();
+		// $limitProduct = 2;
+		// $startProduct = $pageNum * 2;
+		// $products = Capsule::select("SELECT *FROM products WHERE deleted_at is null ORDER BY created_at DESC LIMIT $limitProduct ");
+		
+		echo json_encode(['deals' => $products, 'count' => count($products), 'pageCount' => $pageCount]);
+		// echo json_encode(['deals' => $products, 'count' => count($products), 'pageLinks' => $links]);
+		// _view("hot_deal", compact("links")); 
+	}
+	public function getDealproducts()
+	{
+		if(!isset($_POST['pageNum'])){
+			$pageNum = 1;
+		}else{
+			$pageNum = $_POST['pageNum'];
+		}
+
+		$pageNum = $pageNum -1;
+		$skipProducts = $pageNum * 2;
+		$products = Product::where('deal', 1)->skip($skipProducts)->take(2)->get(); //limit to first 2 product
+
+		$all = Product::where('deal', 1)->get();
+		$countProducts = count($all); 
+		$pageCount = ceil($countProducts/2);
+		// var_dump($pageNum);
+		// var_dump($products);
+		echo json_encode(['deals' => $products, 'count' => count($products), 'pageCount' => $pageCount]);
 	}
 	public function popularProducts()
 	{
-		$products = Product::where('popular',1)->inRandomOrder()->limit(8)->get();
+		$products = Product::where('popular',1)->inRandomOrder()->limit(3)->get();
 		echo json_encode(['populars' => $products, 'count' => count($products)]);
 	}
 	public function products()
 	{
-		// $products = Product::all();
-		
-		// if(isset($_GET['selectedManufacturers'])){	
-		// 	$selectedManufacturers = $_GET['selectedManufacturers'];
-		// 	if(!empty($selectedManufacturers)){
-		// 		foreach($selectedManufacturers as $selectedManufacturer){
-		// 			// var_dump($selectedManufacturer);exit;	
-		// 			$products = Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get();
-		// 		}
 
-		// 		echo json_encode(['products' => $products, 'count' => count($products)]);
-		// 		exit;
-		// 	}
-		// }
-		$products = Product::inRandomOrder()->limit(8)->get();
-		// var_dump($products);exit;
-		echo json_encode(['products' => $products, 'count' => count($products)]);
+		// $products = Product::inRandomOrder()->limit(8)->get();
+
+		$pageNum = 1;
+		//each page has 2 products
+		// var_dump($pageNum);exit;
+		$pageNum = $pageNum -1;
+		$skipProducts = $pageNum * 2;
+		$products = Product::skip($skipProducts)->take(2)->get(); //limit to first 2 product
+
+		$all = Product::all();
+		$countProducts = count($all); 
+		$pageCount = ceil($countProducts/2);
+		// var_dump($pageCount);exit;
+
+		// echo json_encode(['products' => $products, 'count' => count($products)]);
+		echo json_encode(['products' => $products, 'count' => count($products), 'pageCount' => $pageCount]);
+	}
+	public function getShop()
+	{
+
+		// $products = Product::inRandomOrder()->limit(8)->get();
+
+		if(!isset($_POST['pageNum'])){
+			$pageNum = 1;
+		}else{
+			$pageNum = $_POST['pageNum'];
+		}
+		//each page has 2 products
+		// var_dump($pageNum);exit;
+		$pageNum = $pageNum -1;
+		$skipProducts = $pageNum * 2;
+		$products = Product::skip($skipProducts)->take(2)->get(); //limit to first 2 product
+
+		$all = Product::all();
+		$countProducts = count($all); 
+		$pageCount = ceil($countProducts/2);
+		// var_dump($pageCount);exit;
+		// echo json_encode(['products' => $products, 'count' => count($products)]);
+		echo json_encode(['products' => $products, 'count' => count($products), 'pageCount' => $pageCount]);
 	}
 	public function manufacturers()
 	{
@@ -319,9 +395,9 @@ class IndexController extends BaseController
 												$count1 = $count1 + 1;
 											}
 
-							if(isset($keyword)){
+											if(isset($keyword)){
 
-								$temp1 = Capsule::select("SELECT * FROM products WHERE (manufacturer_id = $selectedManufacturer or category_id = $selectedCategory) and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
+												$temp1 = Capsule::select("SELECT * FROM products WHERE (manufacturer_id = $selectedManufacturer or category_id = $selectedCategory) and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
 								if(!is_null($temp1)){ // always true. not sure why 
 									$searchProducts[$count2] = $temp1;
 									$count2 = $count2 + 1;
@@ -366,9 +442,9 @@ class IndexController extends BaseController
 											}
 
 
-							if(isset($keyword)){
+											if(isset($keyword)){
 
-								$temp1 = Capsule::select("SELECT * FROM products WHERE (manufacturer_id = $selectedManufacturer or sub_category_id = $selectedSubCategory) and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
+												$temp1 = Capsule::select("SELECT * FROM products WHERE (manufacturer_id = $selectedManufacturer or sub_category_id = $selectedSubCategory) and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
 								if(!is_null($temp1)){ // always true. not sure why 
 									$searchProducts[$count2] = $temp1;
 									$count2 = $count2 + 1;
@@ -409,8 +485,8 @@ class IndexController extends BaseController
 												$count1 = $count1 + 1;
 											}
 
-							if(isset($keyword)){
-								$temp1 = Capsule::select("SELECT * FROM products WHERE (category_id = $selectedCategory or sub_category_id = $selectedSubCategory) and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
+											if(isset($keyword)){
+												$temp1 = Capsule::select("SELECT * FROM products WHERE (category_id = $selectedCategory or sub_category_id = $selectedSubCategory) and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
 								if(!is_null($temp1)){ // always true. not sure why 
 									$searchProducts[$count2] = $temp1;
 									$count2 = $count2 + 1;
@@ -452,8 +528,8 @@ class IndexController extends BaseController
 												$count1 = $count1 + 1;
 											}
 
-								if(isset($keyword)){
-									$temp1 = Capsule::select("SELECT * FROM products WHERE ( manufacturer_id = $selectedManufacturer or category_id = $selectedCategory or sub_category_id = $selectedSubCategory) and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
+											if(isset($keyword)){
+												$temp1 = Capsule::select("SELECT * FROM products WHERE ( manufacturer_id = $selectedManufacturer or category_id = $selectedCategory or sub_category_id = $selectedSubCategory) and (keywords LIKE '%$keyword%' OR (name LIKE '%$keyword%')) ");
 									if(!is_null($temp1)){ // always true. not sure why 
 										$searchProducts[$count2] = $temp1;
 										$count2 = $count2 + 1;
@@ -470,78 +546,6 @@ class IndexController extends BaseController
 			// echo json_encode(['dealProducts' => (array) $dealProducts, 'countDeals' => count($dealProducts)]); exit;
 			// echo json_encode(['products' => (array) $results, 'count' => count($results), 'dealProducts' => (array) $dealProducts, 'countDeals' => count($dealProducts)]); exit;
 			echo json_encode(['products' => (array) $results, 'count' => count($results), 'dealProducts' => (array) $dealProducts, 'countDeals' => count($dealProducts), 'searchProducts' => (array) $searchProducts, 'countSearches' => count($searchProducts)]); exit; //countSearches is undefined
-
-			// if(isset($_POST['selectedCategories'])){	
-			// 	$selectedCategories = $_POST['selectedCategories'];
-			// 	if(!empty($selectedCategories)){
-			// 		if(!isset($results)){
-			// 			$count = 0;
-			// 			foreach($selectedCategories as $selectedCategory){
-			// 				$results[$count] = Product::where("category_id", $selectedCategory)->get();
-			// 				$count = $count + 1;
-			// 			}
-			// 		}else{
-			// 			foreach($selectedCategories as $selectedCategory){
-			// 				foreach($results as $result){
-			// 					$products = Product::where("category_id", $selectedCategory)->get();
-			// 					$count1 = 0;
-			// 					foreach($products as $product){
-
-			// 						// I can't get the logic right because I don't understand structure of the variable
-			// 						// so I leave it right here
-			// 						if(in_array($products, (array) $result[0]) ){
-			// 							$results[$count] = $products[$count1];
-			// 							$count = $count + 1;
-			// 							$count1 = $count1 + 1;
-			// 						}
-			// 					}
-			// 				}
-			// 			}
-			// 		}
-			// 	}
-			// }
-
-			
-			// if(isset($_POST['selectedSubCategories'])){	
-			// 	$selectedSubCategories = $_POST['selectedSubCategories'];
-			// // var_dump("1");
-			// 	if(!empty($selectedSubCategories)){
-			// 	// var_dump("2");
-			// 		if(!isset($results)){
-			// 		// var_dump("3");
-			// 			$count = 0;
-			// 			foreach($selectedSubCategories as $selectedSubCategory){
-			// 			// var_dump($selectedCategory);
-			// 				$results[$count] = Product::where("sub_category_id", $selectedSubCategory)->get();
-			// 				$count = $count + 1;
-			// 			}
-			// 		}else{
-			// 		// var_dump("4");
-			// 			foreach($selectedSubCategories as $selectedSubCategory){
-			// 		// var_dump(Product::where("manufacturer_id", $selectedManufacturers)->inRandomOrder()->limit(8)->get()[0]);exit;	
-			// 	// var_dump($selectedCategory);exit;=
-			// 				$count1 = 0;
-			// 				foreach($results as $result){
-
-			// 					$products = Product::where("sub_category_id", $selectedSubCategory)->get();
-			// 				// $products = $products; //product-id
-			// 					foreach($products as $product){
-
-			// 						if(!in_array($products, (array) $result[0]) ){
-			// 							$results[$count] = $products[$count1];
-			// 							$count = $count + 1;
-			// 							$count1 = $count1 + 1;
-			// 						}
-			// 					}
-			// 				}
-			// 			}
-			// 	// var_dump($products[0]->name);exit;	
-			// 		}
-			// 	}
-			// }
-			
-
-			// echo json_encode(['products' => $results, 'count' => count($results)]); exit;
 		}
 
 		// $products = Product::inRandomOrder()->limit(8)->get();
@@ -652,34 +656,34 @@ public function getProducts()
 public function subcategoryProducts($id)
 {
 	$products = Product::where('sub_category_id', $id)->inRandomOrder()->limit(4)->get();
-		//want to coutn all product that has sub_category_id = $id
-		$total = Product::where('sub_category_id', $id)->count();//wrongly use of all()
-		// var_dump($total); exit;	
-		echo json_encode(['products' => $products, 'count' =>count($products), 'total'=> $total]);
+	//want to coutn all product that has sub_category_id = $id
+	$total = Product::where('sub_category_id', $id)->count();//wrongly use of all()
+	// var_dump($total); exit;	
+	echo json_encode(['products' => $products, 'count' =>count($products), 'total'=> $total]);
+}
+
+public function loadMoreProducts()
+{
+	$request = Request::get('post');
+
+	if(CSRFToken::verifyCSRFToken($request->token, false)){
+		$count = $request->count;
+		$item_per_page = $count + $request->next;
+		$products = Product::where('popular', 1)->skip(0)->take($item_per_page)->get();
+		echo json_encode(['popularProducts'=> $products, 'count' =>count($products)]);
 	}
+}
 
-	public function loadMoreProducts()
-	{
-		$request = Request::get('post');
+public function loadMoreSubcategoryProducts()
+{
+	$request = Request::get('post');
 
-		if(CSRFToken::verifyCSRFToken($request->token, false)){
-			$count = $request->count;
-			$item_per_page = $count +$request->next;
-			$products = Product::where('featured', 0)->skip(0)->take($item_per_page)->get();
-			echo json_encode(['products'=> $products, 'count' =>count($products)]);
-		}
+	if(CSRFToken::verifyCSRFToken($request->token, false)){
+		$count = $request->count;
+		$item_per_page = $count +$request->next;
+		$products = Product::where('sub_category_id', $id)->skip(0)->take($item_per_page)->get();
+		echo json_encode(['products'=> $products, 'count' =>count($products)]);
 	}
-	public function loadMoreSubcategoryProducts()
-	{
-		$request = Request::get('post');
-
-		if(CSRFToken::verifyCSRFToken($request->token, false)){
-			$count = $request->count;
-			$item_per_page = $count +$request->next;
-			$products = Product::where('sub_category_id', $id)->skip(0)->take($item_per_page)->get();
-			echo json_encode(['products'=> $products, 'count' =>count($products)]);
-		}
-	}
-
+}
 }
 ?>

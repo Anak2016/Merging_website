@@ -5,6 +5,8 @@ window.axios = require('axios');
 window.Vue = require('vue');
 
 require('foundation-sites/dist/js/foundation.min')
+
+
 // require('/dist/js/foundation.min')
 
 //other dependencies
@@ -12,6 +14,7 @@ require('slick-carousel/slick/slick.min');
 require('chart.js/dist/Chart.bundle')
 
 require('../../assets/js/acme');
+
 require('../../assets/js/admin/create');
 require('../../assets/js/admin/dashboard');
 require('../../assets/js/admin/delete');
@@ -25,5 +28,11 @@ require('../../assets/js/pages/slider');
 require('../../assets/js/pages/groupby');
 require('../../assets/js/pages/search');
 require('../../assets/js/rating');
+
 require('../../assets/js/init');
+
+var Paginate = require('vuejs-paginate');
+Vue.component('paginate', Paginate);
+
+// vue.js pagination
 

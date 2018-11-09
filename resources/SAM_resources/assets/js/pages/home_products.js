@@ -1,7 +1,10 @@
+
+
 (function(){
 	'use strict';
 
 	ACMESTORE.homeslider.homePageProducts = function(){
+
 		var app = new Vue({
 			el:'#root',
 			data: {
@@ -28,32 +31,17 @@
 				manufacturerKeyword: "",
 				categoryKeyword: "",
 				subCategoryKeyword: "",
-				keyword: null
+				keyword: null,
+				// pageCount: 0,
+				pageDeal: 1,
+				pageShop: 1,
+				pageDealCount: 0,
+				pageShopCount: 0
 
 			},
+			// conponent: {paginate},
 			methods:{ // all of the function must be inside of the object is passed to method property's of Vue.js.
 			getFeaturedProducts: function(){
-				// if($('#data-keyword').length){
-				// 	this.keyword = $('.keyword').data('keyword');
-				// 	console.log(keyword);
-				// 	var data= $.param({keyword: keyword});
-				// 	axios.post('/sam_public/searchResult',data)
-				// 	.then(function(response){
-				// 		app.searchProducts = response.data.results;
-				// 		app.countSearches = response.data.count;
-				// 		app.loading = false;
-				// 	});
-				// }
-
-				// this.loading = true;
-				// var selectedManufacturers = [];
-				// if(this.checkedBoxes == undefined || this.checkedBoxes.length == 0){
-				// 	this.checkedBoxes.forEach(function(element){
-				// 		// console.log(element);
-				// 		selectedManufacturers.push(element);
-				// 	});
-				// }
-				// var data= $.param({selectedManufacturers: selectedManufacturers});
 
 				axios.all(
 					[
@@ -63,15 +51,23 @@
 					axios.get('/sam_public/categories'), axios.get('/sam_public/sub-categories')   
 					]
 					).then(axios.spread(function(dealResponse, popularResponse, productResponse, manufacturerResponse, categoryResponse, subCategoryResponse){
-						// console.log(dealResponse.data.count);
+						console.log(dealResponse.data.deals);
 						app.dealProducts = dealResponse.data.deals;
+						// app.dealProducts = dealResponse.data.deals;
 						app.countDeals = dealResponse.data.count;
-						// console.log(app.countDeals);
+						// app.pageLinks = dealResponse.data.pageLinks;
+						// app.pageLinks = $('dealResponse.data.pageLinks');
+						// app.pageLinks = 
+						app.pageDealCount = dealResponse.data.pageCount;
+						// console.log(dealResponse.data.pageLinks);
+						// console.log(app.pageLinks);
+
 						app.popularProducts = popularResponse.data.populars;
 						app.countPopulars = popularResponse.data.count;
 						// console.log(app.popularProducts[0].name);
 						app.products = productResponse.data.products;
 						app.countProducts = productResponse.data.count;
+						app.pageShopCount = productResponse.data.pageCount; ////////
 						// console.log(app.products[0].id);
 						app.manufacturers = manufacturerResponse.data.manufacturers;
 						app.countMenufactures = manufacturerResponse.data.count;
@@ -110,10 +106,10 @@
 					this.loading =true;
 					// we use jQuery here becuase axios pass all javascript object to JSON 
 					//but php scripts only understand encoded format which can be done by using jQuery
-					var data= $.param({next:2, token: token, count:app.count});
+					var data= $.param({next:2, token: token, count:app.countPopulars});
 					axios.post('/load-more',data)
 					.then(function(response){
-						app.products = response.data.products;
+						app.popularProducts = response.data.products;
 						app.count = response.data.count;
 						app.loading = false;
 					});
@@ -148,7 +144,13 @@
 						// console.log(response.data)
 						// console.log(response.data.products);
 						app.selectedProduct = response.data.products;
-						app.selectedDeal = response.data.dealProducts; // 
+						app.selectedDeal = response.data.dealProducts; 
+						app.countDeals = response.data.countDeals;
+						// console.log(typeof app.selectedDeal)
+						app.pageDealCount = Math.ceil(app.countDeals/2); // pageCount of productDeals
+
+						// console.log(app.pageCount);
+						
 						app.products =[];
 						app.dealProducts = [];
 						// var an_array = [];
@@ -244,21 +246,56 @@
 						app.categories = responseCategory.data.keyword;
 						app.subCategories = responseSubCategory.data.keyword;
 					}));
-					}
+					},
+					clickCallbackDeal: function(pageNum){
+						// console.log(pageNum);
+						// pass pageNum
+						this.page = pageNum;
+						app.dealProducts = [];
+						var data= $.param({pageNum: pageNum });
+						// console.log(pageNum);
+						axios.post('/sam_public/dealProducts', data).then(function(response){
+							console.log(response.data);
+							app.dealProducts = response.data.deals;
+							app.countDeals = response.data.count;
+							app.pageDealCount = response.data.pageCount;
+						});
+						// console.log(this.dealProducts);
+					},
+					clickCallbackShop: function(pageNum){
+						// console.log(pageNum);
+						// pass pageNum
+						this.page = pageNum;
+						app.products = [];
+						var data= $.param({pageNum: pageNum });
+						// console.log(pageNum);
+						axios.post('/sam_public/products', data).then(function(response){
+							console.log(response.data);
+							app.products = response.data.products;
+							app.countProducts = response.data.count;
+							app.pageShopCount = response.data.pageCount;
+							console.log(app.pageShopCount);
+						});
+						// console.log(this.dealProducts);
+					},
+
+
 				},
 				created: function(){
 					console.log("in home_Product.js");
 					this.getFeaturedProducts();
-				}
+				},
 			// ,
-			// mounted: function(){ //after Vue finsihed loaded.
-			// 	$(window).scroll(function(){
+			mounted: function(){ //after Vue finsihed loaded.
+				$(window).scroll(function(){
 
-			// 		if($(window).scrollTop() + $(window).height() +1 > $(document).height()){
-			// 			app.getFeaturedProducts();
-			// 		}
-			// 	})
-			// }
+					if($(window).scrollTop() > $(document).height() - 1300) {
+						// console.log("near bottom!");
+						app.loadMoreProducts();
+					}
+					
+				})
+			}
 		});
 }
 })();

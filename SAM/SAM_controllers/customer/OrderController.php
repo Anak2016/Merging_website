@@ -16,6 +16,8 @@ use SAM\Classes\Session;
 
 use SAM\Controllers\BaseController;
 // use App\Classes\Mail;
+use voku\helper\Paginator;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 class OrderController extends BaseController
 {
@@ -34,8 +36,22 @@ class OrderController extends BaseController
 		// var_dump($this->user); exit;
 		$this->user = $this->user['0']['id'];
 
+		// $this->orders = Order::where('user_id', $this->user);
 		$total = Order::where('user_id', $this->user)->count();
-		list($this->orders , $this->links) = _paginate(3, $total, $this->table_name, new Order);
+		// $total = Order::all()->count();
+
+		$this->orders = [];
+		$object = new Order;
+		$pages = new Paginator(4, 'p');
+		$pages->set_total($total);
+		$data = Capsule::select("SELECT *FROM orders WHERE deleted_at is null and user_id = $this->user ORDER BY created_at DESC".$pages->get_limit());
+
+		$this->orders = $object->transform($data);
+		$this->links = $pages->page_links();
+
+		// var_dump($this->orders);
+		// var_dump($this->links);exit;
+		// list($this->orders , $this->links) = _paginate(4, $total, $this->table_name, new Order); // _paginate is not correct
 	}
 	public function show()
 	{
@@ -43,15 +59,10 @@ class OrderController extends BaseController
 		// $orders = Order::all();
 		$orders = $this->orders;
 		$links = $this->links;
-		$buyer_id = $this->user;
 
-		$count  = ceil(count($orders) / 8);  
+		$count  = count($orders);  
 		$selected = 0;
-		// var_dump($orders[0]['user_id']); exit;
-		// var_dump($orders); exit;
-		// var_dump($buyer_id); exit;
-		// var_dump(Session::get('SESSION_USER_NAME'));exit;
-		return _view('customers/products/order', compact('token', 'orders', 'links', 'buyer_id', "selected", "count"));
+		return _view('customers/products/order', compact('token', 'orders', 'links', "selected", "count"));
 
 
 	}

@@ -8,7 +8,7 @@ $router->map( 'GET', '/sam_public/shop', 'SAM\Controllers\IndexController@showSh
 
 $router->map( 'GET', '/sam_public/cart', 'SAM\Controllers\IndexController@showCart', 'cart' );
 
-$router->map( 'GET', '/sam_public/hot_deal', 'SAM\Controllers\IndexController@showHot_deal', 'hot_deal' );
+$router->map( 'GET', '/sam_public/hot_deal', 'SAM\Controllers\IndexController@showHot_deal', 'hot_deal' ); // 
 
 // $router->map( 'GET', '/sam_public/customer_register', 'SAM\Controllers\IndexController@showCustomer_register', 'customer_register' );
 
@@ -30,8 +30,12 @@ $router->map( 'post', '/sam_public/subCategoryKeyword', 'SAM\Controllers\IndexCo
 
 // ============================================Vue.js LOGIC============================================
 $router->map( 'GET', '/sam_public/dealProducts', 'SAM\Controllers\IndexController@dealProducts', 'deal_product' );
+$router->map( 'POST', '/sam_public/dealProducts', 'SAM\Controllers\IndexController@getDealProducts', 'get_deal_product' );
+
 $router->map( 'GET', '/sam_public/popularProducts', 'SAM\Controllers\IndexController@popularProducts', 'popular_product' );
 $router->map( 'GET', '/sam_public/products', 'SAM\Controllers\IndexController@products', 'all_products' );
+$router->map( 'POST', '/sam_public/products', 'SAM\Controllers\IndexController@getShop', 'get_all_products' );
+
 $router->map( 'GET', '/sam_public/manufacturers', 'SAM\Controllers\IndexController@manufacturers', 'all_manufacturers' );
 $router->map( 'GET', '/sam_public/categories', 'SAM\Controllers\IndexController@categories', 'all_categories' );
 $router->map( 'GET', '/sam_public/sub-categories', 'SAM\Controllers\IndexController@subCategories', 'all_subCategory' );
@@ -51,7 +55,7 @@ $router->map( 'GET', '/sam_public/ip', 'SAM\Controllers\IndexController@getIP', 
 // $router->map( 'GET', '/sam_public/subcategory-products/[i:id]', 'SAM\Controllers\IndexController@subcategoryProducts', 'subcategory_product' );
 // // $router->map( 'GET', '/subcategory-products', 'App\Controllers\IndexController@subcategoryProducts', 'subcategory_product' );
 
-// $router->map( 'POST', '/sam_public/load-more', 'SAM\Controllers\IndexController@loadMoreProducts', 'load_more_product' );
+$router->map( 'POST', '/sam_public/load-more', 'SAM\Controllers\IndexController@loadMoreProducts', 'load_more_product' );
 
 // $router->map( 'POST', '/sam_public/load-more-subcategory', 'SAM\Controllers\IndexController@loadMoreSubcategoryProducts', 'load_more_subcategory_product' );
 

@@ -10,7 +10,7 @@
 <div class="product">
 	<div clss ="row expanded">
 		<div class="column medium-11">
-			<h2>Order Payment</h2> <hr />
+			<h2>Payment History</h2> <hr />
 		</div>
 	</div>
 	<table class="table table-bordered table-hover"><!--table table-bordered table-hover start -->
@@ -22,15 +22,13 @@
 		</thead>
 		<tbody> <!--tbody start -->
 			@foreach($payments as $payment)
-				@if($buyer_id == $payment['user_id'])
-					<tr>
-						<td>{{$payment['order_no']}}</td>
-						<td>{{$payment['user_id']}}</td>
-						<td>{{$payment['amount']}}</td>
-						<td>{{$payment['status']}}</td>
-						<td>{{$payment['added']}}</td>
-					</tr>
-				@endif
+			<tr>
+				<td>{{$payment['order_no']}}</td>
+				<td>{{$payment['user_id']}}</td>
+				<td>{{$payment['amount']}}</td>
+				<td>{{$payment['status']}}</td>
+				<td>{{$payment['added']}}</td>
+			</tr>
 			@endforeach
 		</tbody>
 	</table>

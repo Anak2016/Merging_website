@@ -67,6 +67,19 @@
               <div v-else>
                 <h1>No Deal Item</h1>
             </div>
+            <template>
+              <paginate
+              v-model="pageShop"
+              :page-count="pageShopCount"
+              :page-range="3"
+              :margin-pages="2"
+              :click-handler="clickCallbackShop"
+              :prev-text="'Prev'"
+              :next-text="'Next'"
+              :container-class="'pagination'"
+              :page-class="'page-item'">
+          </paginate>
+      </template>
             
             
 

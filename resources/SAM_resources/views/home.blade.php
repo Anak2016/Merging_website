@@ -151,7 +151,9 @@
         <div class="box"><!-- box start-->
             <div class="container"><!--container start-->
                 <div class="col-md-12"><!--col-md-12 start -->
-                    <h2>Today's Deal</h2>
+                    <a href="/sam_public/hot_deal">
+                        <h2>Today's Deal</h2>
+                    </a>
                 </div>
             </div>
         </div>
@@ -162,53 +164,38 @@
             <div class='col-md-3 col-sm-6 single' v-cloak v-for="dealProduct in dealProducts">
                 <div class='product'>
                     <div class="box_sale">
-                        {{--  --}}
-                        {{-- <div v-if="dealProduct.label == 1" class='ribbon'><span>Sale</span></div> --}}
                         <div v-if="dealProduct.label == 1" class="ribbon"><span>Sale</span>
                             <a :href="'/sam_public/details/' + dealProduct.id">
                                 <img :src='dealProduct.image_path1' class='img-responsive'>
                             </a>
                         </div>
-                        {{-- <div class='ribbon'><span>Sale</span></div> --}}
-                    </div>
-                  {{-- <div class='box_sale'>
-                    <div class='ribbon'><span>Sale</span>
-                        <a href='details.php?pro_id=19' >
+                    </div>                
+                    <div class='text'>
+                        <h3>
+                            <a :href="'/sam_public/details/' + dealProduct.id">
+                                @{{stringLimit(dealProduct.name, 18)}}
+                            </a> 
+                        </h3>
+                        <p class='price'>$ @{{dealProduct.price}}</p>
+                        <p class="price">Quantity: @{{dealProduct.quantity}}</p>
+                        <p class='buttons'>
+                            <a :href="'/sam_public/details/' + dealProduct.id" class='btn btn-default'>View Details</a>
+                            <a  v-if="dealProduct.quantity > 0" :href="'/sam_public/details/' + dealProduct.id" @click.prevent="addToCart(dealProduct.id)" class='btn btn-primary'>
+                                <i class='fa fa-shopping-cart'></i> Add to Cart
+                            </a>
+                            <a v-else class='btn btn-danger'disabled>
+                              Out of stock
+                          </a>
+                      </p>
+                  </div>
 
-                            <img src='admin_area/product_images/125461.jpg' class='img-responsive' >
-
-                        </a>
-                    </div>
-                </div> --}}
-                
-
-                <div class='text'>
-
-                    <h3>
-                        <a :href="'/sam_public/details/' + dealProduct.id">
-                            @{{stringLimit(dealProduct.name, 18)}}
-                        </a> 
-                    </h3>
-                    <p class='price'>$ @{{dealProduct.price}}</p>
-                    <p class="price">Quantity: @{{dealProduct.quantity}}</p>
-                    <p class='buttons'>
-                        <a :href="'/sam_public/details/' + dealProduct.id" class='btn btn-default'>View Details</a>
-                        <a  v-if="dealProduct.quantity > 0" :href="'/sam_public/details/' + dealProduct.id" @click.prevent="addToCart(dealProduct.id)" class='btn btn-primary'>
-                            <i class='fa fa-shopping-cart'></i> Add to Cart
-                        </a>
-                        <a v-else class='btn btn-danger'disabled>
-                          Out of stock
-                      </a>
-                  </p>
               </div>
 
           </div>
-
       </div>
-  </div>
-  <div v-else>
-    <h1>No Deal Item</h1>
-</div>
+      <div v-else>
+        <h1>No Deal Item</h1>
+    </div>
 </div>
 
 <div id="hot"><!-- hot start-->
@@ -236,6 +223,12 @@
                                 <img :src="popularProduct.image_path1" class="img-responsive">
                             </a>
                         </div> 
+                       {{--  <div v-else>
+                            <a :href="'/sam_public/details/' + popularProduct.id">
+                                <img :src="popularProduct.image_path1" class="img-responsive">
+                            </a>
+                        </div> --}}
+                        {{-- <pre>@{{popularProduct}}</pre> --}}
                     </div>
                     <div class="text"><!-- text start-->
                         <h3>

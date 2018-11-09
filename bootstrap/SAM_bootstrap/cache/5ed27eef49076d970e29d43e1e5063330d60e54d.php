@@ -9,7 +9,7 @@
 <div class="product">
 	<div clss ="row expanded">
 		<div class="column medium-11">
-			<h2>Order Payment</h2> <hr />
+			<h2>Payment History</h2> <hr />
 		</div>
 	</div>
 	<table class="table table-bordered table-hover"><!--table table-bordered table-hover start -->
@@ -21,15 +21,13 @@
 		</thead>
 		<tbody> <!--tbody start -->
 			<?php $__currentLoopData = $payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $payment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-				<?php if($buyer_id == $payment['user_id']): ?>
-					<tr>
-						<td><?php echo e($payment['order_no']); ?></td>
-						<td><?php echo e($payment['user_id']); ?></td>
-						<td><?php echo e($payment['amount']); ?></td>
-						<td><?php echo e($payment['status']); ?></td>
-						<td><?php echo e($payment['added']); ?></td>
-					</tr>
-				<?php endif; ?>
+			<tr>
+				<td><?php echo e($payment['order_no']); ?></td>
+				<td><?php echo e($payment['user_id']); ?></td>
+				<td><?php echo e($payment['amount']); ?></td>
+				<td><?php echo e($payment['status']); ?></td>
+				<td><?php echo e($payment['added']); ?></td>
+			</tr>
 			<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 		</tbody>
 	</table>
