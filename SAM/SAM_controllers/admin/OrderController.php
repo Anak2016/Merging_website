@@ -29,28 +29,21 @@ class OrderController extends BaseController
 			Redirect::to('/login');
 		}
 		
-		// $this->payment = Category::all();
 		$total = Order::all()->count();
 
 		list($this->orders , $this->links) = paginate(3, $total, $this->table_name, new Order);
-		// var_dump($this->links); exit;
 	}
 	public function show()
 	{
 		$token = CSRFToken::_token();
-		// $orders = Order::all();
 		$orders = $this->orders;
 		$links = $this->links;
-		// var_dump($links); exit;
 		return _view('admin/products/order', compact('token', 'orders', 'links'));
 	}
-	public function showEditForm($order_no)	//id = order_no
+	public function showEditForm($order_no)	
 	{
 		$token = CSRFToken::_token();
 		$orderDetail = OrderDetail::where('order_no',$order_no)->get();
-
-		// var_dump(count($orderDetail)); exit;
-		// var_dump($orderDetail); exit;
 		return _view('admin/products/order-detail', compact('token', 'orderDetail'));
 	}
 

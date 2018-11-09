@@ -23,15 +23,13 @@ class ProductCategoryController extends BaseController
 	{
 		$total = Category::all()->count();
 		$subTotal = SubCategory::all()->count();
-		// var_dump($total); exit;
-		// var_dump($subTotal); exit;
 		$object = new Category;
 
 		list($this->categories, $this->links) = _paginate(3, $total, $this->table_name, $object);
-		// var_dump($this->links);exit;
+
 
 		list($this->subcategories, $this->subcategories_links) = _paginate(3, $subTotal, 'sub_categories', new SubCategory);	
-		// var_dump($this->subcategories_links);exit;
+
 	}
 	//dislay category on the page by passing var to view
 	public function show()
@@ -49,15 +47,10 @@ class ProductCategoryController extends BaseController
 	{
 		if(Request::has('post')){
 			$request = Request::get('post');
-			// var_dump($request);
-			// exit;
 			if(CSRFToken::verfityCSRFToken($request->token)){
 				$rules =[
 					'name' => ['required' => true, 'minLength' => 3, 'string' =>true, 'unique'=> 'categories']
-					// 'name' => ['required' => true, 'maxLength' => 5, 'unique'=> 'categories']
 				];
-				// var_dump($_POST); exit;
-				// var_dump($rules); exit;
 				$validate = new ValidateRequest;
 				$validate->abide($_POST, $rules);
 
@@ -90,7 +83,7 @@ class ProductCategoryController extends BaseController
 		return null;
 	}
 
-	//I messed this one up by accident, come back and fix it
+	
 	public function edit($id)
 	{
 		if(Request::has('post')){
@@ -112,14 +105,9 @@ class ProductCategoryController extends BaseController
 	{
 		if(Request::has('post')){
 			$request = Request::get('post');
-			// var_dump($request);
-			// exit;
 			if(CSRFToken::verfityCSRFToken($request->token)){
 				//update record if ture
 				Category::destroy($id);
-
-				//you can use SQL cascade delete or 
-				//use Eloquent SoftDelete(delete_date is set and will not be shown to the screen) 
 				$subcategories = SubCategory::where("category_id", $id)->get();
 				if(count($subcategories)){
 					foreach($subcategories as $subcategory){

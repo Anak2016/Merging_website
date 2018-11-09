@@ -14,10 +14,6 @@ $router->map( 'GET', '/sam_public/customer/delete', 'SAM\Controllers\Customers\U
 $router->map( 'POST', '/sam_public/customer/delete', 'SAM\Controllers\Customers\UserController@delete', 'customer_delete' );
 $router->map( 'GET', '/sam_public/customer/payments', 'SAM\Controllers\Customers\PaymentController@show', 'customer_payment' );
 
-// $router->map( 'GET', '/sam_public/customer/comment', 'SAM\Controllers\Customers\UserController@showCommentForm', 'customer_comment' );
 $router->map( 'POST', '/sam_public/customer/comment', 'SAM\Controllers\Customers\UserController@submitComment', 'submit_comment' );
-
-// $router->map( 'GET', '/sam_public/customer/ip', 'SAM\Controllers\Customers\UserController@getIP', 'customer_ip' );
-// $router->map( 'GET', '/sam_public/account/logout', 'SAM\Controllers\IndexController@showHome', 'home' );
 
 ?>

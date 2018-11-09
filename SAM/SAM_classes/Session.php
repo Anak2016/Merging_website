@@ -8,17 +8,13 @@ class Session
 	//create a session
 	public static function add($name, $value)
 	{
-		// echo "in function add";
-
 		if($name !='' && !empty($name) && $value != '' && !empty($value)){
 			// echo "1 ";
 			return $_SESSION[$name] = $value;
 		}
-
-		// echo "0";
-		//throw exception if value is not defined or empty
 		throw new \Exception('Name and value required');
 	}
+
 	//get value from session
 	public static function get($name)
 	{
@@ -33,8 +29,6 @@ class Session
 			return (isset($_SESSION[$name])) ?true:false;
 		}
 		return (isset($_SESSION[$name])) ?true:false;
-		// throw new \Exception("The field is undefined."); 
-
 	}
 
 	//remove session

@@ -33,10 +33,6 @@ class PaymentController extends BaseController
 		$this->user = User::where('username', Session::get('SESSION_USER_NAME'))->get();
 		$this->user = $this->user['0']['id'];
 		$total = Payment::where('user_id', $this->user)->count();
-		// $total = Payment::all()->count();
-		// var_dump($this->user);exit;
-		// $total = Order::all()->count();
-
 		$this->payments = [];
 		$object = new Payment;
 		$pages = new Paginator(4, 'p');
@@ -45,19 +41,13 @@ class PaymentController extends BaseController
 
 		$this->payments = $object->transform($data);
 		$this->links = $pages->page_links();
-		// list($this->payments , $this->links) = _paginate(3, $total, $this->table_name, new Payment); //_paginate is not correct
-		// var_dump($this->links); exit;
 	}
 	public function show($id)
 	{
 		$token = CSRFToken::_token();
 		$payments = $this->payments;
 		$links = $this->links;
-		// $buyer_id = $this->user;
-
-		// var_dump($buyer_id);exit;
 		return _view('customers/account/payment', compact('token', 'payments', 'links'));
-		// return view('admin/products/payment', compact('token', 'payments'));s
 	}
 }
 ?>

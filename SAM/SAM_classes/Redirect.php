@@ -9,7 +9,6 @@ class Redirect
 		header("location:".$page);
 	}
 
-
 	//redirect to same page
 	public static function back()
 	{

@@ -43,8 +43,6 @@ class UploadFile
 	//Validate file upload and Verify file.extension
 	public static function isImage($file)
 	{
-		// $fileobj = new static;
-		// $ext = $fileobj->fileExtension;
 		$ext = pathinfo($file, PATHINFO_EXTENSION);
 		$validExt = array('jpg', 'jpeg','png','bmp','gif');
 

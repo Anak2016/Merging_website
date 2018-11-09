@@ -24,7 +24,6 @@ class CategoryController extends BaseController
 		$token = CSRFToken::_token();
 		$categories = Category::all();
 		$subCategories = SubCategory::all();
-		// var_dump($subCategory->name); exit;
 
 		return _view('admin/groupby/category', compact('token', 'categories', 'subCategories'));
 	}

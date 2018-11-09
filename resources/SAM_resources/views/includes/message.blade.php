@@ -14,9 +14,6 @@
 					@endforeach
 				@endif
 			</ul>
-			{{-- <button class="close-button" arial-label="Dismiss Message" type="button" data-close>
-				<span arial-hidden="true">&times;</span>
-			</button> --}}
 		</div>
 	@endif
 

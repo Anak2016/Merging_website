@@ -58,11 +58,7 @@ class AuthController extends BaseController
 
 				//check if user exists in the database
 				$user = User::where('username', $request->username)->orWhere('email', $request->username)->first();
-				
-				// if(true){
 				if($user){
-					// var_dump( $user->role);exit;
-					// var_dump(password_hash($request->password, PASSWORD_DEFAULT). " " . $user->password);exit;
 
 					if(!password_verify($request->password, $user->password)){
 						Session::add('error', 'Incorrect credentials');
@@ -80,16 +76,12 @@ class AuthController extends BaseController
 						}
 
 					}
-					//assign user to his/her cart
-					// _getUserCart($request->username);// this is wrong
 					_getUserCart();
 				}else{
 					
 					Session::add('error', 'Incorrect credentials');
 					return _view('login');
 				}
-
-				
 
 			}
 			throw new \Exception('Token Mismatch');
@@ -157,23 +149,16 @@ class AuthController extends BaseController
 			if(Session::has("user_cart")){
 	            $carts = Session::get("user_cart");
 	            
-	            Session::add($var, $carts); // this is not correct    
-	            //return "in if -> for";
+	            Session::add($var, $carts); 
 	        }
-	        //Session::remove($_SESSION[$var]);
 			
 			Session::remove('SESSION_USER_ID');
 			Session::remove('SESSION_USER_NAME');
 
 
 			if(Session::has('user_cart')){
-				// var_dump($_SESSION); exit; 
-
 				Session::remove('user_cart');
-				//session_destroy(); //destroys all data registered to a session 
-				//session_regenerate_id(true); // not sure how it works
 			}
-			//Session::remove($var);
 		}
 		Redirect::to('/sam_public');
 	}

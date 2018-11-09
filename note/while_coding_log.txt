@@ -23,8 +23,11 @@ to do
 	>order order_details, payment don't create new row/data
 	>see how udemy does the Models::create
 		>>compare then fix it
-2.do paypal payment // paypal API system is down 
 
+*1.Cookie + ip to determine user_cart of each user
+2.do paypal payment // paypal API system is down 
+******3. cookie for guest user
+	>guest added to cart then login. item that got added will appear in cart
 4. fix Admin back-end. // last priority
 5. create sell button for customers to sell.
 P6. send header location to OrderComplete from cart.
@@ -44,92 +47,6 @@ P6. send header location to OrderComplete from cart.
 *15. send submitted contact us form to our email.
 ***16. "all" page, "category" page, and "sub-category" page.
 >addItem doesn't add item to the cart when log out
-17.Search is broken again. 
-	>make product-sidebar universal for all 3 pages
-		>dealProduct
-		>product
-		>searchProduct
-	>fix checkbox search
-	>fix searchname
-
-=================================================
-1. refactor shop.blade.php and result.blade.php to have the same page-id of 'home'
-	>get rid of page-id 'search'
-2. fix product-sidebar so that It can be used in following pages: shop, dealProduct, SearchProduct
-
-
-we want
-array[obj{key->array[obj]}] // we can change to obj{key->obj{key->array[obj]}}
-
-array(1) {
-  [1]=>
-  object(Illuminate\Database\Eloquent\Collection)#42 (1) {
-    ["items":protected]=>
-    array(2) {
-      [0]=>
-      object(SAM\Models\Product)#43 (27) {
-        ["timestamps"]=>
-        bool(true)
-        ["fillable":protected]=>
-        array(11) {
-          [0]=>
-          string(4) "name"
-          [1]=>
-          string(5) "price"
-          [2]=>
-          string(4) "desc"
-          [3]=>
-          string(11) "category_id"
-          [4]=>
-          string(8) "quantity"
-          [5]=>
-          string(15) "sub_category_id"
-          [6]=>
-          string(11) "image_path1"
-
-
-I have
-query = obj{key->array[obj]} 
-
-object(Illuminate\Database\Eloquent\Collection)#26 (1) {
-  ["items":protected]=>
-  array(2) {
-    [0]=>
-    object(SAM\Models\Product)#28 (27) {
-      ["timestamps"]=>
-      bool(true)
-      ["fillable":protected]=>
-      array(11) {
-        [0]=>
-        string(4) "name"
-        [1]=>
-        string(5) "price"
-        [2]=>
-        string(4) "desc"
-        [3]=>
-
-
-results = obj{key->array[obj]} // currently have this
-
-object(stdClass)#39 (1) {
-  ["items":protected]=>
-  array(2) {
-    [0]=>
-    object(SAM\Models\Product)#28 (27) {
-      ["timestamps"]=>
-      bool(true)
-      ["fillable":protected]=>
-      array(11) {
-        [0]=>
-        string(4) "name"
-        [1]=>
-        string(5) "price"
-        [2]=>
-        string(4) "desc"
-        [3]=>
-        string(11) "category_id"
-        [4]=>
-=======================================================
 
 >item in Cart is deleted after you logout.
 	>no item when you logg back in
@@ -152,7 +69,7 @@ Session::get("user_cart")
 >check login
 >check logout
 >check payment
-====================================================
+=============================================
 today
 1. fix search bar design
 2. make product display nicely

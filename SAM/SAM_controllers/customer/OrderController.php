@@ -36,9 +36,7 @@ class OrderController extends BaseController
 		// var_dump($this->user); exit;
 		$this->user = $this->user['0']['id'];
 
-		// $this->orders = Order::where('user_id', $this->user);
 		$total = Order::where('user_id', $this->user)->count();
-		// $total = Order::all()->count();
 
 		$this->orders = [];
 		$object = new Order;
@@ -48,10 +46,6 @@ class OrderController extends BaseController
 
 		$this->orders = $object->transform($data);
 		$this->links = $pages->page_links();
-
-		// var_dump($this->orders);
-		// var_dump($this->links);exit;
-		// list($this->orders , $this->links) = _paginate(4, $total, $this->table_name, new Order); // _paginate is not correct
 	}
 	public function show()
 	{

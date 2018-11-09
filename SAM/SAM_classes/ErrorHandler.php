@@ -16,13 +16,6 @@ class ErrorHandler
 			$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 			$whoops->register();
 		}else{
-			// $data = [
-			// 	'to' => getenv('ADMIN_EMAIL'),
-			// 	'subject' => 'System error',
-			// 	'view' => 'errors',
-			// 	'name' => 'Admin',
-			// 	'body' => $error
-			// ];
 			$data = [
 				'to' => 'awannaphasch2016@fau.edu', // use awannaphasch2016@fau.edu instead of ADMIN_EMAIL because i dont have real admin email
 				'subject' => 'System error',

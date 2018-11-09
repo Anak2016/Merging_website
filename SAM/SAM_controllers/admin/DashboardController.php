@@ -27,19 +27,17 @@ class DashboardController extends BaseController
 
 	public function show()
 	{	
-
-		// $orders = Capsule::table('orders')->count(Capsule::raw('DISTINCT order_no'));
 		$orders = Order::all()->count();
 		$products = Product::all()->count();
 		$users = User::all()->count();
 		$payments = Payment::all()->sum('amount') / 100; //convert form cents to dollars 
-		// var_dump($orders);exit;
+
 		return _view('admin/dashboard', compact('orders', 'products', 'payments', 'users'));
 	}
 
 	public function getChartData()
 	{
-		//I gotta learn 
+		/
 		//raw query with Capsule(ORM ) 
 		$revenue = Capsule::table('payments')->select(
 			Capsule::raw("sum(amount)/ 100 as 'amount'"),

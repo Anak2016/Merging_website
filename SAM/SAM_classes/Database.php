@@ -6,7 +6,6 @@ class Database{
 	public function __construct()
 	{
 		//setting for illuminate orm for database
-
 		$db = new Capsule;
 		$db->addConnection([
 			'driver' => getenv('SAM_DB_DRIVER'),
@@ -20,7 +19,6 @@ class Database{
 		]);
 	
 		$db->setAsGlobal();
-		//bootEloquent() = Bootstrap Eloquent so it is ready for usage
 		$db->bootEloquent();
 	}
 }

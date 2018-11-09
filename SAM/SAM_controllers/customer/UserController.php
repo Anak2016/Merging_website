@@ -32,7 +32,6 @@ class UserController extends BaseController
 		if(null !== Session::has('SESSION_USER_NAME'))
 		{
 			$this->user = User::where('username', Session::get('SESSION_USER_NAME'))->get();
-			// var_dump($this->user); exit;
 			$this->user = $this->user['0'];
 		}
 
@@ -40,7 +39,7 @@ class UserController extends BaseController
 
 	public function showWishList()
 	{
-		// $user = User::where('id', 1)->with(['product'])->first();	
+
 		$token = CSRFToken::_token();
 		return _view('customers/account/wish-list', compact('token'));
 	}
@@ -52,8 +51,7 @@ class UserController extends BaseController
 			var_dump(Product::destroy($id)); exit;
 
 			if(CSRFToken::verifyCSRFToken($request->token)){
-				//update record if ture
-				// User::destroy($id);
+				
 				var_dump("in UserController::edit");exit;
 
 
@@ -72,7 +70,6 @@ class UserController extends BaseController
 		// $user = User::where('id', 1)->get();
 		// $token = CSRFToken::_token();
 		$user = $this->user;
-		// var_dump($user['username']);exit;
 		return _view('customers/account/edit-account', compact('user'));
 	}
 	public function showChangePassword()
@@ -82,23 +79,16 @@ class UserController extends BaseController
 
 	public function showDelete()
 	{
-		// $token = CSRFToken::_token();
-
 		return _view('customers/account/delete-account');
 	}
 
 	public function delete()
 	{
-		// var_dump("UserCotroller::showDelete"); exit;
+		
 		if(Request::has('post')){
 			$request = Request::get('post');
-			// var_dump($this->user['id']);exit;
 			if(CSRFToken::verifyCSRFToken($request->token)){ 
-				//update record if ture
-				// var_dump($this->user['id']);exit;
-				User::destroy($this->user['id']); //hwo do i destroy id?
-				// var_dump(User::where('id', $this->user['id'])->get());exit;
-				// Session::add('success','User Deleted');
+				User::destroy($this->user['id']); 
 				Redirect::to('/sam_public/');
 			}
 			throw new \Exception('Token mismatch');
@@ -109,11 +99,9 @@ class UserController extends BaseController
 	public function submitComment()
 	{
 		
-		// var_dump("here in UserController::showCommentForm");exit;
+		
 		if(Request::has('post')){
 			$request = Request::get('post');
-			// var_dump($request);
-			// exit;
 
 			$user = User::findOrFail(Session::get('SESSION_USER_ID'));
 			// var_dump($user);exit;
@@ -125,23 +113,11 @@ class UserController extends BaseController
 				'rating_number'=> $request->rating_number,
 				'user_id'=> $user->id
 			]);
-
-				// list($this->categories, $this->links) = _paginate(3, $total, $this->table_name, $object);	
-				// list($this->subcategories, $this->subcategories_links) = _paginate(3, $subTotal, 'sub_categories', new SubCategory);	
-			
-				// return _view('admin/products/categories', ['categories' => $this->categories, 'links' => $this->links, 'success'=> "Category Created",
-				// 	'subcategories' => $this->subcategories, 'subcategories_links' => $this->subcategories_links]);
 			echo json_encode(['success' => "Comments is successfully posted."]);
 
 		}
 		return null;
 	}
-	// public function showCommentForm()
-	// {
-	
-	// 	var_dump("here in UserController::showCommentForm");exit;
-	// 	// return _view('customers/account/comment');
-	// }
 }
 
 ?>	

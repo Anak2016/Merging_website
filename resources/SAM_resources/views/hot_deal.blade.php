@@ -29,10 +29,6 @@
                     <p> This is the Hot Deal Page, Everything on this page is FAKE!!!</p>
 
                 </div>
-                
-                {{-- <h1>@{{dealProducts}}</h1> --}}
-                <!--Today's Deal product start-->
-                {{-- <div id="content" class="container"> container start --}}
                     <div v-if="countDeals > 0" class="row"><!--row start-->
                         <div class='col-md-4 col-sm-6 single' v-cloak v-for="dealProduct in dealProducts">
                             <div class='product'>
@@ -83,13 +79,6 @@
               :page-class="'page-item'">
           </paginate>
       </template>
-  {{-- </div> --}}
-  {{-- {!!$links !!} --}}
-  {{-- when link is click, product on the new page will be selected --}}
-        {{-- <div @click="pagination()" v-model = "pageLinks">
-            @{{pageLinks}}
-        </div> --}}
-        {{-- @{{pageLinks}} --}}
     </div>
 
 

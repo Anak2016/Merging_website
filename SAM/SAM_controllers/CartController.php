@@ -95,17 +95,13 @@ class CartController extends BaseController
 
 				//if for some reason, no matching id can be found. skip the item to avoid problems
 				if(!$item) {continue;}
-				//totalPrice of selected item * quantity in the cart
 				$totalPrice = $item->price * $quantity;
-				//CartTotal = TotalPrice of all items in the cart
 				$cartTotal = $totalPrice + $cartTotal;
 				$totalPrice = number_format($totalPrice, 2 );
-				// echo '/'.str_replace("\\","/",$product->image_path);
 				array_push($result, [
 					'id' => $item->id,
 					'name' => $item->name,
 					'image' => $item->image_path1,
-					// 'image' => str_replace("\\","/",$product->image_path),
 					'description' => $item->description,
 					'price' => $item->price,
 					'total' => $totalPrice,
@@ -205,7 +201,6 @@ class CartController extends BaseController
 			$result['total'] = array();
 
 			$request = Request::get('post');
-			// echo json_encode(['success'=>$request]); //test to see if XHR request works when clicked on payment
 			$token = $request->stripeToken;
 			$email= $request->stripeEmail;
 			try{
@@ -229,18 +224,17 @@ class CartController extends BaseController
 
 					$productId = $cart_items['product_id'];
 
-				//quantity of items in the cart NOT quatity of item availble in the shop
+					//quantity of items in the cart NOT quatity of item availble in the shop
 					$quantity = $cart_items['quantity'];
 
 					$item = Product::where('id', $productId)->first();
 
-				//if for some reason, no matching id can be found. skip the item to avoid problems
+					//if for some reason, no matching id can be found. skip the item to avoid problems
 					if(!$item) {continue;}
-				//totalPrice of selected item * quantity in the cart
+					//totalPrice of selected item * quantity in the cart
 					$totalPrice = $item->price * $quantity;
 					$totalPrice = number_format($totalPrice, 2 );
 
-					// var_dump($order_id); //?????????????????????????????????????????????????????????????
 
 					OrderDetail::create([
 						'user_id' => _user()->id,
@@ -254,9 +248,6 @@ class CartController extends BaseController
 					$item->quantity = $item->quantity - $quantity;
 					$item->save();
 
-					// $test = OrderDetail::where("order_no", $order_id)->get();
-					// var_dump($test[0]->order_no); //?????????????????????????????????????????????????????
-
 					array_push($result['product'], [
 						'name' => $item->name,
 						'price' => $item->price,
@@ -268,9 +259,6 @@ class CartController extends BaseController
 					'user_id' => _user()->id,
 					'order_no' => $order_id
 				]);
-
-				// $test = OrderDetail::where("order_no", $order_id)->get();
-				// var_dump($test[0]->quantity);
 
 				Payment::create([
 					'user_id' => _user()->id,
@@ -288,11 +276,8 @@ class CartController extends BaseController
 					'name' => '_user()->fullname',
 					'body' => $result
 				];
-				// var_dump((new Mail())->send($data));
 
 				(new Mail())->send($data);
-
-				//destroy Session(username) and Session('user_cart')
 
 			}catch(\Exception $ex){
 				echo $ex->getMessage();
@@ -302,8 +287,6 @@ class CartController extends BaseController
 			echo json_encode([
 				'success' => 'Thank you, we have received your payment and now processing your order.'
 			]);
-
-			 // Redirect::to('/sam_public/order-complete');// header is already by (new Mail())->send($data);
 		}
 	}
 }

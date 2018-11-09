@@ -25,9 +25,7 @@ class Cart
 				foreach($_SESSION['user_cart'] as $cart_items){
 					$index++;
 					foreach($cart_items as $key=> $value){
-						// return array($key, $value);
 						if($key == 'product_id' && $value == $request->product_id){
-							//$index -1 because the keys in the array starts from zero and we increased index ($index++) before the second forloop.
 							array_splice($_SESSION['user_cart'], $index-1, 1, [[ 
 								'product_id' => $request->product_id, 
 								'quantity' => $cart_items['quantity'] + 1

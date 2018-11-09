@@ -7,40 +7,20 @@
  
  $var =SAM\Classes\Session::get('SESSION_USER_NAME');
 
-		//echo "SESSION[$var]= ";
-		//var_dump($_SESSION[$var]); //where did I do this ?
-
-		//echo "SESSION['user_cart']= "; 
-		//var_dump($_SESSION['user_cart']); //expect to be the same as Session(username) + Session(user_cart);
-
-		//echo "SESSION[total]= ";
-		//var_dump(_getUserCart()); //get total item_cart
-
-		//echo "After _getUserCart= ";
-		//var_dump($_SESSION['user_cart']);
  
  if(isset($_SESSION['user_cart'])){
-
-		//if(isset($_SESSION['user_cart'])){
-			//foreach($_SESSION['user_cart'] as $cart_items){
-		//if(_getUserCart()){
  	foreach($_SESSION['user_cart'] as $cart_items){
-			//foreach(_getUserCart() as $cart_items){
  		$productId = $cart_items['product_id'];
-
-					//quantity of items in the cart NOT quatity of item availble in the shop
  		$quantity = $cart_items['quantity'];
 
  		$item = SAM\Models\Product::where('id', $productId)->first();
-
-					//if for some reason, no matching id can be found. skip the item to avoid problems
  		if(!$item) {continue;}
-					//totalPrice of selected item * quantity in the cart
+					
  		$totalPrice = $item->price * $quantity;
-					//CartTotal = TotalPrice of all items in the cart
+					
  		$cartTotal = $totalPrice + $cartTotal;
  		$totalPrice = number_format($totalPrice, 2 );
-					// echo '/'.str_replace("\\","/",$product->image_path);
+				
  		$totalQuantity = $totalQuantity + $quantity;
  	}
 
@@ -173,41 +153,6 @@
 								</li>
 							</ul>
 						</div>
-
-
-
-{{-- 
-			<a class="btn btn-primary navbar-btn right" href="cart">
-				<i class="fa fa-shopping-cart"></i>
-				<span> {{$totalQuantity}}</span>
-			</a>
-			<div class="navbar-collapse collapse right">
-				<button class="btn navbar-btn btn-primary" type="button" data-toggle="collapse" data-target="#search" style="height: 33px;">
-					<span class="sr-only">Toggle Search</span>
-					<i class="fa fa-search"></i>
-				</button>
-			</div>
-
-			<div class="collapse clearfix" id="search"> 
-				<form class="navbar-form" method="get" action="/sam_public/result">
-					<button type="button" value="All" name="all" class="btn btn-primary" style="height: 33px;">
-						All 
-					</button>
-					<div class="input-group">
-						<input class="form-control" type="text" placeholder="Search" name="user_query" style="width: 995px" required>
-						<span class="input-group-btn">
-							<button type="submit" value="Search" name="search" class="btn btn-primary" style="height: 33px;">
-								<i class="fa fa-search"></i>
-							</button>
-						</span>
-					</div>
-				</form>
-			</div> --}}
-
-
-
-
-
 		</div>
 	</div>
 

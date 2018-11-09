@@ -9,32 +9,6 @@ $manufacturers = Capsule::table('manufacturers')->get();
 
 
 ?>
-{{-- 
-<div class="panel panel-default sidebar-menu">
-        <h3 class="panel-title">Products Categories</h3>
-    </div>
-    <div class="panel-body">
-        <ul class="nav nav-pills nav-stacked category-menu">
-            @foreach($categories as $category)
-                <li><a href="#">{{$category->name}}</a></li>
-            @endforeach
-        </ul>
-    </div>
-</div>
-
-
-<div class="panel panel-default sidebar-menu">
-    <div class="panel-heading">
-        <h3 class="panel-title">Categories</h3>
-    </div>
-    <div class="panel-body">
-        <ul class="nav nav-pills nav-stacked category-menu">
-            @foreach($sub_categories as $sub_category)
-                <li><a href="#">{{$sub_category->name}}</a></li>
-            @endforeach
-        </ul>
-    </div>
-</div> --}}
 
 
 <div class="shopping_cart"  id="shopping_cart">
@@ -69,8 +43,6 @@ $manufacturers = Capsule::table('manufacturers')->get();
 
             <div class="panel-body"><!-- panel-body Starts -->
 
-                {{-- assign new value to manufacturer when submit searched word --}}
-                {{-- on change or on click??? --}}
                 <div class="input-group">
                     <input v-on:input="searchKeyword()" name= "manufacturers" type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-manufacturer" placeholder="Filter Brand's Name" v-model="manufacturerKeyword">
 
@@ -83,8 +55,6 @@ $manufacturers = Capsule::table('manufacturers')->get();
 
                 <ul class="nav nav-pills nav-stacked category-menu" id="dev-manufacturer"><!-- nav nav-pills nav-stacked category-menu Starts -->
 
-                    {{-- @foreach($manufacturers as $manufacturer) --}}
-                    {{-- <li class='checkbox checkbox-primary' @click.prevent="loadCheckedItems()"> --}}
                         <li class='checkbox checkbox-primary' v-cloak v-for="manufacturer in manufacturers" >
                             {{-- <li class='checkbox checkbox-primary' @click.prevent="loadCheckedItems()"> --}}
                                 <a >
@@ -157,19 +127,6 @@ $manufacturers = Capsule::table('manufacturers')->get();
 
                         <ul class="nav nav-pills nav-stacked category-menu" id="dev-p-cats"><!-- nav nav-pills nav-stacked category-menu Starts -->
 
-                            {{-- MISSING PRODUCT CATEGORIES QUERY  --}}
-                    {{-- @foreach($categories as $category)
-                    <li class='checkbox checkbox-primary'>
-                        <a>
-                            <label>
-                                <input  type='checkbox' value='$p_cat_id' name='p_cat' class='get_p_cat' id='p_cat'  >
-                                <span>
-                                    {{$category->name}}
-                                </span>
-                            </label>
-                        </a>
-                    </li>
-                    @endforeach --}}
                     <li class='checkbox checkbox-primary' v-cloak v-for="category in categories" >
                         <a >
                             <label>
@@ -238,19 +195,6 @@ $manufacturers = Capsule::table('manufacturers')->get();
 
                 <ul class="nav nav-pills nav-stacked category-menu" id="dev-cats"><!-- nav nav-pills nav-stacked category-menu Starts -->
 
-                    {{-- MISSING CATEGORY QUERY --}}
-                    {{-- @foreach($sub_categories as $sub_category)
-                    <li class='checkbox checkbox-primary'>
-                        <a>
-                            <label>
-                                <input  type='checkbox' value='$cat_id' name='cat' class='get_cat' id='cat'>
-                                <span>
-                                    {{$sub_category->name}}
-                                </span>
-                            </label>
-                        </a>
-                    </li>
-                    @endforeach --}}
                     <li class='checkbox checkbox-primary' v-cloak v-for="subCategory in subCategories" >
                         {{-- <li class='checkbox checkbox-primary' @click.prevent="loadCheckedItems()"> --}}
                             <a >

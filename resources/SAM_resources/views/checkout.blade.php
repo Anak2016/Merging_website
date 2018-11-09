@@ -269,78 +269,10 @@
 </div>
 </div>
 
-<!--//script here-->
-
 
 </div>
 </div>
 
-{{-- <div id="content">
-	<div class="container">
-		<div class="col-md-12">
-			<ul class="breadcrumb">
-				<li>
-					<a href="index.php">Home</a>
-				</li>
-				<li>
-					Checkout 
-				</li>
-			</ul>
-		</div> 
-
-		<div class="col-md-3">
-			@include('includes.product-sidebar')
-		</div>
-
-        <div id="shopping_cart"> 
-
-            <div class="col-md-9"> 
-                <div class="box">
-                    <h1 class="text-center">Please choose your payment option.</h1>
-                    <p class="lead text-center"></p>
-                    <span id="properties" class="hide" data-customer-email="{{_user()->email }}" data-stripe-key="{{ \SAM\Classes\Session::get('publishable_key')}}">
-                    </span>
-
-                    
-                    <button @click.prevent="checkout" v-if="authenticated" class="btn btn-default">
-                        Checkout with Stripe &nbsp; <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
-                    </button>   
-                    <span v-else>
-                        <a href="/sam_public/login" class="btn btn-default">
-                            Checkout with Stripe &nbsp; <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
-                        </a>
-                    </span>
-                    <br /><br />
-
-                    
-                    <button @click.prevent="" v-if="authenticated" class="btn btn-success">
-                        Checkout with PayPal &nbsp; <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
-                    </button>   
-                    <span v-else>
-                        <a href="/sam_public/login" class="btn btn-success">
-                            Checkout with PayPal &nbsp; <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
-                        </a>
-                    </span>
-                    <br /><br />
-                    
-
-                    <button @click.prevent="" v-if="authenticated" class="btn btn-info">
-                        Credit Card &nbsp; <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
-                    </button>   
-                    <span v-else>
-                        <a href="/sam_public/login" class="btn btn-info">
-                            Credit Card &nbsp; <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
-                        </a>
-                    </span>
-
-
-                </div>
-            </div>
-        </div>
-
-
-    </div> 
-</div>  --}}
 @stop
 
 

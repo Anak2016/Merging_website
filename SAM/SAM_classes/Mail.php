@@ -71,8 +71,7 @@ class Mail
 		$this->mail->addAddress($data['to'], $data['name']);
 		$this->mail->Subject = $data['subject'];
 		$this->mail->Body = _make($data['view'], array('data'=> $data['body']));
-			// return $this->mail->Body;
-			// var_dump($this->mail->Body); 
+		
 		return $this->mail->send();
 	}
 }

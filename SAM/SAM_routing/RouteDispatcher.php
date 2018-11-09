@@ -10,7 +10,6 @@ class RouteDispatcher
 
 	public function __construct(AltoRouter $router)
 	{
-		// echo "in RouteDispatcher constructor";
 		$this->match = $router->match();
 		if($this->match)
 		{
@@ -19,7 +18,6 @@ class RouteDispatcher
 			$this->controller = $controller;
 			$this->method = $method;
 
-			// var_dump($this->controller."@".$this->method);exit;
 			if(is_callable(array(new $this->controller, $this->method))){
 				//call_user_func_arry verify that method exist and can be called then call method if it is verified 
 				call_user_func_array(array(new $this->controller, $this->method),array($this->match['params']));

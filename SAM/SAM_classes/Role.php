@@ -15,9 +15,7 @@ class Role
 			$message = 'You are not authorized to view this page';
 			break;
 		}
-		// var_dump(isAuthenticated()); exit;
-		// return isAuthenticated();
-
+		
 		if(isAuthenticated()){
 			if(user()->role != $role){
 				Session::add('error', $message);

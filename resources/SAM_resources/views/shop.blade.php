@@ -81,11 +81,6 @@
               :page-class="'page-item'">
           </paginate>
       </template>
-            {{-- {!!$links !!} --}}
-            {{-- <pre>
-                @{{products}}
-            </pre> --}}
-
         </div>
 
     </div> <!--container end-->

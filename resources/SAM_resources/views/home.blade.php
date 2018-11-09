@@ -223,12 +223,6 @@
                                 <img :src="popularProduct.image_path1" class="img-responsive">
                             </a>
                         </div> 
-                       {{--  <div v-else>
-                            <a :href="'/sam_public/details/' + popularProduct.id">
-                                <img :src="popularProduct.image_path1" class="img-responsive">
-                            </a>
-                        </div> --}}
-                        {{-- <pre>@{{popularProduct}}</pre> --}}
                     </div>
                     <div class="text"><!-- text start-->
                         <h3>
